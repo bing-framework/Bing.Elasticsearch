@@ -38,7 +38,7 @@ namespace Bing.Elasticsearch
         /// </summary>
         /// <param name="indexName">索引名</param>
         /// <returns></returns>
-        public async Task<bool> Exists(string indexName)
+        public async Task<bool> ExistsAsync(string indexName)
         {
             var client = await _builder.GetClientAsync();
             var result= await client.IndexExistsAsync(indexName);
@@ -52,7 +52,7 @@ namespace Bing.Elasticsearch
         public async Task AddAsync(string indexName)
         {
             var client = await _builder.GetClientAsync();
-            if (await Exists(indexName))
+            if (await ExistsAsync(indexName))
             {
                 return;
             }
@@ -68,7 +68,7 @@ namespace Bing.Elasticsearch
         public async Task AddAsync<T>(string indexName) where T : class
         {
             var client = await _builder.GetClientAsync();
-            if (await Exists(indexName))
+            if (await ExistsAsync(indexName))
             {
                 return;
             }
@@ -85,7 +85,7 @@ namespace Bing.Elasticsearch
         public async Task AddAsync<T>(string indexName, T entity) where T : class
         {            
             var client = await _builder.GetClientAsync();
-            if (!await Exists(indexName))
+            if (!await ExistsAsync(indexName))
             {
                 await client.InitializeIndexMapAsync<T>(indexName);
             }
@@ -149,7 +149,7 @@ namespace Bing.Elasticsearch
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="indexName">索引名</param>
         /// <param name="id">主键ID</param>
-        public async Task DeleteAsync<T>(string indexName, object id) where T : class
+        public async Task DeleteAsync<T>(string indexName, long id) where T : class
         {
             var client = await _builder.GetClientAsync();
             var response = await client.DeleteAsync(DocumentPath<T>.Id(new Id(id)), x => x.Type<T>().Index(indexName));
@@ -168,10 +168,10 @@ namespace Bing.Elasticsearch
         /// <param name="indexName">索引名</param>
         /// <param name="id">主键ID</param>
         /// <returns></returns>
-        public async Task<T> FindAsync<T>(string indexName, object id) where T : class
+        public async Task<T> FindAsync<T>(string indexName, long id) where T : class
         {
             var client = await _builder.GetClientAsync();
-            var response = await client.GetAsync<T>((long)id, x => x.Type<T>().Index(indexName));
+            var response = await client.GetAsync<T>(id, x => x.Type<T>().Index(indexName));
             return response?.Source;
         }
 
@@ -379,6 +379,11 @@ namespace Bing.Elasticsearch
         public async Task BulkSaveAsync<T>(string indexName, IEnumerable<T> entities) where T : class
         {
             var client = await _builder.GetClientAsync();
+
+            if (!await ExistsAsync(indexName))
+            {
+                await client.InitializeIndexMapAsync<T>(indexName);
+            }
             var bulk = new BulkRequest(indexName)
             {
                 Operations = new List<IBulkOperation>()

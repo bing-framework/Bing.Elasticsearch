@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Elasticsearch", "src\Bing.Elasticsearch\Bing.Elasticsearch.csproj", "{A1DDAB86-3F28-486A-AD74-CDAB7F94EA7B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-document", "00-document", "{D2D3E8A4-250B-4FD5-A523-7C510C80CABE}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-src", "01-src", "{5AE80A89-12CD-40B2-8C1F-44B93E189063}"
 EndProject

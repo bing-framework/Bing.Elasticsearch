@@ -15,7 +15,7 @@ namespace Bing.Elasticsearch
         /// </summary>
         /// <param name="indexName">索引名</param>
         /// <returns></returns>
-        Task<bool> Exists(string indexName);
+        Task<bool> ExistsAsync(string indexName);
 
         /// <summary>
         /// 添加索引。不映射
@@ -68,7 +68,7 @@ namespace Bing.Elasticsearch
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="indexName">索引名</param>
         /// <param name="id">主键ID</param>
-        Task DeleteAsync<T>(string indexName, object id) where T : class;
+        Task DeleteAsync<T>(string indexName, long id) where T : class;
 
         /// <summary>
         /// 查询实体
@@ -77,7 +77,7 @@ namespace Bing.Elasticsearch
         /// <param name="indexName">索引名</param>
         /// <param name="id">主键ID</param>
         /// <returns></returns>
-        Task<T> FindAsync<T>(string indexName, object id) where T : class;
+        Task<T> FindAsync<T>(string indexName, long id) where T : class;
 
         /// <summary>
         /// 查询。单一条件查询，一般是精确查询
