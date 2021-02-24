@@ -18,16 +18,15 @@ namespace Bing.Elasticsearch.Tests
         [Fact]
         public async Task Test_QueryAsync()
         {
-            var result = await Client.QueryAsync<ErpOpenApiModel>("logstash-filebeat-2021.02.23", "eshop_order_no",
+            var result = await Client.QueryAsync<ErpOpenApiModel>("logstash-filebeat-*", "eshop_order_no",
                 "30122021022400014918808237");
             Output.WriteLine(JsonConvert.SerializeObject(result));
         }
     }
 
-    [ElasticsearchType(IdProperty = "_id")]
+    [ElasticsearchType]
     public class ErpOpenApiModel
     {
-        [Text(Name = "_id")]
         public string Id { get; set; }
 
         [Text(Name = "uri")]

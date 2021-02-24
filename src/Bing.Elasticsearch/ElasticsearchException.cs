@@ -19,8 +19,8 @@ namespace Bing.Elasticsearch
         /// </summary>
         /// <param name="serializationInfo">序列号信息</param>
         /// <param name="context">流上下文</param>
-        public ElasticsearchException(SerializationInfo serializationInfo, StreamingContext context) : base(
-            serializationInfo, context)
+        public ElasticsearchException(SerializationInfo serializationInfo, StreamingContext context) 
+            : base(serializationInfo, context)
         {
         }
 

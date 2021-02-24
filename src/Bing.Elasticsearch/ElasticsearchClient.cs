@@ -11,7 +11,7 @@ namespace Bing.Elasticsearch
     /// <summary>
     /// ES客户端
     /// </summary>
-    public class ElasticsearchClient:IElasticsearchClient
+    public class ElasticsearchClient : IElasticsearchClient
     {
         /// <summary>
         /// ES客户端生成器
@@ -41,7 +41,7 @@ namespace Bing.Elasticsearch
         public async Task<bool> ExistsAsync(string indexName)
         {
             var client = await _builder.GetClientAsync();
-            var result= await client.Indices.ExistsAsync(indexName);
+            var result = await client.Indices.ExistsAsync(indexName);
             return result.Exists;
         }
 
@@ -77,9 +77,9 @@ namespace Bing.Elasticsearch
         /// <param name="indexName">索引名</param>
         /// <param name="entity">实体</param>
         public async Task AddAsync<T>(string indexName, T entity) where T : class
-        {            
+        {
             var client = await _builder.GetClientAsync();
-            if (!await ExistsAsync(indexName)) 
+            if (!await ExistsAsync(indexName))
                 await client.InitializeIndexMapAsync<T>(indexName);
 
             var response = await client.IndexAsync(entity, x => x.Index(indexName));
@@ -100,7 +100,7 @@ namespace Bing.Elasticsearch
         {
             await AddAsync<T>(indexName, entity);
         }
-        
+
         /// <summary>
         /// 删除索引
         /// </summary>
@@ -249,11 +249,11 @@ namespace Bing.Elasticsearch
                 .Size(param.PageSize);
             if (param is PageParamWithSearch pageSearch)
             {
-                ConfigPageRequest(pageSearch,ref searchRequest);
+                ConfigPageRequest(pageSearch, ref searchRequest);
             }
             else if (param is PageParam pageParam)
             {
-                ConfigPageRequest(pageParam,ref searchRequest);
+                ConfigPageRequest(pageParam, ref searchRequest);
             }
 
             // 是否需要高亮
@@ -310,7 +310,7 @@ namespace Bing.Elasticsearch
         /// <summary>
         /// 配置指定字段的分页请求
         /// </summary>
-        private void ConfigPageRequest<T>(PageParamWithSearch param,ref SearchDescriptor<T> searchRequest) where T : class
+        private void ConfigPageRequest<T>(PageParamWithSearch param, ref SearchDescriptor<T> searchRequest) where T : class
         {
             searchRequest = searchRequest.Query(q =>
                 q.QueryString(qs =>
@@ -322,7 +322,7 @@ namespace Bing.Elasticsearch
         /// <summary>
         /// 配置分页请求
         /// </summary>
-        private void ConfigPageRequest<T>(PageParam param,ref SearchDescriptor<T> searchRequest) where T : class
+        private void ConfigPageRequest<T>(PageParam param, ref SearchDescriptor<T> searchRequest) where T : class
         {
             searchRequest = searchRequest.Query(q =>
                 q.QueryString(qs =>

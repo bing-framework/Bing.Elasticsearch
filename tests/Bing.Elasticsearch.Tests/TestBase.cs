@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Bing.Elasticsearch.Configs;
+﻿using Bing.Elasticsearch.Configs;
 using Xunit.Abstractions;
 
 namespace Bing.Elasticsearch.Tests
@@ -13,12 +12,9 @@ namespace Bing.Elasticsearch.Tests
         protected TestBase(ITestOutputHelper output)
         {
             Output = output;
-            Client = new ElasticsearchClient(new ElasticsearchConfigProvider(new ElasticsearchConfig()
+            Client = new ElasticsearchClient(new ElasticsearchConfigProvider(new ElasticsearchConfig
             {
-                Nodes = new List<ElasticsearchNode>()
-                {
-                    new ElasticsearchNode() {Host = "10.186.132.138", Port = 9200},
-                }
+                Urls = "http://10.186.132.138:9200"
             }));
         }        
     }

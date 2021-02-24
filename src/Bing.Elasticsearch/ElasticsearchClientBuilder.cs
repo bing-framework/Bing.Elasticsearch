@@ -81,7 +81,7 @@ namespace Bing.Elasticsearch
         /// <returns></returns>
         private IConnectionPool CreateConnectionPool(ElasticsearchConfig config)
         {
-            var nodes = config.Nodes.Select(x => new Uri(x.ToString())).ToList();
+            var nodes = config.Nodes;
             switch (config.PoolType)
             {
                 case ElasticsearchConnectionPoolType.Static:

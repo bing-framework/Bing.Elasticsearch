@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bing.Elasticsearch.Configs
 {
@@ -8,9 +10,14 @@ namespace Bing.Elasticsearch.Configs
     public class ElasticsearchConfig
     {
         /// <summary>
-        /// 节点列表
+        /// 连接字符串。多个节点使用逗号分割
         /// </summary>
-        public IEnumerable<ElasticsearchNode> Nodes { get; set; }
+        public string Urls { get; set; }
+
+        /// <summary>
+        /// 节点
+        /// </summary>
+        public List<Uri> Nodes => Urls.Split(',').Select(x => new Uri(x)).ToList();
 
         /// <summary>
         /// 连接池类型
