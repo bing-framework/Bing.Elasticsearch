@@ -17,8 +17,7 @@ namespace Bing.Elasticsearch.Tests
             {
                 Nodes = new List<ElasticsearchNode>()
                 {
-                    new ElasticsearchNode() {Host = "192.168.0.254", Port = 9200},
-                    new ElasticsearchNode() {Host = "192.168.0.254", Port = 9201},
+                    new ElasticsearchNode() {Host = "10.186.132.138", Port = 9200},
                 }
             }));
         }        

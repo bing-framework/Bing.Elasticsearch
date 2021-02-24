@@ -41,7 +41,7 @@ namespace Bing.Elasticsearch
         public async Task<bool> ExistsAsync(string indexName)
         {
             var client = await _builder.GetClientAsync();
-            var result= await client.IndexExistsAsync(indexName);
+            var result= await client.Indices.ExistsAsync(indexName);
             return result.Exists;
         }
 
@@ -53,10 +53,7 @@ namespace Bing.Elasticsearch
         {
             var client = await _builder.GetClientAsync();
             if (await ExistsAsync(indexName))
-            {
                 return;
-            }
-
             await client.InitializeIndexMapAsync(indexName);
         }
 
@@ -69,10 +66,7 @@ namespace Bing.Elasticsearch
         {
             var client = await _builder.GetClientAsync();
             if (await ExistsAsync(indexName))
-            {
                 return;
-            }
-
             await client.InitializeIndexMapAsync<T>(indexName);
         }
 
@@ -85,10 +79,8 @@ namespace Bing.Elasticsearch
         public async Task AddAsync<T>(string indexName, T entity) where T : class
         {            
             var client = await _builder.GetClientAsync();
-            if (!await ExistsAsync(indexName))
-            {
+            if (!await ExistsAsync(indexName)) 
                 await client.InitializeIndexMapAsync<T>(indexName);
-            }
 
             var response = await client.IndexAsync(entity, x => x.Index(indexName));
             if (!response.IsValid)
@@ -116,12 +108,9 @@ namespace Bing.Elasticsearch
         public async Task DeleteAsync(string indexName)
         {
             var client = await _builder.GetClientAsync();
-            var response = await client.DeleteIndexAsync(indexName);
+            var response = await client.Indices.DeleteAsync(indexName);
             if (response.Acknowledged)
-            {
                 return;
-            }
-
             throw new ElasticsearchException($"删除索引[{indexName}]失败 : {response.ServerError.Error.Reason}");
         }
 
@@ -134,12 +123,9 @@ namespace Bing.Elasticsearch
         public async Task DeleteAsync<T>(string indexName, T entity) where T : class
         {
             var client = await _builder.GetClientAsync();
-            var response = await client.DeleteAsync(new DeleteRequest(indexName, typeof(T), new Id(entity)));
+            var response = await client.DeleteAsync(new DeleteRequest(indexName, new Id(entity)));
             if (response.ServerError == null)
-            {
                 return;
-            }
-
             throw new ElasticsearchException($"删除索引[{indexName}]失败 : {response.ServerError.Error.Reason}");
         }
 
@@ -152,12 +138,9 @@ namespace Bing.Elasticsearch
         public async Task DeleteAsync<T>(string indexName, long id) where T : class
         {
             var client = await _builder.GetClientAsync();
-            var response = await client.DeleteAsync(DocumentPath<T>.Id(new Id(id)), x => x.Type<T>().Index(indexName));
+            var response = await client.DeleteAsync(DocumentPath<T>.Id(new Id(id)), x => x.Index(indexName));
             if (response.ServerError == null)
-            {
                 return;
-            }
-
             throw new ElasticsearchException($"删除索引[{indexName}]失败 : {response.ServerError.Error.Reason}");
         }
 
@@ -171,7 +154,7 @@ namespace Bing.Elasticsearch
         public async Task<T> FindAsync<T>(string indexName, long id) where T : class
         {
             var client = await _builder.GetClientAsync();
-            var response = await client.GetAsync<T>(id, x => x.Type<T>().Index(indexName));
+            var response = await client.GetAsync<T>(id, x => x.Index(indexName));
             return response?.Source;
         }
 
@@ -261,7 +244,6 @@ namespace Bing.Elasticsearch
             }
 
             var searchRequest = new SearchDescriptor<T>()
-                .Type<T>()
                 .Index(indexName)
                 .From(param.GetSkipCount())
                 .Size(param.PageSize);

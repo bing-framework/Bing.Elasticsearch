@@ -17,7 +17,7 @@ namespace Bing.Elasticsearch.Extensions
         public static async Task InitializeIndexMapAsync(this IElasticClient client, string indexName)
         {
             var newName = indexName + DateTime.Now.Ticks;
-            var result = await client.CreateIndexAsync(newName,
+            var result = await client.Indices.CreateAsync(newName,
                 x => x.Index(newName)
                     .Settings(o =>
                         o.NumberOfShards(1)
@@ -25,7 +25,7 @@ namespace Bing.Elasticsearch.Extensions
                             .Setting("max_result_window", int.MaxValue)));
             if (result.Acknowledged)
             {
-                await client.AliasAsync(x => x.Add(o => o.Index(newName).Alias(indexName)));
+                await client.Indices.PutAliasAsync(newName, indexName);
                 return;
             }
             throw new ElasticsearchException($"创建索引 {indexName} 失败：{result.ServerError.Error.Reason}");
@@ -40,16 +40,16 @@ namespace Bing.Elasticsearch.Extensions
         public static async Task InitializeIndexMapAsync<T>(this IElasticClient client, string indexName) where T : class
         {
             var newName = indexName + DateTime.Now.Ticks;
-            var result = await client.CreateIndexAsync(newName,
+            var result = await client.Indices.CreateAsync(newName,
                 x => x.Index(newName)
                     .Settings(o =>
                         o.NumberOfShards(1)
                             .NumberOfReplicas(1)
                             .Setting("max_result_window", int.MaxValue))
-                    .Mappings(m => m.Map<T>(mm => mm.AutoMap())));
+                    .Map(m=>m.AutoMap<T>()));
             if (result.Acknowledged)
             {
-                await client.AliasAsync(x => x.Add(o => o.Index(newName).Alias(indexName)));
+                await client.Indices.PutAliasAsync(newName, indexName);
                 return;
             }
             throw new ElasticsearchException($"创建索引 {indexName} 失败：{result.ServerError.Error.Reason}");
@@ -67,16 +67,16 @@ namespace Bing.Elasticsearch.Extensions
             int numberOfReplicas) where T : class
         {
             var newName = indexName + DateTime.Now.Ticks;
-            var result = await client.CreateIndexAsync(newName,
+            var result = await client.Indices.CreateAsync(newName,
                 x => x.Index(newName)
                     .Settings(o =>
                         o.NumberOfShards(numberOfShards)
                             .NumberOfReplicas(numberOfReplicas)
                             .Setting("max_result_window", int.MaxValue))
-                    .Mappings(m => m.Map<T>(mm => mm.AutoMap())));
+                    .Map(m => m.AutoMap<T>()));
             if (result.Acknowledged)
             {
-                await client.AliasAsync(x => x.Add(o => o.Index(newName).Alias(indexName)));
+                await client.Indices.PutAliasAsync(newName, indexName);
                 return;
             }
             throw new ElasticsearchException($"创建索引 {indexName} 失败：{result.ServerError.Error.Reason}");
