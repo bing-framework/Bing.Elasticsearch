@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Nest;
 using Newtonsoft.Json;
 using Xunit;
@@ -19,7 +16,7 @@ namespace Bing.Elasticsearch.Tests
         public async Task Test_QueryAsync()
         {
             var result = await Client.QueryAsync<ErpOpenApiModel>("logstash-filebeat-*", "eshop_order_no",
-                "30122021022400014918808237");
+                "");
             Output.WriteLine(JsonConvert.SerializeObject(result));
         }
     }

@@ -236,7 +236,7 @@ namespace Bing.Elasticsearch
         {
             if (param == null)
             {
-                param = new PageParam()
+                param = new PageParam
                 {
                     Page = 1,
                     PageSize = 20

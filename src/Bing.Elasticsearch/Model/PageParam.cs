@@ -41,7 +41,7 @@ namespace Bing.Elasticsearch.Model
     /// <summary>
     /// 分页参数
     /// </summary>
-    public class PageParam:IPageParam
+    public class PageParam : IPageParam
     {
         /// <summary>
         /// 页数，即第几页，从1开始

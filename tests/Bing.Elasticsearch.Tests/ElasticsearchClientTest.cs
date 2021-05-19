@@ -32,7 +32,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试创建索引 - 不映射
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_CreateIndexAsync_NotMap()
         {
@@ -42,7 +41,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试创建索引 - 映射对象
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_CreateIndexAsync_Map()
         {
@@ -52,7 +50,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试添加索引
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_AddAsync()
         {
@@ -72,7 +69,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试更新索引
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_UpdateAsync()
         {
@@ -92,7 +88,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试删除指定索引
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_DeleteAsync_All()
         {
@@ -102,7 +97,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试删除指定索引 - 根据对象
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_DeleteAsync_Entity()
         {
@@ -122,7 +116,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试删除指定索引 - 根据ID
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_DeleteAsync_Id()
         {
@@ -132,7 +125,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试查找实体
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_FindAsync()
         {
@@ -144,7 +136,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试查询
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_QueryAsync()
         {
@@ -156,7 +147,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试查找实体列表
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_FindByIdsAsync()
         {
@@ -169,7 +159,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试分页查询
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_PageQueryAsync()
         {
@@ -181,7 +170,6 @@ namespace Bing.Elasticsearch.Tests
         /// <summary>
         /// 测试批量保存
         /// </summary>
-        /// <returns></returns>
         [Fact]
         public async Task Test_BulkSaveAsync()
         {
