@@ -16,7 +16,8 @@ namespace Bing.Elasticsearch.Extensions
         /// <param name="indexName">索引名</param>
         public static async Task InitializeIndexMapAsync(this IElasticClient client, string indexName)
         {
-            var newName = indexName + DateTime.Now.Ticks;
+            //var newName = indexName + DateTime.Now.Ticks;
+            var newName = indexName;
             var result = await client.Indices.CreateAsync(newName,
                 x => x.Index(newName)
                     .Settings(o =>
@@ -39,7 +40,8 @@ namespace Bing.Elasticsearch.Extensions
         /// <param name="indexName">索引名</param>
         public static async Task InitializeIndexMapAsync<T>(this IElasticClient client, string indexName) where T : class
         {
-            var newName = indexName + DateTime.Now.Ticks;
+            //var newName = indexName + DateTime.Now.Ticks;
+            var newName = indexName;
             var result = await client.Indices.CreateAsync(newName,
                 x => x.Index(newName)
                     .Settings(o =>
@@ -66,7 +68,8 @@ namespace Bing.Elasticsearch.Extensions
         public static async Task InitializeIndexMapAsync<T>(this IElasticClient client, string indexName, int numberOfShards,
             int numberOfReplicas) where T : class
         {
-            var newName = indexName + DateTime.Now.Ticks;
+            //var newName = indexName + DateTime.Now.Ticks;
+            var newName = indexName;
             var result = await client.Indices.CreateAsync(newName,
                 x => x.Index(newName)
                     .Settings(o =>

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Elasticsearch", "src\Bing.Elasticsearch\Bing.Elasticsearch.csproj", "{A1DDAB86-3F28-486A-AD74-CDAB7F94EA7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Elasticsearch", "src\Bing.Elasticsearch\Bing.Elasticsearch.csproj", "{A1DDAB86-3F28-486A-AD74-CDAB7F94EA7B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-document", "00-document", "{D2D3E8A4-250B-4FD5-A523-7C510C80CABE}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,7 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-src", "01-src", "{5AE80A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-tests", "02-tests", "{A7F27E6A-30F8-49C4-B1F6-BA92354222C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Elasticsearch.Tests", "tests\Bing.Elasticsearch.Tests\Bing.Elasticsearch.Tests.csproj", "{360120C9-92F1-400B-8A8E-C9570CFA7CC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Elasticsearch.Tests", "tests\Bing.Elasticsearch.Tests\Bing.Elasticsearch.Tests.csproj", "{360120C9-92F1-400B-8A8E-C9570CFA7CC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-samples", "03-samples", "{72B2A1A6-7745-4A1B-91D0-514AC55E6A6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Elasticsearch.ConsoleSample", "samples\Bing.Elasticsearch.ConsoleSample\Bing.Elasticsearch.ConsoleSample.csproj", "{E43DDCA3-A4DE-46D7-918D-37F960D06B28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +34,10 @@ Global
 		{360120C9-92F1-400B-8A8E-C9570CFA7CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{360120C9-92F1-400B-8A8E-C9570CFA7CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{360120C9-92F1-400B-8A8E-C9570CFA7CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E43DDCA3-A4DE-46D7-918D-37F960D06B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E43DDCA3-A4DE-46D7-918D-37F960D06B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E43DDCA3-A4DE-46D7-918D-37F960D06B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E43DDCA3-A4DE-46D7-918D-37F960D06B28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +45,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A1DDAB86-3F28-486A-AD74-CDAB7F94EA7B} = {5AE80A89-12CD-40B2-8C1F-44B93E189063}
 		{360120C9-92F1-400B-8A8E-C9570CFA7CC3} = {A7F27E6A-30F8-49C4-B1F6-BA92354222C1}
+		{E43DDCA3-A4DE-46D7-918D-37F960D06B28} = {72B2A1A6-7745-4A1B-91D0-514AC55E6A6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88496F4E-9454-4B28-A676-4F17E15C22D2}
