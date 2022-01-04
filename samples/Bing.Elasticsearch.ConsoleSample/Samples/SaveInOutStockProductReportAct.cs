@@ -8,6 +8,7 @@ using Bing.Elasticsearch.ConsoleSample.Model.Products;
 using Bing.Elasticsearch.ConsoleSample.Model.Reports;
 using Bing.Extensions;
 using Bing.Utils.Json;
+using Bing.Utils.Timing;
 
 namespace Bing.Elasticsearch.ConsoleSample.Samples
 {
@@ -21,11 +22,22 @@ namespace Bing.Elasticsearch.ConsoleSample.Samples
         /// </summary>
         public static async Task ExecuteAsync(SampleContext context)
         {
-            var beginTime = DateTime.Parse("2021-11-01 00:00:00");
-            var endTime = DateTime.Parse("2021-11-02 00:00:00");
+            var beginTime = DateTime.Parse("2021-01-01 00:00:00");
+            var endTime = DateTime.Parse("2022-01-01 00:00:00");
+            var dateRange = new DateTimeRange(beginTime, endTime);
+            var days = dateRange.GetDays();
+            for (int i = 0; i < days; i++)
+            {
+                var currentBeginTime = beginTime.AddDays(i);
+                var currentEndTime = beginTime.AddDays(i + 1);
+                await ExecuteAsync(context, currentBeginTime, currentEndTime);
+            }
+        }
 
-            var indexName = $"test_{nameof(InOutStockProductReport).ToSnakeCase()}_{beginTime:yyyy.MM.dd}";
-
+        private static async Task ExecuteAsync(SampleContext context, DateTime beginTime, DateTime endTime)
+        {
+            var indexName = $"test_{nameof(InOutStockProductReport).ToSnakeCase()}_{beginTime:yyyy.MM}";
+            Log.Write($"初始化索引：{indexName}");
             var inOutStockProductReports = await context.Orm.Select<InOutStockProductReport>()
                 .Where(x => x.OrderTime >= beginTime)
                 .Where(x => x.OrderTime < endTime)

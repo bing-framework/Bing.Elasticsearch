@@ -14,11 +14,11 @@ namespace Bing.Elasticsearch.ConsoleSample
             var context = new SampleContext();
             context.Orm =
                 GetFreeSql(
-                    "server=;port=3306;database=;uid=report;pwd=;charset='utf8mb4';Allow User Variables=true;Connection Timeout=300;default command timeout=300;SslMode=none");
+                    "server=192.168.239.50;port=3306;database=;uid=report;pwd=;charset='utf8mb4';Allow User Variables=true;Connection Timeout=300;default command timeout=300;SslMode=none");
             context.ESClient = GetESClient();
 
-            //await SaveInOutStockProductReportAct.ExecuteAsync(context);
-            await QueryInOutStockProductReportAct.ExecuteAsync(context);
+            await SaveInOutStockProductReportAct.ExecuteAsync(context);
+            //await QueryInOutStockProductReportAct.ExecuteAsync(context);
             Log.Write("执行完毕");
             Console.ReadLine();
         }
@@ -46,7 +46,7 @@ namespace Bing.Elasticsearch.ConsoleSample
         {
             return new ElasticsearchClient(new ElasticsearchConfigProvider(new ElasticsearchConfig()
             {
-                Urls = "http://127.0.0.1:9200"
+                Urls = "http://10.186.132.138:9200",
             }));
         }
     }
