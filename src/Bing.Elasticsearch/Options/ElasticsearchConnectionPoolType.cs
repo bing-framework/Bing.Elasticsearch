@@ -1,4 +1,4 @@
-﻿namespace Bing.Elasticsearch.Configs
+﻿namespace Bing.Elasticsearch.Options
 {
     /// <summary>
     /// ES 连接池类型。

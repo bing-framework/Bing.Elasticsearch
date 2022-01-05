@@ -19,17 +19,11 @@ namespace Bing.Elasticsearch
         private ElasticsearchClientBuilder _builder;
 
         /// <summary>
-        /// 配置提供程序
-        /// </summary>
-        private IElasticsearchConfigProvider _configProvider;
-
-        /// <summary>
         /// 初始化一个<see cref="ElasticsearchClient"/>类型的实例
         /// </summary>
         /// <param name="configProvider">配置提供程序</param>
         public ElasticsearchClient(IElasticsearchConfigProvider configProvider)
         {
-            _configProvider = configProvider ?? throw new ArgumentNullException(nameof(configProvider));
             _builder = new ElasticsearchClientBuilder(configProvider);
         }
 
@@ -81,7 +75,6 @@ namespace Bing.Elasticsearch
             var client = await _builder.GetClientAsync();
             if (!await ExistsAsync(indexName))
                 await client.InitializeIndexMapAsync<T>(indexName);
-
             var response = await client.IndexAsync(entity, x => x.Index(indexName));
             if (!response.IsValid)
             {
@@ -377,9 +370,7 @@ namespace Bing.Elasticsearch
 
             var response = await client.BulkAsync(bulk);
             if (response.Errors)
-            {
                 throw new ElasticsearchException($"批量保存文档在索引 {indexName} 失败：{response.ServerError.Error.Reason}");
-            }
         }
     }
 }

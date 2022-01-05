@@ -14,7 +14,6 @@ namespace Bing.Elasticsearch
         /// 是否存在指定索引
         /// </summary>
         /// <param name="indexName">索引名</param>
-        /// <returns></returns>
         Task<bool> ExistsAsync(string indexName);
 
         /// <summary>
@@ -36,7 +35,6 @@ namespace Bing.Elasticsearch
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="indexName">索引名</param>
         /// <param name="entity">实体</param>
-        /// <returns></returns>
         Task AddAsync<T>(string indexName, T entity) where T : class;
 
         /// <summary>
@@ -76,7 +74,6 @@ namespace Bing.Elasticsearch
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="indexName">索引名</param>
         /// <param name="id">主键ID</param>
-        /// <returns></returns>
         Task<T> FindAsync<T>(string indexName, long id) where T : class;
 
         /// <summary>
@@ -86,7 +83,6 @@ namespace Bing.Elasticsearch
         /// <param name="indexName">索引名</param>
         /// <param name="field">字段名</param>
         /// <param name="value">查询值</param>
-        /// <returns></returns>
         Task<IEnumerable<T>> QueryAsync<T>(string indexName, string field, object value) where T : class;
 
         /// <summary>
@@ -95,7 +91,6 @@ namespace Bing.Elasticsearch
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="indexName">索引名</param>
         /// <param name="ids">主键值</param>
-        /// <returns></returns>
         Task<IEnumerable<T>> FindByIdsAsync<T>(string indexName, params long[] ids) where T : class;
 
         /// <summary>
@@ -104,7 +99,6 @@ namespace Bing.Elasticsearch
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="indexName">索引名</param>
         /// <param name="ids">主键值</param>
-        /// <returns></returns>
         Task<IEnumerable<T>> FindByIdsAsync<T>(string indexName, params string[] ids) where T : class;
 
         /// <summary>
@@ -113,7 +107,6 @@ namespace Bing.Elasticsearch
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="indexName">索引名</param>
         /// <param name="ids">主键值</param>
-        /// <returns></returns>
         Task<IEnumerable<T>> FindByIdsAsync<T>(string indexName, params Guid[] ids) where T : class;
 
         /// <summary>
@@ -122,7 +115,6 @@ namespace Bing.Elasticsearch
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="param">分页参数</param>
         /// <param name="indexName">索引名</param>
-        /// <returns></returns>
         Task<IQueryResult<T>> PageQueryAsync<T>(IPageParam param, string indexName) where T : class;
 
         /// <summary>

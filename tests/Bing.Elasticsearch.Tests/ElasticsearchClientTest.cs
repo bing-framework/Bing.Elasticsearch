@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Bing.Elasticsearch.Tests.Models;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
@@ -12,7 +13,7 @@ namespace Bing.Elasticsearch.Tests
     /// 参考：https://www.cnblogs.com/huhangfei/p/7524886.html
     /// ES搭建参考：https://juejin.im/post/5ba4c8976fb9a05cec4da9f5
     /// </summary>
-    public class ElasticsearchClientTest:TestBase
+    public class ElasticsearchClientTest : TestBase
     {
         public ElasticsearchClientTest(ITestOutputHelper output) : base(output)
         {
@@ -78,9 +79,9 @@ namespace Bing.Elasticsearch.Tests
                 CreateTime = DateTime.Now,
                 Dic = "测试,装逼,蓝瘦,凉凉,GG",
                 Name = "测试数据111",
-                Fvalue = 100+1,
-                Dvalue = 200+3,
-                State = 10+4
+                Fvalue = 100 + 1,
+                Dvalue = 200 + 3,
+                State = 10 + 4
             };
             await Client.AddAsync("Test_Add".ToLower(), model);
         }
@@ -150,7 +151,7 @@ namespace Bing.Elasticsearch.Tests
         [Fact]
         public async Task Test_FindByIdsAsync()
         {
-            var ids = new[] {636881689933894494, 636881689966209798};
+            var ids = new[] { 636881689933894494, 636881689966209798 };
             var result = await Client.FindByIdsAsync<TestModel5>("Test_Add".ToLower(), ids);
             Output.WriteLine(JsonConvert.SerializeObject(result));
             Assert.NotNull(result);

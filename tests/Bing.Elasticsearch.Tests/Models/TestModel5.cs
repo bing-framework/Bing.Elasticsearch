@@ -1,7 +1,7 @@
 ﻿using System;
 using Nest;
 
-namespace Bing.Elasticsearch.Tests
+namespace Bing.Elasticsearch.Tests.Models
 {
     /// <summary>
     /// 5.x特性
