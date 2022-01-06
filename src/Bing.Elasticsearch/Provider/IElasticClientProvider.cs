@@ -11,6 +11,11 @@ namespace Bing.Elasticsearch.Provider
         /// <summary>
         /// 获取ES客户端
         /// </summary>
+        IElasticClient GetClient();
+
+        /// <summary>
+        /// 获取ES客户端
+        /// </summary>
         /// <param name="indexName">索引名</param>
         IElasticClient GetClient(string indexName);
 

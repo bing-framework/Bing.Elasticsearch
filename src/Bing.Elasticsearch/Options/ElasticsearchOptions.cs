@@ -17,7 +17,7 @@ namespace Bing.Elasticsearch.Options
         /// <summary>
         /// 默认索引名称
         /// </summary>
-        public string DefaultIndex { get; set; }
+        public string DefaultIndex { get; set; } = "bing_es";
 
         /// <summary>
         /// ES版本(默认>=7.0)

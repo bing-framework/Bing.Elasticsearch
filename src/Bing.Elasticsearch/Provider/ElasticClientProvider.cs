@@ -151,6 +151,18 @@ namespace Bing.Elasticsearch.Provider
         /// <summary>
         /// 获取ES客户端
         /// </summary>
+        public IElasticClient GetClient()
+        {
+            return _esClientDict.GetOrAdd(_options.DefaultIndex, key =>
+            {
+                var settings = new ConnectionSettings(_connectionPool).DefaultIndex(_options.DefaultIndex);
+                return new ElasticClient(settings);
+            });
+        }
+
+        /// <summary>
+        /// 获取ES客户端
+        /// </summary>
         /// <param name="indexName">索引名</param>
         public IElasticClient GetClient(string indexName)
         {
