@@ -73,7 +73,7 @@ namespace Bing.Elasticsearch.Tests
         [Fact]
         public async Task Test_UpdateAsync()
         {
-            var model = new TestModel5()
+            var model = new TestModel5
             {
                 Id = DateTime.Now.Ticks,
                 CreateTime = DateTime.Now,
