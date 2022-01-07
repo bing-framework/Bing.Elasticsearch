@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Bing.Elasticsearch.Provider;
 using Bing.Reflection;
@@ -25,12 +26,14 @@ namespace Bing.Elasticsearch.WinformSample
             _provider = provider;
             _client = _provider.GetClient();
             InitializeComponent();
+            DoubleBufferedDataGirdView(dgvTable, true);
+            dgvTable.ReadOnly = true;
+            dgvTable.VirtualMode = true;
+            //dgvTable.RowCount = 10;
         }
 
         private async void btnRun_Click(object sender, EventArgs e)
         {
-            dgvTable.Columns.Clear();
-            dgvTable.Rows.Clear();
             var sw = Stopwatch.StartNew();
 
             var sql = tbSql.Text;
@@ -43,32 +46,35 @@ namespace Bing.Elasticsearch.WinformSample
                 return;
             }
             var renderSw = Stopwatch.StartNew();
-            foreach (var column in result.Columns)
-            {
-                dgvTable.Columns.Add(column.Name, column.Name);
-            }
-
-            var columns = result.Columns.ToArray();
-
-            foreach (var row in result.Rows)
-            {
-                var colIndex = 0;
-                List<object> currentCol = new List<object>();
-                foreach (var col in row)
-                {
-                    var type = GetType(columns[colIndex].Type);
-                    var colValue = col == null ? null : await col.AsAsync(type);
-                    currentCol.Add(colValue);
-                    colIndex++;
-                }
-
-                dgvTable.Rows.Add(currentCol.ToArray());
-            }
+            var table = CreateDataTable(result);
+            dgvTable.DataSource = table;
             renderSw.Stop();
+
             sw.Stop();
             lblQueryTime.Text = $"查询耗时：{querySw.Elapsed.TotalMilliseconds,7:n0}ms";
             lblRenderTime.Text = $"渲染耗时：{renderSw.Elapsed.TotalMilliseconds,7:n0}ms";
             lblTotalTime.Text = $"总耗时：{sw.Elapsed.TotalMilliseconds,7:n0}ms";
+        }
+
+        private static DataTable CreateDataTable(QuerySqlResponse resp)
+        {
+            DataTable dt = new DataTable();
+            // 初始化列名
+            dt.Columns.AddRange(resp.Columns.Select(x => new DataColumn(x.Name, GetType(x.Type))).ToArray());
+            foreach (var rowItem in resp.Rows)
+            {
+                var row = dt.NewRow();
+                var columnIndex = 0;
+                foreach (var columnItem in rowItem)
+                {
+                    row[columnIndex] = columnItem == null ? null : columnItem.As(dt.Columns[columnIndex].DataType);
+                    columnIndex++;
+                }
+
+                dt.Rows.Add(row);
+            }
+
+            return dt;
         }
 
         private static Type GetType(string type)
@@ -118,6 +124,18 @@ namespace Bing.Elasticsearch.WinformSample
         {
             // 窗体添加SizeChanged事件，并在其方法Form1_SizeChanged中，调用类的自适应方法，完成自适应
             _asc.ControlAutoSize(this);
+        }
+
+        /// <summary>
+        /// 双缓冲，解决闪烁问题
+        /// </summary>
+        /// <param name="dgv"></param>
+        /// <param name="flag"></param>
+        public static void DoubleBufferedDataGirdView(DataGridView dgv, bool flag)
+        {
+            Type dgvType = dgv.GetType();
+            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgv, flag, null);
         }
     }
 }
