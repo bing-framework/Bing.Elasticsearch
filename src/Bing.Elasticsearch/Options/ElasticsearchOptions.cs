@@ -65,6 +65,11 @@ namespace Bing.Elasticsearch.Options
         public int NumberOfReplicas { get; set; } = 1;
 
         /// <summary>
+        /// 索引名称前缀
+        /// </summary>
+        public string Prefix { get; set; }
+
+        /// <summary>
         /// 兼容版本(>=7.0)
         /// </summary>
         public bool IsCompatibleVersion()

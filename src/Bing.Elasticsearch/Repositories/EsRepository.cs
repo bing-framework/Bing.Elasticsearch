@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Bing.Elasticsearch.Extensions;
 using Bing.Elasticsearch.Model;
 using Bing.Elasticsearch.Options;
 using Bing.Elasticsearch.Provider;
@@ -17,7 +16,7 @@ namespace Bing.Elasticsearch.Repositories
     /// ES仓储基类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public class EsRepositoryBase<TEntity> : IEsRepository<TEntity> where TEntity : class
+    public class EsRepository<TEntity> : IEsRepository<TEntity> where TEntity : class
     {
         /// <summary>
         /// ES客户端
@@ -41,11 +40,11 @@ namespace Bing.Elasticsearch.Repositories
         public string IndexName { get; protected set; }
 
         /// <summary>
-        /// 初始化一个<see cref="EsRepositoryBase{TEntity}"/>类型的实例
+        /// 初始化一个<see cref="EsRepository{TEntity}"/>类型的实例
         /// </summary>
         /// <param name="provider">ES客户端提供程序</param>
         /// <param name="options">ES选项配置</param>
-        public EsRepositoryBase(IElasticClientProvider provider, IOptions<ElasticsearchOptions> options)
+        public EsRepository(IElasticClientProvider provider, IOptions<ElasticsearchOptions> options)
         {
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
             _options = options.Value ?? throw new ArgumentNullException(nameof(options));

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bing.Elasticsearch.Configs;
-using Bing.Elasticsearch.Extensions;
 using Bing.Elasticsearch.Model;
 using Nest;
 

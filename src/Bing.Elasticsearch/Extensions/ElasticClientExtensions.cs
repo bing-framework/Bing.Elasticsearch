@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Nest;
 
-namespace Bing.Elasticsearch.Extensions
+// ReSharper disable once CheckNamespace
+namespace Bing.Elasticsearch
 {
     /// <summary>
     /// ES客户端(<see cref="IElasticClient"/>) 扩展

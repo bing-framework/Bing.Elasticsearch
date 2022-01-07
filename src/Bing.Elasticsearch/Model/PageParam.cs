@@ -24,7 +24,6 @@ namespace Bing.Elasticsearch.Model
         /// <summary>
         /// 获取跳过的行数
         /// </summary>
-        /// <returns></returns>
         int GetSkipCount();
 
         /// <summary>
@@ -61,7 +60,6 @@ namespace Bing.Elasticsearch.Model
         /// <summary>
         /// 获取跳过的行数
         /// </summary>
-        /// <returns></returns>
         public int GetSkipCount() => (Page - 1) * PageSize;
 
         /// <summary>

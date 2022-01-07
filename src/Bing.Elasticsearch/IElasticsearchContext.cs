@@ -6,9 +6,9 @@ using Nest;
 namespace Bing.Elasticsearch
 {
     /// <summary>
-    /// ElasticSearch操作
+    /// ES上下文
     /// </summary>
-    public interface IElasticSearch
+    public interface IElasticsearchContext
     {
         #region Index(索引)
 
@@ -80,6 +80,21 @@ namespace Bing.Elasticsearch
         /// <param name="index">索引名称。注意：必须小写</param>
         /// <remarks>说明：最多返回10000条</remarks>
         Task<List<TResult>> GetAllAsync<TResult>(string index = null) where TResult : class;
+
+        #endregion
+
+        #region Client(客户端)
+
+        /// <summary>
+        /// 获取客户端
+        /// </summary>
+        IElasticClient GetClient();
+
+        /// <summary>
+        /// 获取客户端
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        IElasticClient GetClient<T>();
 
         #endregion
     }

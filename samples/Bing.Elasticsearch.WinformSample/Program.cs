@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Bing.Elasticsearch.Options;
-using Bing.Elasticsearch.Provider;
-using Bing.Elasticsearch.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bing.Elasticsearch.WinformSample
@@ -28,16 +25,14 @@ namespace Bing.Elasticsearch.WinformSample
         static IServiceProvider GetServiceProvider()
         {
             var services = new ServiceCollection();
-            services.AddOptions().Configure<ElasticsearchOptions>(x =>
+            services.AddElasticsearch(o =>
             {
-                x.Urls = new List<string>
+                o.Urls = new List<string>
                 {
                     "http://10.186.132.138:9200"
                 };
-                x.DefaultIndex = "bing_es_sample";
+                o.DefaultIndex = "bing_es_sample";
             });
-            services.AddSingleton<IElasticClientProvider, ElasticClientProvider>();
-            services.AddScoped(typeof(IEsRepository<>), typeof(EsRepositoryBase<>));
 
             services.AddSingleton(typeof(Form1));
             return services.BuildServiceProvider();

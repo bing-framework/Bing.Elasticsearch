@@ -1,6 +1,7 @@
 ﻿using Nest;
 
-namespace Bing.Elasticsearch.Extensions
+// ReSharper disable once CheckNamespace
+namespace Bing.Elasticsearch
 {
     /// <summary>
     /// 文本属性描述器<see cref="TextPropertyDescriptor{T}"/> 扩展
