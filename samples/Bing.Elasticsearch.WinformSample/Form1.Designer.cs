@@ -33,6 +33,9 @@ namespace Bing.Elasticsearch.WinformSample
             this.label1 = new System.Windows.Forms.Label();
             this.btnRun = new System.Windows.Forms.Button();
             this.dgvTable = new System.Windows.Forms.DataGridView();
+            this.lblQueryTime = new System.Windows.Forms.Label();
+            this.lblRenderTime = new System.Windows.Forms.Label();
+            this.lblTotalTime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,11 +79,41 @@ namespace Bing.Elasticsearch.WinformSample
             this.dgvTable.Size = new System.Drawing.Size(776, 318);
             this.dgvTable.TabIndex = 3;
             // 
+            // lblQueryTime
+            // 
+            this.lblQueryTime.AutoSize = true;
+            this.lblQueryTime.Location = new System.Drawing.Point(13, 102);
+            this.lblQueryTime.Name = "lblQueryTime";
+            this.lblQueryTime.Size = new System.Drawing.Size(68, 17);
+            this.lblQueryTime.TabIndex = 4;
+            this.lblQueryTime.Text = "查询耗时：";
+            // 
+            // lblRenderTime
+            // 
+            this.lblRenderTime.AutoSize = true;
+            this.lblRenderTime.Location = new System.Drawing.Point(150, 103);
+            this.lblRenderTime.Name = "lblRenderTime";
+            this.lblRenderTime.Size = new System.Drawing.Size(68, 17);
+            this.lblRenderTime.TabIndex = 5;
+            this.lblRenderTime.Text = "渲染耗时：";
+            // 
+            // lblTotalTime
+            // 
+            this.lblTotalTime.AutoSize = true;
+            this.lblTotalTime.Location = new System.Drawing.Point(292, 103);
+            this.lblTotalTime.Name = "lblTotalTime";
+            this.lblTotalTime.Size = new System.Drawing.Size(56, 17);
+            this.lblTotalTime.TabIndex = 6;
+            this.lblTotalTime.Text = "总耗时：";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblTotalTime);
+            this.Controls.Add(this.lblRenderTime);
+            this.Controls.Add(this.lblQueryTime);
             this.Controls.Add(this.dgvTable);
             this.Controls.Add(this.btnRun);
             this.Controls.Add(this.label1);
@@ -101,6 +134,9 @@ namespace Bing.Elasticsearch.WinformSample
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.DataGridView dgvTable;
+        private System.Windows.Forms.Label lblQueryTime;
+        private System.Windows.Forms.Label lblRenderTime;
+        private System.Windows.Forms.Label lblTotalTime;
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using Bing.Elasticsearch.Provider;
@@ -30,15 +31,18 @@ namespace Bing.Elasticsearch.WinformSample
         {
             dgvTable.Columns.Clear();
             dgvTable.Rows.Clear();
+            var sw = Stopwatch.StartNew();
 
             var sql = tbSql.Text;
+            var querySw = Stopwatch.StartNew();
             var result = await _client.Sql.QueryAsync(x => x.Query(sql).Format("json"));
+            querySw.Stop();
             if (!result.IsValid)
             {
                 MessageBox.Show(result.ServerError.Error.Reason);
                 return;
             }
-            
+            var renderSw = Stopwatch.StartNew();
             foreach (var column in result.Columns)
             {
                 dgvTable.Columns.Add(column.Name, column.Name);
@@ -60,6 +64,11 @@ namespace Bing.Elasticsearch.WinformSample
 
                 dgvTable.Rows.Add(currentCol.ToArray());
             }
+            renderSw.Stop();
+            sw.Stop();
+            lblQueryTime.Text = $"查询耗时：{querySw.Elapsed.TotalMilliseconds,7:n0}ms";
+            lblRenderTime.Text = $"渲染耗时：{renderSw.Elapsed.TotalMilliseconds,7:n0}ms";
+            lblTotalTime.Text = $"总耗时：{sw.Elapsed.TotalMilliseconds,7:n0}ms";
         }
 
         private static Type GetType(string type)
