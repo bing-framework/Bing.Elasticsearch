@@ -5,9 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Bing.Elasticsearch.Model;
-using Bing.Elasticsearch.Options;
-using Bing.Elasticsearch.Provider;
-using Microsoft.Extensions.Options;
 using Nest;
 
 namespace Bing.Elasticsearch.Repositories
@@ -24,32 +21,18 @@ namespace Bing.Elasticsearch.Repositories
         private readonly IElasticClient _client;
 
         /// <summary>
-        /// ES客户端提供程序
+        /// ES上下文
         /// </summary>
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-        private readonly IElasticClientProvider _provider;
-
-        /// <summary>
-        /// ES选项配置
-        /// </summary>
-        private readonly ElasticsearchOptions _options;
-
-        /// <summary>
-        /// 索引名称
-        /// </summary>
-        public string IndexName { get; protected set; }
+        public IElasticsearchContext Context { get; protected set; }
 
         /// <summary>
         /// 初始化一个<see cref="EsRepository{TEntity}"/>类型的实例
         /// </summary>
-        /// <param name="provider">ES客户端提供程序</param>
-        /// <param name="options">ES选项配置</param>
-        public EsRepository(IElasticClientProvider provider, IOptions<ElasticsearchOptions> options)
+        /// <param name="context">ES上下文</param>
+        public EsRepository(IElasticsearchContext context)
         {
-            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
-            _options = options.Value ?? throw new ArgumentNullException(nameof(options));
-            IndexName = typeof(TEntity).Name.ToLower();
-            _client = _provider.GetClient();
+            Context = context ?? throw new ArgumentNullException(nameof(context));
+            _client = Context.GetClient();
         }
 
         /// <summary>
@@ -68,7 +51,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task InsertAsync(TEntity entity, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
             await ExistOrCreateAsync(targetIndexName, cancellationToken);
             var response = await _client.IndexAsync(entity, x => x.Index(targetIndexName), cancellationToken);
             if (!response.IsValid)
@@ -91,7 +74,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task InsertManyAsync(IEnumerable<TEntity> entities, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
             await ExistOrCreateAsync(targetIndexName, cancellationToken);
             var response = await _client.IndexManyAsync(entities, targetIndexName, cancellationToken);
             if (!response.IsValid)
@@ -114,7 +97,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task BulkAsync(IEnumerable<TEntity> entities, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
             await ExistOrCreateAsync(targetIndexName, cancellationToken);
             var response = await _client.BulkAsync(x => x.Index(targetIndexName).IndexMany(entities), cancellationToken);
             if (!response.IsValid)
@@ -137,7 +120,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task DeleteAsync(TEntity entity, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
             var response = await _client.DeleteAsync<TEntity>(new Id(entity), x => x.Index(targetIndexName), cancellationToken);
             if (!response.IsValid)
                 throw new ElasticsearchException($"索引[{targetIndexName}]删除数据失败 : {response.ServerError.Error.Reason}");
@@ -159,8 +142,8 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task DeleteAsync(object id, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
-            var response = await _client.DeleteAsync<TEntity>(GetEsId(id), x => x.Index(targetIndexName), cancellationToken);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
+            var response = await _client.DeleteAsync<TEntity>(Context.GetEsId(id), x => x.Index(targetIndexName), cancellationToken);
             if (!response.IsValid)
                 throw new ElasticsearchException($"索引[{targetIndexName}]删除数据失败 : {response.ServerError.Error.Reason}");
         }
@@ -181,7 +164,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task UpdateAsync(TEntity entity, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
             var response = await _client.UpdateAsync<TEntity>(new Id(entity), x => x.Index(targetIndexName).Doc(entity), cancellationToken);
             if (!response.IsValid)
                 throw new ElasticsearchException($"索引[{targetIndexName}]更新数据失败 : {response.ServerError.Error.Reason}");
@@ -205,8 +188,8 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task UpdateAsync(object id, TEntity entity, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
-            var response = await _client.UpdateAsync<TEntity>(GetEsId(id), x => x.Index(targetIndexName).Doc(entity), cancellationToken);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
+            var response = await _client.UpdateAsync<TEntity>(Context.GetEsId(id), x => x.Index(targetIndexName).Doc(entity), cancellationToken);
             if (!response.IsValid)
                 throw new ElasticsearchException($"索引[{targetIndexName}]更新数据失败 : {response.ServerError.Error.Reason}");
         }
@@ -227,8 +210,8 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task<TEntity> FindByIdAsync(object id, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
-            var response = await _client.GetAsync<TEntity>(GetEsId(id), x => x.Index(targetIndexName), cancellationToken);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
+            var response = await _client.GetAsync<TEntity>(Context.GetEsId(id), x => x.Index(targetIndexName), cancellationToken);
             return response.IsValid ? response.Source : null;
         }
 
@@ -276,7 +259,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<string> ids, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
             var result = new List<TEntity>();
             var response = await _client.GetManyAsync<TEntity>(ids, targetIndexName, cancellationToken);
             if ((response?.Count() ?? 0) != 0)
@@ -300,7 +283,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<long> ids, string indexName, CancellationToken cancellationToken = default)
         {
-            var targetIndexName = GetSafeIndexName(indexName);
+            var targetIndexName = Context.GetIndexName<TEntity>(indexName);
             var result = new List<TEntity>();
             var response = await _client.GetManyAsync<TEntity>(ids, targetIndexName, cancellationToken);
             if ((response?.Count() ?? 0) != 0)
@@ -316,7 +299,7 @@ namespace Bing.Elasticsearch.Repositories
         public async Task<IQueryResult<TEntity>> SearchAsync(SearchDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
         {
             var result = new List<TEntity>();
-            descriptor = descriptor.Index(IndexName);
+            descriptor = descriptor.Index(Context.GetIndexName<TEntity>());
             Func<SearchDescriptor<TEntity>, ISearchRequest> selector = x => descriptor;
             var response = await _client.SearchAsync(selector, cancellationToken);
             if (response.ApiCall.RequestBodyInBytes != null)
@@ -342,7 +325,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task<IEnumerable<IHit<TEntity>>> HitsSearchAsync(SearchDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
         {
-            descriptor = descriptor.Index(IndexName);
+            descriptor = descriptor.Index(Context.GetIndexName<TEntity>());
             Func<SearchDescriptor<TEntity>, ISearchRequest> selector = x => descriptor;
             var response = await _client.SearchAsync(selector, cancellationToken);
             return response.IsValid ? response.Hits : null;
@@ -356,7 +339,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         public async Task<TermsAggregate<string>> AggregationsSearchAsync(SearchDescriptor<TEntity> descriptor, string key, CancellationToken cancellationToken = default)
         {
-            descriptor = descriptor.Index(IndexName);
+            descriptor = descriptor.Index(Context.GetIndexName<TEntity>());
             Func<SearchDescriptor<TEntity>, ISearchRequest> selector = x => descriptor;
             var response = await _client.SearchAsync(selector, cancellationToken);
             return response.IsValid ? response.Aggregations.Terms(key) : null;
@@ -372,36 +355,7 @@ namespace Bing.Elasticsearch.Repositories
             var result = await _client.Indices.ExistsAsync(indexName, null, cancellationToken);
             if (result.Exists)
                 return;
-            await _client.CreateIndexAsync<TEntity>(indexName, _options.NumberOfShards, _options.NumberOfReplicas, cancellationToken);
+            await Context.CreateIndexAsync<TEntity>(indexName, null, cancellationToken);
         }
-
-        /// <summary>
-        /// 获取ES标识
-        /// </summary>
-        /// <param name="id">标识</param>
-        protected Id GetEsId(object id)
-        {
-            Id entityId;
-            switch (id)
-            {
-                case long longId:
-                    entityId = new Id(longId);
-                    break;
-                case string stringId:
-                    entityId = new Id(stringId);
-                    break;
-                default:
-                    entityId = new Id(id);
-                    break;
-            }
-
-            return entityId;
-        }
-
-        /// <summary>
-        /// 获取安全的索引名称
-        /// </summary>
-        /// <param name="indexName">索引名称</param>
-        protected string GetSafeIndexName(string indexName) => string.IsNullOrWhiteSpace(indexName) ? IndexName : indexName;
     }
 }
