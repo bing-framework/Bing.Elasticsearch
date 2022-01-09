@@ -50,6 +50,7 @@ namespace Bing.Elasticsearch
             services.Configure(setupAction);
             services.TryAddSingleton<IIndexNameResolver, IndexNameResolver>();
             services.TryAddSingleton<IElasticClientProvider, ElasticClientProvider>();
+            services.TryAddScoped<IElasticsearchContext, ElasticsearchContext>();
             services.TryAddScoped(typeof(IEsRepository<>), typeof(EsRepository<>));
         }
     }

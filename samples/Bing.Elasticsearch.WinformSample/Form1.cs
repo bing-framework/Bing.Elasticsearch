@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using Bing.Elasticsearch.Provider;
 using Bing.Reflection;
 using Nest;
 
@@ -12,7 +11,7 @@ namespace Bing.Elasticsearch.WinformSample
 {
     public partial class Form1 : Form
     {
-        private readonly IElasticClientProvider _provider;
+        private readonly IElasticsearchContext _context;
 
         private readonly IElasticClient _client;
 
@@ -21,10 +20,10 @@ namespace Bing.Elasticsearch.WinformSample
         /// </summary>
         private AutoSizeForm _asc = new AutoSizeForm();
 
-        public Form1(IElasticClientProvider provider)
+        public Form1(IElasticsearchContext context)
         {
-            _provider = provider;
-            _client = _provider.GetClient();
+            _context = context;
+            _client = _context.GetClient();
             InitializeComponent();
             DoubleBufferedDataGirdView(dgvTable, true);
             dgvTable.ReadOnly = true;

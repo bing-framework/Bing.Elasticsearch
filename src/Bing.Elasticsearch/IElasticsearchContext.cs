@@ -21,6 +21,13 @@ namespace Bing.Elasticsearch
         Task<bool> AliasExistsAsync(string alias, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// 是否存在指定索引名称
+        /// </summary>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellation">取消令牌</param>
+        Task<bool> IndexExistsAsync(string index, CancellationToken cancellation = default);
+
+        /// <summary>
         /// 获取索引名称列表
         /// </summary>
         /// <param name="alias">别名名称。注意：必须小写</param>
@@ -113,6 +120,42 @@ namespace Bing.Elasticsearch
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         IElasticClient GetClient<T>();
+
+        #endregion
+
+        #region Document(文档操作)
+
+        /// <summary>
+        /// 添加文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="document">文档对象</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="id">文档标识</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<IndexResponse> AddAsync<TDocument>(TDocument document, string index = null, object id = null, CancellationToken cancellationToken = default)
+            where TDocument : class;
+
+        /// <summary>
+        /// 批量保存文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="documents">文档对象列表</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="timeout">超时时间间隔。单位：毫秒，默认值：300000，即5分钟</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<BulkResponse> BulkSaveAsync<TDocument>(IEnumerable<TDocument> documents, string index = null,
+            double timeout = 300000, CancellationToken cancellationToken = default) where TDocument : class;
+
+        /// <summary>
+        /// 删除文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="id">文档标识</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<DeleteResponse> DeleteAsync<TDocument>(object id, string index = null,
+            CancellationToken cancellationToken = default) where TDocument : class;
 
         #endregion
 

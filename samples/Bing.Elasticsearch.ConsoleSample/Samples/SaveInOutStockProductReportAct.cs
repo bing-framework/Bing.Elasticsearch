@@ -113,9 +113,9 @@ namespace Bing.Elasticsearch.ConsoleSample.Samples
                 result.Add(eoItem);
             }
 
-            if (!await context.ESClient.ExistsAsync(indexName))
-                await context.ESClient.AddAsync<InOutStockProductReportEo>(indexName);
-            await context.ESClient.BulkSaveAsync(indexName, result);
+            if (!await context.ESContext.IndexExistsAsync(indexName))
+                await context.ESContext.CreateIndexAsync<InOutStockProductReportEo>(indexName);
+            await context.ESContext.BulkSaveAsync(result, indexName);
         }
     }
 }

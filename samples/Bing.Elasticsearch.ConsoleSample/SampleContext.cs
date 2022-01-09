@@ -14,5 +14,10 @@
         /// ES客户端
         /// </summary>
         public IElasticsearchClient ESClient { get; set; }
+
+        /// <summary>
+        /// ES上下文
+        /// </summary>
+        public IElasticsearchContext ESContext { get; set; }
     }
 }
