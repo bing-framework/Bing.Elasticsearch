@@ -100,11 +100,77 @@ namespace Bing.Elasticsearch
         /// <summary>
         /// 获取全部数据。
         /// </summary>
-        /// <typeparam name="TResult">结果类型</typeparam>
+        /// <typeparam name="TDocument">文档类型</typeparam>
         /// <param name="index">索引名称。注意：必须小写</param>
         /// <param name="cancellationToken">取消令牌</param>
         /// <remarks>说明：最多返回10000条</remarks>
-        Task<List<TResult>> GetAllAsync<TResult>(string index = null, CancellationToken cancellationToken = default) where TResult : class;
+        Task<List<TDocument>> GetAllAsync<TDocument>(string index = null, CancellationToken cancellationToken = default)
+            where TDocument : class;
+
+        /// <summary>
+        /// 通过标识查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="id">文档标识</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<TDocument> FindByIdAsync<TDocument>(object id, string index = null, CancellationToken cancellationToken = default)
+            where TDocument : class;
+
+        /// <summary>
+        /// 通过标识集合查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="ids">文档标识集合</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<IEnumerable<TDocument>> FindByIdsAsync<TDocument>(IEnumerable<string> ids, string index = null,
+            CancellationToken cancellationToken = default) where TDocument : class;
+
+        /// <summary>
+        /// 通过标识集合查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="ids">文档标识集合</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<IEnumerable<TDocument>> FindByIdsAsync<TDocument>(IEnumerable<long> ids, string index = null,
+            CancellationToken cancellationToken = default) where TDocument : class;
+
+        /// <summary>
+        /// 通过标识集合查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="ids">文档标识集合</param>
+        Task<IEnumerable<TDocument>> FindByIdsAsync<TDocument>(string index, params string[] ids) where TDocument : class;
+
+        /// <summary>
+        /// 通过标识集合查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="ids">文档标识集合</param>
+        Task<IEnumerable<TDocument>> FindByIdsAsync<TDocument>(string index, params long[] ids) where TDocument : class;
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="searchTerms">查询条件</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<ISearchResponse<TDocument>> SearchAsync<TDocument>(Func<QueryContainerDescriptor<TDocument>, QueryContainer> searchTerms = null, string index = null, CancellationToken cancellationToken = default)
+            where TDocument : class;
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="selector">查询表达式</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<ISearchResponse<TDocument>> SearchAsync<TDocument>(Func<SearchDescriptor<TDocument>, ISearchRequest> selector = null, CancellationToken cancellationToken = default)
+            where TDocument : class;
 
         #endregion
 
@@ -157,6 +223,57 @@ namespace Bing.Elasticsearch
         Task<DeleteResponse> DeleteAsync<TDocument>(object id, string index = null,
             CancellationToken cancellationToken = default) where TDocument : class;
 
+        /// <summary>
+        /// 删除文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="document">文档</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<DeleteResponse> DeleteAsync<TDocument>(TDocument document, string index = null,
+            CancellationToken cancellationToken = default) where TDocument : class;
+
+        /// <summary>
+        /// 按查询条件删除文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="selector">删除表达式</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<DeleteByQueryResponse> DeleteByQueryAsync<TDocument>(
+            Func<DeleteByQueryDescriptor<TDocument>, IDeleteByQueryRequest> selector,
+            CancellationToken cancellationToken = default) where TDocument : class;
+
+        /// <summary>
+        /// 更新文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="document">文档</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<UpdateResponse<TDocument>> UpdateAsync<TDocument>(TDocument document, string index = null,
+            CancellationToken cancellationToken = default) where TDocument : class;
+
+        /// <summary>
+        /// 更新文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="id">文档标识</param>
+        /// <param name="document">文档</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<UpdateResponse<TDocument>> UpdateAsync<TDocument>(object id, TDocument document, string index = null,
+            CancellationToken cancellationToken = default) where TDocument : class;
+
+        /// <summary>
+        /// 按查询条件更新文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="selector">更新表达式</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<UpdateByQueryResponse> UpdateByQueryAsync<TDocument>(Func<UpdateByQueryDescriptor<TDocument>, IUpdateByQueryRequest> selector,
+            CancellationToken cancellationToken = default)
+            where TDocument : class;
+
         #endregion
 
         #region 辅助操作
@@ -169,10 +286,10 @@ namespace Bing.Elasticsearch
         string GetIndexName<TDocument>(string index = null);
 
         /// <summary>
-        /// 获取ES标识
+        /// 获取索引名称
         /// </summary>
-        /// <param name="id">标识</param>
-        Id GetEsId(object id);
+        /// <param name="index">索引名称。注意：必须小写</param>
+        string GetIndexName(string index);
 
         #endregion
     }

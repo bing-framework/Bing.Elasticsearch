@@ -31,6 +31,8 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="indexName">索引名称</param>
         public string GetIndexName(string indexName)
         {
+            if (string.IsNullOrEmpty(indexName))
+                throw new ArgumentNullException(nameof(indexName));
             if (string.IsNullOrEmpty(_options.Prefix))
                 return indexName;
             return $"{_options.Prefix}_{indexName}";

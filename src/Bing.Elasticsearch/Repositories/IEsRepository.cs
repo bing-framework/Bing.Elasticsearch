@@ -20,14 +20,6 @@ namespace Bing.Elasticsearch.Repositories
         Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 插入
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task InsertAsync(TEntity entity, string indexName, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// 批量插入
         /// </summary>
         /// <param name="entities">实体集合</param>
@@ -35,27 +27,11 @@ namespace Bing.Elasticsearch.Repositories
         Task InsertManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 批量插入
-        /// </summary>
-        /// <param name="entities">实体集合</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task InsertManyAsync(IEnumerable<TEntity> entities, string indexName, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// 批量操作
         /// </summary>
         /// <param name="entities">实体集合</param>
         /// <param name="cancellationToken">取消令牌</param>
         Task BulkAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 批量操作
-        /// </summary>
-        /// <param name="entities">实体集合</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task BulkAsync(IEnumerable<TEntity> entities, string indexName, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 删除
@@ -67,25 +43,16 @@ namespace Bing.Elasticsearch.Repositories
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task DeleteAsync(TEntity entity, string indexName, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 删除
-        /// </summary>
         /// <param name="id">标识</param>
         /// <param name="cancellationToken">取消令牌</param>
         Task DeleteAsync(object id, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 删除
+        /// 按查询条件删除
         /// </summary>
-        /// <param name="id">标识</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
+        /// <param name="descriptor">查询删除描述符</param>
         /// <param name="cancellationToken">取消令牌</param>
-        Task DeleteAsync(object id, string indexName, CancellationToken cancellationToken = default);
+        Task DeleteByQueryAsync(DeleteByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新
@@ -97,27 +64,17 @@ namespace Bing.Elasticsearch.Repositories
         /// <summary>
         /// 更新
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task UpdateAsync(TEntity entity, string indexName, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 更新
-        /// </summary>
         /// <param name="id">标识</param>
         /// <param name="entity">实体</param>
         /// <param name="cancellationToken">取消令牌</param>
         Task UpdateAsync(object id, TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 更新
+        /// 按查询条件更新
         /// </summary>
-        /// <param name="id">标识</param>
-        /// <param name="entity">实体</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
+        /// <param name="descriptor">查询更新描述符</param>
         /// <param name="cancellationToken">取消令牌</param>
-        Task UpdateAsync(object id, TEntity entity, string indexName, CancellationToken cancellationToken = default);
+        Task UpdateByQueryAsync(UpdateByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 通过标识查找
@@ -125,14 +82,6 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="id">标识</param>
         /// <param name="cancellationToken">取消令牌</param>
         Task<TEntity> FindByIdAsync(object id, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 通过标识查找
-        /// </summary>
-        /// <param name="id">标识</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task<TEntity> FindByIdAsync(object id, string indexName, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 通过标识集合查找
@@ -143,22 +92,8 @@ namespace Bing.Elasticsearch.Repositories
         /// <summary>
         /// 通过标识集合查找
         /// </summary>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="ids">标识集合</param>
-        Task<IEnumerable<TEntity>> FindByIdsAsync(string indexName, params string[] ids);
-
-        /// <summary>
-        /// 通过标识集合查找
-        /// </summary>
         /// <param name="ids">标识集合</param>
         Task<IEnumerable<TEntity>> FindByIdsAsync(params long[] ids);
-
-        /// <summary>
-        /// 通过标识集合查找
-        /// </summary>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="ids">标识集合</param>
-        Task<IEnumerable<TEntity>> FindByIdsAsync(string indexName, params long[] ids);
 
         /// <summary>
         /// 通过标识集合查找
@@ -171,24 +106,8 @@ namespace Bing.Elasticsearch.Repositories
         /// 通过标识集合查找
         /// </summary>
         /// <param name="ids">标识集合</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<string> ids, string indexName, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 通过标识集合查找
-        /// </summary>
-        /// <param name="ids">标识集合</param>
         /// <param name="cancellationToken">取消令牌</param>
         Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<long> ids, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 通过标识集合查找
-        /// </summary>
-        /// <param name="ids">标识集合</param>
-        /// <param name="indexName">索引名称。注意：必须小写</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<long> ids, string indexName, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询
@@ -211,6 +130,11 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="key">键名</param>
         /// <param name="cancellationToken">取消令牌</param>
         Task<TermsAggregate<string>> AggregationsSearchAsync(SearchDescriptor<TEntity> descriptor, string key, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取ES上下文
+        /// </summary>
+        IElasticsearchContext GetContext();
     }
 
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Bing.Elasticsearch.Internals;
 using Bing.Elasticsearch.Options;
 using Bing.Elasticsearch.Provider;
 using Bing.Elasticsearch.Repositories;
@@ -73,7 +74,8 @@ namespace Bing.Elasticsearch
         {
             if (index.IsEmpty())
                 throw new ArgumentNullException(nameof(index));
-            var result = await _client.Indices.ExistsAsync(_resolver.GetIndexName(index), ct: cancellation);
+            index = GetIndexName(index);
+            var result = await _client.Indices.ExistsAsync(index, ct: cancellation);
             return result.Exists;
         }
 
@@ -126,8 +128,8 @@ namespace Bing.Elasticsearch
         /// <param name="cancellationToken">取消令牌</param>
         public async Task<DeleteIndexResponse> DeleteIndexAsync<TDocument>(CancellationToken cancellationToken = default) where TDocument : class
         {
-            var index = GetIndexName<TDocument>();
-            return await _client.Indices.DeleteAsync(index, ct: cancellationToken);
+            var index = Helper.SafeIndexName<TDocument>();
+            return await DeleteIndexAsync(index, cancellationToken);
         }
 
         /// <summary>
@@ -137,7 +139,8 @@ namespace Bing.Elasticsearch
         /// <param name="cancellationToken">取消令牌</param>
         public async Task<DeleteIndexResponse> DeleteIndexAsync(string index, CancellationToken cancellationToken = default)
         {
-            return await _client.Indices.DeleteAsync(_resolver.GetIndexName(index), ct: cancellationToken);
+            index = GetIndexName(index);
+            return await _client.Indices.DeleteAsync(index, ct: cancellationToken);
         }
 
         /// <summary>
@@ -158,7 +161,8 @@ namespace Bing.Elasticsearch
         /// 删除全部索引
         /// </summary>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<DeleteIndexResponse> DeleteAllIndexAsync(CancellationToken cancellationToken = default) => await _client.Indices.DeleteAsync("_all",ct:cancellationToken);
+        public async Task<DeleteIndexResponse> DeleteAllIndexAsync(CancellationToken cancellationToken = default) =>
+            await _client.Indices.DeleteAsync("_all", ct: cancellationToken);
 
         /// <summary>
         /// 添加索引列表到别名
@@ -170,7 +174,7 @@ namespace Bing.Elasticsearch
             if (alias.IsEmpty())
                 return;
             foreach (var index in indexes) 
-                await _client.Indices.PutAliasAsync(_resolver.GetIndexName(index), alias);
+                await _client.Indices.PutAliasAsync(GetIndexName(index), alias);
         }
 
         /// <summary>
@@ -183,7 +187,7 @@ namespace Bing.Elasticsearch
             if(alias.IsEmpty())
                 return;
             foreach (var index in indexes) 
-                await _client.Indices.DeleteAliasAsync(_resolver.GetIndexName(index), alias);
+                await _client.Indices.DeleteAliasAsync(GetIndexName(index), alias);
         }
 
         /// <summary>
@@ -191,49 +195,123 @@ namespace Bing.Elasticsearch
         /// </summary>
         /// <typeparam name="TDocument">文档类型</typeparam>
         /// <param name="index">索引名称。注意：必须小写</param>
-        public string GetIndexName<TDocument>(string index = null)
-        {
-            if (index.IsEmpty() == false)
-                return _resolver.GetIndexName(index);
-            return _resolver.GetIndexName(typeof(TDocument).Name.ToLower());
-        }
+        public string GetIndexName<TDocument>(string index = null) => _resolver.GetIndexName(index);
 
         /// <summary>
-        /// 获取ES标识
+        /// 获取索引名称
         /// </summary>
-        /// <param name="id">标识</param>
-        public Id GetEsId(object id)
-        {
-            Id entityId;
-            switch (id)
-            {
-                case long longId:
-                    entityId = new Id(longId);
-                    break;
-                case string stringId:
-                    entityId = new Id(stringId);
-                    break;
-                default:
-                    entityId = new Id(id);
-                    break;
-            }
-
-            return entityId;
-        }
+        /// <param name="index">索引名称。注意：必须小写</param>
+        public string GetIndexName(string index) => _resolver.GetIndexName(index);
 
         /// <summary>
         /// 获取全部数据。
         /// </summary>
-        /// <typeparam name="TResult">结果类型</typeparam>
+        /// <typeparam name="TDocument">文档类型</typeparam>
         /// <param name="index">索引名称。注意：必须小写</param>
         /// <param name="cancellationToken">取消令牌</param>
         /// <remarks>说明：最多返回10000条</remarks>
-        public async Task<List<TResult>> GetAllAsync<TResult>(string index = null, CancellationToken cancellationToken = default) where TResult : class
+        public async Task<List<TDocument>> GetAllAsync<TDocument>(string index = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
         {
-            index = GetIndexName<TResult>(index);
-            var result = await _client.SearchAsync<TResult>(s => s.Index(index).Size(10000).Query(q => q.MatchAll()),
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            var result = await _client.SearchAsync<TDocument>(s => s.Index(index).Size(10000).Query(q => q.MatchAll()),
                 cancellationToken);
             return result.Documents.ToList();
+        }
+
+        /// <summary>
+        /// 通过标识查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="id">文档标识</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<TDocument> FindByIdAsync<TDocument>(object id, string index = null, CancellationToken cancellationToken = default) where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            var response = await _client.GetAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index), cancellationToken);
+            return response.IsValid ? response.Source : null;
+        }
+
+        /// <summary>
+        /// 通过标识集合查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="ids">文档标识集合</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<IEnumerable<TDocument>> FindByIdsAsync<TDocument>(IEnumerable<string> ids, string index = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            var result = new List<TDocument>();
+            var response = await _client.GetManyAsync<TDocument>(ids, index, cancellationToken);
+            if ((response?.Count() ?? 0) != 0)
+                result.AddRange(response.Select(x => x.Source));
+            return result;
+        }
+
+        /// <summary>
+        /// 通过标识集合查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="ids">文档标识集合</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<IEnumerable<TDocument>> FindByIdsAsync<TDocument>(IEnumerable<long> ids, string index = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            var result = new List<TDocument>();
+            var response = await _client.GetManyAsync<TDocument>(ids, index, cancellationToken);
+            if ((response?.Count() ?? 0) != 0)
+                result.AddRange(response.Select(x => x.Source));
+            return result;
+        }
+
+        /// <summary>
+        /// 通过标识集合查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="ids">文档标识集合</param>
+        public Task<IEnumerable<TDocument>> FindByIdsAsync<TDocument>(string index, params string[] ids) 
+            where TDocument : class => FindByIdsAsync<TDocument>((IEnumerable<string>)ids, index);
+
+        /// <summary>
+        /// 通过标识集合查找
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="ids">文档标识集合</param>
+        public Task<IEnumerable<TDocument>> FindByIdsAsync<TDocument>(string index, params long[] ids)
+            where TDocument : class => FindByIdsAsync<TDocument>((IEnumerable<long>)ids, index);
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="searchTerms">查询条件</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<ISearchResponse<TDocument>> SearchAsync<TDocument>(Func<QueryContainerDescriptor<TDocument>, QueryContainer> searchTerms = null, string index = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            return await _client.SearchAsync<TDocument>(x => x.Query(searchTerms).Index(index).Size(20),
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="selector">查询表达式</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<ISearchResponse<TDocument>> SearchAsync<TDocument>(Func<SearchDescriptor<TDocument>, ISearchRequest> selector = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
+        {
+            return await _client.SearchAsync<TDocument>(selector, cancellationToken);
         }
 
         /// <summary>
@@ -245,7 +323,7 @@ namespace Bing.Elasticsearch
         /// 获取客户端
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
-        public IElasticClient GetClient<T>() => _provider.GetClient(GetIndexName<T>());
+        public IElasticClient GetClient<T>() => _provider.GetClient(GetIndexName(Helper.SafeIndexName<T>()));
 
         /// <summary>
         /// 添加文档
@@ -258,10 +336,10 @@ namespace Bing.Elasticsearch
         public async Task<IndexResponse> AddAsync<TDocument>(TDocument document, string index = null, object id = null, CancellationToken cancellationToken = default) 
             where TDocument : class
         {
-            index = GetIndexName<TDocument>(index);
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             if (id == null)
                 return await _client.IndexAsync(document, x => x.Index(index), cancellationToken);
-            return await _client.IndexAsync(document, x => x.Index(index).Id(GetEsId(id)), cancellationToken);
+            return await _client.IndexAsync(document, x => x.Index(index).Id(Helper.GetEsId(id)), cancellationToken);
         }
 
         /// <summary>
@@ -272,9 +350,10 @@ namespace Bing.Elasticsearch
         /// <param name="index">索引名称。注意：必须小写</param>
         /// <param name="timeout">超时时间间隔。单位：毫秒，默认值：300000，即5分钟</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<BulkResponse> BulkSaveAsync<TDocument>(IEnumerable<TDocument> documents, string index = null, double timeout = 300000, CancellationToken cancellationToken = default) where TDocument : class
+        public async Task<BulkResponse> BulkSaveAsync<TDocument>(IEnumerable<TDocument> documents, string index = null, double timeout = 300000, CancellationToken cancellationToken = default) 
+            where TDocument : class
         {
-            index = GetIndexName<TDocument>(index);
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             return await _client.BulkAsync(x => x
                     .Index(index)
                     .IndexMany(documents)
@@ -289,10 +368,78 @@ namespace Bing.Elasticsearch
         /// <param name="id">文档标识</param>
         /// <param name="index">索引名称。注意：必须小写</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<DeleteResponse> DeleteAsync<TDocument>(object id, string index = null, CancellationToken cancellationToken = default) where TDocument : class
+        public async Task<DeleteResponse> DeleteAsync<TDocument>(object id, string index = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
         {
-            index = GetIndexName<TDocument>(index);
-            return await _client.DeleteAsync<TDocument>(GetEsId(id), x => x.Index(index), cancellationToken);
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            return await _client.DeleteAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index), cancellationToken);
+        }
+
+        /// <summary>
+        /// 删除文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="document">文档</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<DeleteResponse> DeleteAsync<TDocument>(TDocument document, string index = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            return await _client.DeleteAsync<TDocument>(Helper.GetEsId(document), x => x.Index(index), cancellationToken);
+        }
+
+        /// <summary>
+        /// 按查询条件删除文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="selector">删除表达式</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<DeleteByQueryResponse> DeleteByQueryAsync<TDocument>(Func<DeleteByQueryDescriptor<TDocument>, IDeleteByQueryRequest> selector, CancellationToken cancellationToken = default) where TDocument : class
+        {
+            return await _client.DeleteByQueryAsync(selector, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="document">文档</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<UpdateResponse<TDocument>> UpdateAsync<TDocument>(TDocument document, string index = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            var response = await _client.UpdateAsync<TDocument>(Helper.GetEsId(document), x => x.Index(index).Doc(document), cancellationToken);
+            return response;
+        }
+
+        /// <summary>
+        /// 更新文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="id">文档标识</param>
+        /// <param name="document">文档</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<UpdateResponse<TDocument>> UpdateAsync<TDocument>(object id, TDocument document, string index = null, CancellationToken cancellationToken = default) 
+            where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            var response = await _client.UpdateAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index).Doc(document), cancellationToken);
+            return response;
+        }
+
+        /// <summary>
+        /// 按查询条件更新文档
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="selector">更新表达式</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<UpdateByQueryResponse> UpdateByQueryAsync<TDocument>(Func<UpdateByQueryDescriptor<TDocument>, IUpdateByQueryRequest> selector, CancellationToken cancellationToken = default) where TDocument : class
+        {
+            return await _client.UpdateByQueryAsync(selector, cancellationToken);
         }
     }
 }

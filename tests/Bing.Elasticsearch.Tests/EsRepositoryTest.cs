@@ -75,6 +75,7 @@ namespace Bing.Elasticsearch.Tests
                     "http://10.186.132.138:9200"
                 };
                 o.DefaultIndex = "bing_es_sample";
+                o.Prefix = "bing_sample";
             });
             return services.BuildServiceProvider();
         }
@@ -158,6 +159,28 @@ namespace Bing.Elasticsearch.Tests
         }
 
         [Fact]
+        public async Task Test_DeleteByQueryAsync()
+        {
+            using var scope = ServiceProvider.CreateScope();
+            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
+            var student = _students.First();
+            await resp.InsertAsync(student);
+
+            // 需要延迟一下
+            await Task.Delay(1000);
+
+            var descriptor = new DeleteByQueryDescriptor<StudentSample>();
+            descriptor.Query(q => q
+                .Term(r => r
+                    .Field(f => f.StudentId)
+                    .Value(student.StudentId)));
+            await resp.DeleteByQueryAsync(descriptor);
+
+            var result = await resp.FindByIdAsync(student.StudentId);
+            Assert.Null(result);
+        }
+
+        [Fact]
         public async Task Test_UpdateAsync()
         {
             using var scope = ServiceProvider.CreateScope();
@@ -184,6 +207,33 @@ namespace Bing.Elasticsearch.Tests
 
             var result = await resp.FindByIdAsync(student.StudentId);
             Assert.Equal(student.Name, result.Name);
+            await resp.DeleteAsync(student);
+        }
+
+        [Fact]
+        public async Task Test_UpdateByQueryAsync()
+        {
+            using var scope = ServiceProvider.CreateScope();
+            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
+            var student = _students.First();
+            await resp.InsertAsync(student);
+
+            // 需要延迟一下
+            await Task.Delay(1000);
+
+            var descriptor = new UpdateByQueryDescriptor<StudentSample>();
+            descriptor
+                .Script(s => s
+                    .Source("ctx._source.name='隔壁老王八'")
+                    .Lang("painless"))
+                .Query(q => q
+                    .Term(r => r
+                        .Field(f => f.StudentId)
+                        .Value(student.StudentId)));
+            await resp.UpdateByQueryAsync(descriptor);
+
+            var result = await resp.FindByIdAsync(student.StudentId);
+            Assert.Equal("隔壁老王八", result.Name);
             await resp.DeleteAsync(student);
         }
 
@@ -231,6 +281,8 @@ namespace Bing.Elasticsearch.Tests
             using var scope = ServiceProvider.CreateScope();
             var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             await resp.InsertManyAsync(_students);
+
+            await Task.Delay(1000);
 
             var descriptor = new SearchDescriptor<StudentSample>();
             var result = await resp.SearchAsync(descriptor);
