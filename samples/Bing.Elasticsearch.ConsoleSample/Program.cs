@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Bing.Elasticsearch.Configs;
 using Bing.Elasticsearch.ConsoleSample.Samples;
 using FreeSql;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bing.Elasticsearch.ConsoleSample
 {
@@ -11,14 +12,13 @@ namespace Bing.Elasticsearch.ConsoleSample
         static async Task Main(string[] args)
         {
             Log.Write("启动客户端");
-            var context = new SampleContext();
-            context.Orm =
-                GetFreeSql(
-                    "server=192.168.239.50;port=3306;database=;uid=report;pwd=;charset='utf8mb4';Allow User Variables=true;Connection Timeout=300;default command timeout=300;SslMode=none");
-            context.ESClient = GetESClient();
 
-            await SaveInOutStockProductReportAct.ExecuteAsync(context);
-            //await QueryInOutStockProductReportAct.ExecuteAsync(context);
+            var serviceProvider = GetServiceProvider();
+            using var scope = serviceProvider.CreateScope();
+            var context = scope.ServiceProvider.GetService<SampleContext>();
+            //await SaveInOutStockProductReportAct.ExecuteAsync(context);
+            await QueryInOutStockProductReportAct.ExecuteAsync(context);
+
             Log.Write("执行完毕");
             Console.ReadLine();
         }
@@ -38,16 +38,21 @@ namespace Bing.Elasticsearch.ConsoleSample
             return fsql;
         }
 
-        /// <summary>
-        /// 获取ES客户端
-        /// </summary>
-        // ReSharper disable once InconsistentNaming
-        private static IElasticsearchClient GetESClient()
+        static IServiceProvider GetServiceProvider()
         {
-            return new ElasticsearchClient(new ElasticsearchConfigProvider(new ElasticsearchConfig()
+            var services = new ServiceCollection();
+            services.AddElasticsearch(o =>
             {
-                Urls = "http://10.186.132.138:9200",
-            }));
+                o.Urls = new List<string>
+                {
+                    "http://10.186.132.138:9200"
+                };
+            });
+            services.AddSingleton(GetFreeSql(
+                "server=192.168.239.50;port=3306;database=;uid=report;pwd=;charset='utf8mb4';Allow User Variables=true;Connection Timeout=300;default command timeout=300;SslMode=none"));
+
+            services.AddSingleton<SampleContext>();
+            return services.BuildServiceProvider();
         }
     }
 }

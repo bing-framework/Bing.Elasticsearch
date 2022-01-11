@@ -274,6 +274,25 @@ namespace Bing.Elasticsearch
             CancellationToken cancellationToken = default)
             where TDocument : class;
 
+        /// <summary>
+        /// 是否存在指定文档标识
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="id">文档标识</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<bool> ExistsAsync<TDocument>(object id, string index = null, CancellationToken cancellationToken = default)
+            where TDocument : class;
+
+        /// <summary>
+        /// 获取文档计数
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task<long> GetTotalCountAsync<TDocument>(string index = null, CancellationToken cancellationToken = default)
+            where TDocument : class;
+
         #endregion
 
         #region 辅助操作

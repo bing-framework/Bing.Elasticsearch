@@ -6,7 +6,7 @@ namespace Bing.Elasticsearch.Model
     /// 查询结果
     /// </summary>
     /// <typeparam name="T">实体类型</typeparam>
-    public interface IQueryResult<T>
+    public interface IQueryResult<out T>
     {
         /// <summary>
         /// 总行数

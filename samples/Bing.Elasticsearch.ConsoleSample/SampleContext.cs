@@ -11,13 +11,14 @@
         public IFreeSql Orm { get; set; }
 
         /// <summary>
-        /// ES客户端
-        /// </summary>
-        public IElasticsearchClient ESClient { get; set; }
-
-        /// <summary>
         /// ES上下文
         /// </summary>
         public IElasticsearchContext ESContext { get; set; }
+
+        public SampleContext(IFreeSql orm, IElasticsearchContext context)
+        {
+            Orm = orm;
+            ESContext = context;
+        }
     }
 }

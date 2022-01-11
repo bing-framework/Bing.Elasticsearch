@@ -39,7 +39,7 @@ namespace Bing.Elasticsearch.Repositories
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
             _client = Context.GetClient();
-            IndexName= typeof(TEntity).Name.ToLower();
+            IndexName = Helper.SafeIndexName<TEntity>(IndexName);
         }
 
         /// <summary>

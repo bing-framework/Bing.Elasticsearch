@@ -1,4 +1,6 @@
-﻿using Bing.Extensions;
+﻿using System;
+using System.Collections.Concurrent;
+using Bing.Extensions;
 using Nest;
 
 namespace Bing.Elasticsearch.Internals
@@ -9,6 +11,11 @@ namespace Bing.Elasticsearch.Internals
     internal static class Helper
     {
         /// <summary>
+        /// 索引缓存字典
+        /// </summary>
+        internal static readonly ConcurrentDictionary<Type, string> IndexCacheDict = new ConcurrentDictionary<Type, string>();
+
+        /// <summary>
         /// 安全获取索引名称
         /// </summary>
         /// <typeparam name="TDocument">文档类型</typeparam>
@@ -17,7 +24,17 @@ namespace Bing.Elasticsearch.Internals
         {
             if (index.IsEmpty() == false)
                 return index;
-            return typeof(TDocument).Name.ToLower();
+            var type = typeof(TDocument);
+            if (!IndexCacheDict.ContainsKey(type))
+            {
+                var elasticsearchTypeAttribute = type.GetAttribute<ElasticsearchTypeAttribute>();
+                if (elasticsearchTypeAttribute != null)
+                    IndexCacheDict[type] = elasticsearchTypeAttribute.RelationName;
+                else
+                    IndexCacheDict[type] = type.Name.ToLower();
+            }
+
+            return IndexCacheDict[type];
         }
 
         /// <summary>

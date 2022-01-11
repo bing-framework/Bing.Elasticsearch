@@ -8,6 +8,7 @@ using Bing.Elasticsearch.Options;
 using Bing.Elasticsearch.Provider;
 using Bing.Elasticsearch.Repositories;
 using Bing.Extensions;
+using Elasticsearch.Net;
 using Microsoft.Extensions.Options;
 using Nest;
 
@@ -440,6 +441,36 @@ namespace Bing.Elasticsearch
         public async Task<UpdateByQueryResponse> UpdateByQueryAsync<TDocument>(Func<UpdateByQueryDescriptor<TDocument>, IUpdateByQueryRequest> selector, CancellationToken cancellationToken = default) where TDocument : class
         {
             return await _client.UpdateByQueryAsync(selector, cancellationToken);
+        }
+
+        /// <summary>
+        /// 是否存在指定文档标识
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="id">文档标识</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<bool> ExistsAsync<TDocument>(object id, string index = null, CancellationToken cancellationToken = default) where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            var response = await _client.DocumentExistsAsync<TDocument>(Helper.GetEsId(id), ct: cancellationToken);
+            return response.Exists;
+        }
+
+        /// <summary>
+        /// 获取文档计数
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public async Task<long> GetTotalCountAsync<TDocument>(string index = null, CancellationToken cancellationToken = default) where TDocument : class
+        {
+            index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
+            var search = new SearchDescriptor<TDocument>().MatchAll();
+            var response = await _client.SearchAsync<TDocument>(search, cancellationToken);
+            if (response.IsValid)
+                return response.Total;
+            throw new ElasticsearchClientException($"索引[{index}]获取文档计数失败 : {response.ServerError.Error.Reason}");
         }
     }
 }

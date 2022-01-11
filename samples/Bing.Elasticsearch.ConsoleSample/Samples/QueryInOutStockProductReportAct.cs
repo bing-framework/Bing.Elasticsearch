@@ -23,7 +23,7 @@ namespace Bing.Elasticsearch.ConsoleSample.Samples
             var indexName = $"test_{nameof(InOutStockProductReport).ToSnakeCase()}_*";
 
             var result =
-                await context.ESClient.QueryAsync<InOutStockProductReportEo>(indexName, "barcode", "6934665093029");
+                await context.ESContext.GetAllAsync<InOutStockProductReportEo>(indexName);
 
             foreach (var item in result) Log.Write(JsonHelper.ToJson(item));
         }

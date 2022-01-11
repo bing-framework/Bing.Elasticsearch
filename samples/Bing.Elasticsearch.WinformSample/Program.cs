@@ -18,7 +18,7 @@ namespace Bing.Elasticsearch.WinformSample
             Application.SetCompatibleTextRenderingDefault(false);
 
             var serviceProvider = GetServiceProvider();
-            using var scope=serviceProvider.CreateScope();
+            using var scope = serviceProvider.CreateScope();
             Application.Run(scope.ServiceProvider.GetService<Form1>());
         }
 
