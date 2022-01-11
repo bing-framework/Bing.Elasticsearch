@@ -1,0 +1,1353 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bing.Elasticsearch</name>
+    </assembly>
+    <members>
+        <member name="T:Bing.Elasticsearch.ElasticsearchContext">
+            <summary>
+            ES上下文
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ElasticsearchContext._provider">
+            <summary>
+            ES客户端提供程序
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ElasticsearchContext._resolver">
+            <summary>
+            索引名称解析器
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ElasticsearchContext._client">
+            <summary>
+            ES客户端
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ElasticsearchContext._options">
+            <summary>
+            ES选项配置
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.#ctor(Bing.Elasticsearch.Provider.IElasticClientProvider,Bing.Elasticsearch.Repositories.IIndexNameResolver,Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions})">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.ElasticsearchContext"/>类型的实例
+            </summary>
+            <param name="provider">ES客户端提供程序</param>
+            <param name="resolver">索引名称解析器</param>
+            <param name="options">ES选项配置</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.AliasExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            是否存在指定索引别名
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.IndexExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            是否存在指定索引名称
+            </summary>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellation">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.GetIndexesByAliasAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            获取索引名称列表
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.CreateIndexAsync(System.String,System.String,System.Func{Nest.CreateIndexDescriptor,Nest.ICreateIndexRequest},System.Threading.CancellationToken)">
+            <summary>
+            创建索引
+            </summary>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="selector">映射操作</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.CreateIndexAsync``1(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            创建索引
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteIndexAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            删除索引
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteIndexAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            删除索引
+            </summary>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteIndexesByAliasAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            通过别名删除索引集合
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteAllIndexAsync(System.Threading.CancellationToken)">
+            <summary>
+            删除全部索引
+            </summary>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.AddIndexesToAliasAsync(System.String,System.String[])">
+            <summary>
+            添加索引列表到别名
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="indexes">索引名称列表。注意：必须小写</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.RemoveIndexesFromAliasAsync(System.String,System.String[])">
+            <summary>
+            从别名中移除索引列表
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="indexes">索引名称列表。注意：必须小写</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.GetIndexName``1(System.String)">
+            <summary>
+            获取索引名称
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.GetIndexName(System.String)">
+            <summary>
+            获取索引名称
+            </summary>
+            <param name="index">索引名称。注意：必须小写</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.GetAllAsync``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            获取全部数据。
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+            <remarks>说明：最多返回10000条</remarks>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.FindByIdAsync``1(System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            通过标识查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="id">文档标识</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.FindByIdsAsync``1(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="ids">文档标识集合</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.FindByIdsAsync``1(System.Collections.Generic.IEnumerable{System.Int64},System.String,System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="ids">文档标识集合</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.FindByIdsAsync``1(System.String,System.String[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="ids">文档标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.FindByIdsAsync``1(System.String,System.Int64[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="ids">文档标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.SearchAsync``1(System.Func{Nest.QueryContainerDescriptor{``0},Nest.QueryContainer},System.String,System.Threading.CancellationToken)">
+            <summary>
+            查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="searchTerms">查询条件</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.SearchAsync``1(System.Func{Nest.SearchDescriptor{``0},Nest.ISearchRequest},System.Threading.CancellationToken)">
+            <summary>
+            查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="selector">查询表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.GetClient">
+            <summary>
+            获取客户端
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.GetClient``1">
+            <summary>
+            获取客户端
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.AddAsync``1(``0,System.String,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            添加文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="document">文档对象</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="id">文档标识</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.BulkSaveAsync``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Double,System.Threading.CancellationToken)">
+            <summary>
+            批量保存文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="documents">文档对象列表</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="timeout">超时时间间隔。单位：毫秒，默认值：300000，即5分钟</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteAsync``1(System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            删除文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="id">文档标识</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteAsync``1(``0,System.String,System.Threading.CancellationToken)">
+            <summary>
+            删除文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="document">文档</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteByQueryAsync``1(System.Func{Nest.DeleteByQueryDescriptor{``0},Nest.IDeleteByQueryRequest},System.Threading.CancellationToken)">
+            <summary>
+            按查询条件删除文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="selector">删除表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.UpdateAsync``1(``0,System.String,System.Threading.CancellationToken)">
+            <summary>
+            更新文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="document">文档</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.UpdateAsync``1(System.Object,``0,System.String,System.Threading.CancellationToken)">
+            <summary>
+            更新文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="id">文档标识</param>
+            <param name="document">文档</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.UpdateByQueryAsync``1(System.Func{Nest.UpdateByQueryDescriptor{``0},Nest.IUpdateByQueryRequest},System.Threading.CancellationToken)">
+            <summary>
+            按查询条件更新文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="selector">更新表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.ExistsAsync``1(System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            是否存在指定文档标识
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="id">文档标识</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.GetTotalCountAsync``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            获取文档计数
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.ElasticsearchException">
+            <summary>
+            Elasticsearch 异常
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchException.#ctor">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.ElasticsearchException"/>类型的实例
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.ElasticsearchException"/>类型的实例
+            </summary>
+            <param name="serializationInfo">序列号信息</param>
+            <param name="context">流上下文</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchException.#ctor(System.String)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.ElasticsearchException"/>类型的实例
+            </summary>
+            <param name="message">错误消息</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchException.#ctor(System.String,System.Exception)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.ElasticsearchException"/>类型的实例
+            </summary>
+            <param name="message">错误消息</param>
+            <param name="innerException">内部异常</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Extensions">
+            <summary>
+            Elasticsearch 扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Extensions.AddElasticsearch(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Bing.Elasticsearch.Options.ElasticsearchOptions})">
+            <summary>
+            注册Elasticsearch日志操作
+            </summary>
+            <param name="services">服务集合</param>
+            <param name="setupAction">配置操作</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.ElasticClientExtensions">
+            <summary>
+            ES客户端(<see cref="T:Nest.IElasticClient"/>) 扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticClientExtensions.CreateIndexAsync``1(Nest.IElasticClient,System.String,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            创建索引
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="client">ES客户端</param>
+            <param name="indexName">索引名</param>
+            <param name="numberOfShards">主分片数量</param>
+            <param name="numberOfReplicas">每个主分片的副分片数量</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.ElasticsearchContextExtensions">
+            <summary>
+            ES上下文扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContextExtensions.SearchAsync``1(Bing.Elasticsearch.IElasticsearchContext,System.String,System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            查询。单一条件查询，一般是精确查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="context">ES上下恩</param>
+            <param name="field">字段名</param>
+            <param name="value">值</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.TextPropertyDescriptorExtensions">
+            <summary>
+            文本属性描述器<see cref="T:Nest.TextPropertyDescriptor`1"/> 扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.TextPropertyDescriptorExtensions.IkAnalyzer``1(Nest.TextPropertyDescriptor{``0})">
+            <summary>
+            设置分析器为 ik_max_word，设置搜索分析器为 ik_smart
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="source">文本属性</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.TextPropertyDescriptorExtensions.MaxWordAnalyzer``1(Nest.TextPropertyDescriptor{``0})">
+            <summary>
+            设置分析器为 ik_max_word
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="source">文本属性</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.TextPropertyDescriptorExtensions.SmartSearchAnalyzer``1(Nest.TextPropertyDescriptor{``0})">
+            <summary>
+            设置搜索分析器为 ik_smart
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="source">文本属性</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.IElasticsearchContext">
+            <summary>
+            ES上下文
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.AliasExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            是否存在指定索引别名
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.IndexExistsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            是否存在指定索引名称
+            </summary>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellation">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.GetIndexesByAliasAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            获取索引名称列表
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.CreateIndexAsync(System.String,System.String,System.Func{Nest.CreateIndexDescriptor,Nest.ICreateIndexRequest},System.Threading.CancellationToken)">
+            <summary>
+            创建索引
+            </summary>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="selector">映射操作</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.CreateIndexAsync``1(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            创建索引
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.DeleteIndexAsync``1(System.Threading.CancellationToken)">
+            <summary>
+            删除索引
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.DeleteIndexAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            删除索引
+            </summary>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.DeleteIndexesByAliasAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            通过别名删除索引集合
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.DeleteAllIndexAsync(System.Threading.CancellationToken)">
+            <summary>
+            删除全部索引
+            </summary>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.AddIndexesToAliasAsync(System.String,System.String[])">
+            <summary>
+            添加索引列表到别名
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="indexes">索引名称列表。注意：必须小写</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.RemoveIndexesFromAliasAsync(System.String,System.String[])">
+            <summary>
+            从别名中移除索引列表
+            </summary>
+            <param name="alias">别名名称。注意：必须小写</param>
+            <param name="indexes">索引名称列表。注意：必须小写</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.GetAllAsync``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            获取全部数据。
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+            <remarks>说明：最多返回10000条</remarks>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.FindByIdAsync``1(System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            通过标识查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="id">文档标识</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.FindByIdsAsync``1(System.Collections.Generic.IEnumerable{System.String},System.String,System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="ids">文档标识集合</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.FindByIdsAsync``1(System.Collections.Generic.IEnumerable{System.Int64},System.String,System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="ids">文档标识集合</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.FindByIdsAsync``1(System.String,System.String[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="ids">文档标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.FindByIdsAsync``1(System.String,System.Int64[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="ids">文档标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.SearchAsync``1(System.Func{Nest.QueryContainerDescriptor{``0},Nest.QueryContainer},System.String,System.Threading.CancellationToken)">
+            <summary>
+            查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="searchTerms">查询条件</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.SearchAsync``1(System.Func{Nest.SearchDescriptor{``0},Nest.ISearchRequest},System.Threading.CancellationToken)">
+            <summary>
+            查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="selector">查询表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.GetClient">
+            <summary>
+            获取客户端
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.GetClient``1">
+            <summary>
+            获取客户端
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.AddAsync``1(``0,System.String,System.Object,System.Threading.CancellationToken)">
+            <summary>
+            添加文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="document">文档对象</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="id">文档标识</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.BulkSaveAsync``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Double,System.Threading.CancellationToken)">
+            <summary>
+            批量保存文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="documents">文档对象列表</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="timeout">超时时间间隔。单位：毫秒，默认值：300000，即5分钟</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.DeleteAsync``1(System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            删除文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="id">文档标识</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.DeleteAsync``1(``0,System.String,System.Threading.CancellationToken)">
+            <summary>
+            删除文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="document">文档</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.DeleteByQueryAsync``1(System.Func{Nest.DeleteByQueryDescriptor{``0},Nest.IDeleteByQueryRequest},System.Threading.CancellationToken)">
+            <summary>
+            按查询条件删除文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="selector">删除表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.UpdateAsync``1(``0,System.String,System.Threading.CancellationToken)">
+            <summary>
+            更新文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="document">文档</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.UpdateAsync``1(System.Object,``0,System.String,System.Threading.CancellationToken)">
+            <summary>
+            更新文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="id">文档标识</param>
+            <param name="document">文档</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.UpdateByQueryAsync``1(System.Func{Nest.UpdateByQueryDescriptor{``0},Nest.IUpdateByQueryRequest},System.Threading.CancellationToken)">
+            <summary>
+            按查询条件更新文档
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="selector">更新表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.ExistsAsync``1(System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            是否存在指定文档标识
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="id">文档标识</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.GetTotalCountAsync``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            获取文档计数
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.GetIndexName``1(System.String)">
+            <summary>
+            获取索引名称
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.GetIndexName(System.String)">
+            <summary>
+            获取索引名称
+            </summary>
+            <param name="index">索引名称。注意：必须小写</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Internals.Helper">
+            <summary>
+            内部帮助类
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Internals.Helper.IndexCacheDict">
+            <summary>
+            索引缓存字典
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Internals.Helper.SafeIndexName``1(System.String)">
+            <summary>
+            安全获取索引名称
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="index">索引名称。注意：必须小写</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Internals.Helper.GetEsId(System.Object)">
+            <summary>
+            获取ES标识
+            </summary>
+            <param name="id">标识</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Model.HighlightParam">
+            <summary>
+            高亮参数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.HighlightParam.Keys">
+            <summary>
+            高亮字段
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.HighlightParam.PreTags">
+            <summary>
+            高亮标签
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.HighlightParam.PostTags">
+            <summary>
+            高亮标签
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.HighlightParam.PrefixOfKey">
+            <summary>
+            高亮字段前缀。
+            例如：title 高亮值赋值给 h_title
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.HighlightParam.ReplaceAuto">
+            <summary>
+            是否替换原来的值
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Model.IPageParam">
+            <summary>
+            分页参数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.IPageParam.Page">
+            <summary>
+            页数，即第几页，从1开始
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.IPageParam.PageSize">
+            <summary>
+            每页显示行数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.IPageParam.Keyword">
+            <summary>
+            关键词
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Model.IPageParam.GetSkipCount">
+            <summary>
+            获取跳过的行数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.IPageParam.Operator">
+            <summary>
+            运算符
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.IPageParam.Highlight">
+            <summary>
+            高亮参数
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Model.PageParam">
+            <summary>
+            分页参数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.PageParam.Page">
+            <summary>
+            页数，即第几页，从1开始
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.PageParam.PageSize">
+            <summary>
+            每页显示行数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.PageParam.Keyword">
+            <summary>
+            关键词
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Model.PageParam.GetSkipCount">
+            <summary>
+            获取跳过的行数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.PageParam.Operator">
+            <summary>
+            运算符
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.PageParam.Highlight">
+            <summary>
+            高亮参数
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Model.PageParamWithSearch">
+            <summary>
+            指定字段查询
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.PageParamWithSearch.SearchKeys">
+            <summary>
+            查询字段列表
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Model.IQueryResult`1">
+            <summary>
+            查询结果
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.IQueryResult`1.TotalCount">
+            <summary>
+            总行数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.IQueryResult`1.Took">
+            <summary>
+            查询占用时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.IQueryResult`1.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Model.CustomQueryResult`1">
+            <summary>
+            自定义查询结果
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.CustomQueryResult`1.TotalCount">
+            <summary>
+            总行数
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.CustomQueryResult`1.Took">
+            <summary>
+            查询占用时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Model.CustomQueryResult`1.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Options.ElasticsearchConnectionPoolType">
+            <summary>
+            ES 连接池类型。
+            支持ping-说明能够发现节点的状态；
+            支持嗅探-说明能够发现新的节点
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Options.ElasticsearchConnectionPoolType.Static">
+            <summary>
+            静态连接池。推荐使用，应用于已知集群，请求时随机请求各个正常节点，支持ping，不支持嗅探
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Options.ElasticsearchConnectionPoolType.SingleNode">
+            <summary>
+            单节点连接池
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Options.ElasticsearchConnectionPoolType.Sniffing">
+            <summary>
+            嗅探连接池。可动态嗅探集群，随机请求，支持嗅探、ping
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Options.ElasticsearchConnectionPoolType.Sticky">
+            <summary>
+            固定连接池。选择一个可用节点作为请求主节点，支持ping，不支持嗅探
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Options.ElasticsearchConnectionPoolType.StickySniffing">
+            <summary>
+            固定嗅探连接池。选择一个可用节点作为请求主节点，支持ping，支持嗅探
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Options.ElasticsearchOptions">
+            <summary>
+            ES选项配置
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.Urls">
+            <summary>
+            ES服务地址
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.DefaultIndex">
+            <summary>
+            默认索引名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.Version">
+            <summary>
+            ES版本(默认>=7.0)
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.DisableDebugInfo">
+            <summary>
+            是否禁用调试信息
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.ThrowExceptions">
+            <summary>
+            抛出异常。默认：false，错误信息在每个操作的response中
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.DisablePing">
+            <summary>
+            是否禁用ping。禁用ping，第一次使用节点或使用被标记死亡的节点进行ping
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.PoolType">
+            <summary>
+            连接池类型
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.NumberOfShards">
+            <summary>
+            主分片数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.NumberOfReplicas">
+            <summary>
+            每个主分片的副分片数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.Prefix">
+            <summary>
+            索引名称前缀
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Options.ElasticsearchOptions.IsCompatibleVersion">
+            <summary>
+            兼容版本(>=7.0)
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Options.ElasticsearchOptions.Validate(Bing.Elasticsearch.Options.ElasticsearchOptions)">
+            <summary>
+            验证配置是否有效
+            </summary>
+            <param name="options">ES选项配置</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Provider.ElasticClientProvider">
+            <summary>
+            ES客户端提供程序
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Provider.ElasticClientProvider._options">
+            <summary>
+            ES选项配置
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Provider.ElasticClientProvider._connectionPool">
+            <summary>
+            ES连接池
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Provider.ElasticClientProvider._esClientDict">
+            <summary>
+            ES客户端字典
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.ElasticClientProvider.#ctor(Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions})">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Provider.ElasticClientProvider"/>类型的实例
+            </summary>
+            <param name="options">ES选项配置</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.ElasticClientProvider.CreateConnectionPool">
+            <summary>
+            创建连接池
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.ElasticClientProvider.ConfigSettings(Nest.ConnectionSettings)">
+            <summary>
+            配置连接设置
+            </summary>
+            <param name="settings">连接设置</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.ElasticClientProvider.GetClient">
+            <summary>
+            获取ES客户端
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.ElasticClientProvider.GetClient(System.String)">
+            <summary>
+            获取ES客户端
+            </summary>
+            <param name="indexName">索引名</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.ElasticClientProvider.GetLowLowLevelClient(System.String)">
+            <summary>
+            获取降级后的ES客户端
+            </summary>
+            <param name="indexName">索引名</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Provider.IElasticClientProvider">
+            <summary>
+            ES客户端提供程序
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.IElasticClientProvider.GetClient">
+            <summary>
+            获取ES客户端
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.IElasticClientProvider.GetClient(System.String)">
+            <summary>
+            获取ES客户端
+            </summary>
+            <param name="indexName">索引名</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Provider.IElasticClientProvider.GetLowLowLevelClient(System.String)">
+            <summary>
+            获取降级后的ES客户端
+            </summary>
+            <param name="indexName">索引名</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Repositories.EsRepository`1">
+            <summary>
+            ES仓储基类
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+        </member>
+        <member name="F:Bing.Elasticsearch.Repositories.EsRepository`1._client">
+            <summary>
+            ES客户端
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Repositories.EsRepository`1.Context">
+            <summary>
+            ES上下文
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Repositories.EsRepository`1.IndexName">
+            <summary>
+            索引名称
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.#ctor(Bing.Elasticsearch.IElasticsearchContext)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Repositories.EsRepository`1"/>类型的实例
+            </summary>
+            <param name="context">ES上下文</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.InsertAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            插入
+            </summary>
+            <param name="entity">实体</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.InsertManyAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            批量插入
+            </summary>
+            <param name="entities">实体集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.BulkAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            批量操作
+            </summary>
+            <param name="entities">实体集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.DeleteAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            删除
+            </summary>
+            <param name="entity">实体</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.DeleteAsync(System.Object,System.Threading.CancellationToken)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">标识</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.DeleteByQueryAsync(Nest.DeleteByQueryDescriptor{`0},System.Threading.CancellationToken)">
+            <summary>
+            按查询条件删除
+            </summary>
+            <param name="descriptor">查询删除描述符</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.UpdateAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            更新
+            </summary>
+            <param name="entity">实体</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.UpdateAsync(System.Object,`0,System.Threading.CancellationToken)">
+            <summary>
+            更新
+            </summary>
+            <param name="id">标识</param>
+            <param name="entity">实体</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.UpdateByQueryAsync(Nest.UpdateByQueryDescriptor{`0},System.Threading.CancellationToken)">
+            <summary>
+            按查询条件更新
+            </summary>
+            <param name="descriptor">查询更新描述符</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.FindByIdAsync(System.Object,System.Threading.CancellationToken)">
+            <summary>
+            通过标识查找
+            </summary>
+            <param name="id">标识</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.FindByIdsAsync(System.String[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.FindByIdsAsync(System.Int64[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.FindByIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.FindByIdsAsync(System.Collections.Generic.IEnumerable{System.Int64},System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.SearchAsync(Nest.SearchDescriptor{`0},System.Threading.CancellationToken)">
+            <summary>
+            查询
+            </summary>
+            <param name="descriptor">查询描述器</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.HitsSearchAsync(Nest.SearchDescriptor{`0},System.Threading.CancellationToken)">
+            <summary>
+            命中查询
+            </summary>
+            <param name="descriptor">查询描述符</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.AggregationsSearchAsync(Nest.SearchDescriptor{`0},System.String,System.Threading.CancellationToken)">
+            <summary>
+            聚合查询
+            </summary>
+            <param name="descriptor">查询描述符</param>
+            <param name="key">键名</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.GetContext">
+            <summary>
+            获取ES上下文
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.ExistOrCreateAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            不存在则创建
+            </summary>
+            <param name="indexName">索引名称</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Repositories.IEsRepository`1">
+            <summary>
+            ES仓储
+            </summary>
+            <typeparam name="TEntity">实体类类型</typeparam>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.InsertAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            插入
+            </summary>
+            <param name="entity">实体</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.InsertManyAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            批量插入
+            </summary>
+            <param name="entities">实体集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.BulkAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            批量操作
+            </summary>
+            <param name="entities">实体集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.DeleteAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            删除
+            </summary>
+            <param name="entity">实体</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.DeleteAsync(System.Object,System.Threading.CancellationToken)">
+            <summary>
+            删除
+            </summary>
+            <param name="id">标识</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.DeleteByQueryAsync(Nest.DeleteByQueryDescriptor{`0},System.Threading.CancellationToken)">
+            <summary>
+            按查询条件删除
+            </summary>
+            <param name="descriptor">查询删除描述符</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.UpdateAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            更新
+            </summary>
+            <param name="entity">实体</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.UpdateAsync(System.Object,`0,System.Threading.CancellationToken)">
+            <summary>
+            更新
+            </summary>
+            <param name="id">标识</param>
+            <param name="entity">实体</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.UpdateByQueryAsync(Nest.UpdateByQueryDescriptor{`0},System.Threading.CancellationToken)">
+            <summary>
+            按查询条件更新
+            </summary>
+            <param name="descriptor">查询更新描述符</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdAsync(System.Object,System.Threading.CancellationToken)">
+            <summary>
+            通过标识查找
+            </summary>
+            <param name="id">标识</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdsAsync(System.String[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdsAsync(System.Int64[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdsAsync(System.Collections.Generic.IEnumerable{System.Int64},System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.SearchAsync(Nest.SearchDescriptor{`0},System.Threading.CancellationToken)">
+            <summary>
+            查询
+            </summary>
+            <param name="descriptor">查询描述器</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.HitsSearchAsync(Nest.SearchDescriptor{`0},System.Threading.CancellationToken)">
+            <summary>
+            命中查询
+            </summary>
+            <param name="descriptor">查询描述符</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.AggregationsSearchAsync(Nest.SearchDescriptor{`0},System.String,System.Threading.CancellationToken)">
+            <summary>
+            聚合查询
+            </summary>
+            <param name="descriptor">查询描述符</param>
+            <param name="key">键名</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.GetContext">
+            <summary>
+            获取ES上下文
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Repositories.IIndexNameResolver">
+            <summary>
+            索引名称解析器
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IIndexNameResolver.GetIndexName(System.String)">
+            <summary>
+            获取索引名称
+            </summary>
+            <param name="indexName">索引名称</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Repositories.IndexNameResolver">
+            <summary>
+            索引名称解析器
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Repositories.IndexNameResolver._options">
+            <summary>
+            ES选项配置
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IndexNameResolver.#ctor(Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions})">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Repositories.IndexNameResolver"/>类型的实例
+            </summary>
+            <param name="options">ES选项配置</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IndexNameResolver.GetIndexName(System.String)">
+            <summary>
+            获取索引名称
+            </summary>
+            <param name="indexName">索引名称</param>
+        </member>
+    </members>
+</doc>

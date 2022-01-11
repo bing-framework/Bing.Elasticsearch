@@ -5,11 +5,6 @@ VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Elasticsearch", "src\Bing.Elasticsearch\Bing.Elasticsearch.csproj", "{A1DDAB86-3F28-486A-AD74-CDAB7F94EA7B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-document", "00-document", "{D2D3E8A4-250B-4FD5-A523-7C510C80CABE}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-src", "01-src", "{5AE80A89-12CD-40B2-8C1F-44B93E189063}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-tests", "02-tests", "{A7F27E6A-30F8-49C4-B1F6-BA92354222C1}"
@@ -21,6 +16,31 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Elasticsearch.ConsoleSample", "samples\Bing.Elasticsearch.ConsoleSample\Bing.Elasticsearch.ConsoleSample.csproj", "{E43DDCA3-A4DE-46D7-918D-37F960D06B28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Elasticsearch.WinformSample", "samples\Bing.Elasticsearch.WinformSample\Bing.Elasticsearch.WinformSample.csproj", "{081A8A4B-6730-4646-8263-703D686DE866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Extensions.Elasticsearch", "src\Bing.Extensions.Elasticsearch\Bing.Extensions.Elasticsearch.csproj", "{48567761-E7E4-4C07-AD42-A91A870342BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{69DE1812-2212-49D3-AE5B-5879E808409D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		common.props = common.props
+		LICENSE = LICENSE
+		Publish.bat = Publish.bat
+		README.md = README.md
+		version.props = version.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{A810AF16-6D16-4575-B8C1-407020AC3D51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EF57FEDA-1AA5-481C-83D9-762D46465A6E}"
+	ProjectSection(SolutionItems) = preProject
+		asset\images\icon.png = asset\images\icon.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{DC7CEC85-7D6A-4EF8-812F-28DD8B366909}"
+	ProjectSection(SolutionItems) = preProject
+		asset\props\misc.props = asset\props\misc.props
+		asset\props\package.props = asset\props\package.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +64,10 @@ Global
 		{081A8A4B-6730-4646-8263-703D686DE866}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{081A8A4B-6730-4646-8263-703D686DE866}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{081A8A4B-6730-4646-8263-703D686DE866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48567761-E7E4-4C07-AD42-A91A870342BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48567761-E7E4-4C07-AD42-A91A870342BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48567761-E7E4-4C07-AD42-A91A870342BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48567761-E7E4-4C07-AD42-A91A870342BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +77,10 @@ Global
 		{360120C9-92F1-400B-8A8E-C9570CFA7CC3} = {A7F27E6A-30F8-49C4-B1F6-BA92354222C1}
 		{E43DDCA3-A4DE-46D7-918D-37F960D06B28} = {72B2A1A6-7745-4A1B-91D0-514AC55E6A6A}
 		{081A8A4B-6730-4646-8263-703D686DE866} = {72B2A1A6-7745-4A1B-91D0-514AC55E6A6A}
+		{48567761-E7E4-4C07-AD42-A91A870342BC} = {5AE80A89-12CD-40B2-8C1F-44B93E189063}
+		{A810AF16-6D16-4575-B8C1-407020AC3D51} = {69DE1812-2212-49D3-AE5B-5879E808409D}
+		{EF57FEDA-1AA5-481C-83D9-762D46465A6E} = {A810AF16-6D16-4575-B8C1-407020AC3D51}
+		{DC7CEC85-7D6A-4EF8-812F-28DD8B366909} = {A810AF16-6D16-4575-B8C1-407020AC3D51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88496F4E-9454-4B28-A676-4F17E15C22D2}

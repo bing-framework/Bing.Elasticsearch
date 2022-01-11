@@ -1,0 +1,9 @@
+﻿<Project>
+	<ItemGroup>
+		<PackageReference Include="Bing.Data" Version="2.2.0-preview-20220104-1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Bing.Elasticsearch\Bing.Elasticsearch.csproj" />
+	</ItemGroup>
+</Project>

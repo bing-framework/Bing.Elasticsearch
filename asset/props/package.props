@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup Label="Package">
+    <Authors>简玄冰</Authors>
+    <Company>简玄冰</Company>
+    <Copyright>简玄冰</Copyright>
+    <RepositoryUrl>https://github.com/bing-framework/Bing.Elasticsearch</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/bing-framework/Bing.Elasticsearch</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>bing;es;elasticsearch;dotnetcore;aspnetcore;</PackageTags>
+  </PropertyGroup>
+</Project>
