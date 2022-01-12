@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bing.Data.Queries;
 using Bing.Elasticsearch.Repositories;
 using Bing.Elasticsearch.Tests.Models;
 using Microsoft.Extensions.DependencyInjection;
