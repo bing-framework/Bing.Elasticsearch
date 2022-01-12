@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Bing.Data.Queries.Conditions;
 using Bing.Extensions;
 using Nest;
 
@@ -223,11 +224,95 @@ namespace Bing.Data.Queries
         }
 
         /// <summary>
+        /// 多字段匹配词条，当值为空时忽略条件
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="expressions">字段表达式列表</param>
+        public EsQuery<TResult> MultiMatchIfNotEmpty(string value, params Expression<Func<TResult, object>>[] expressions)
+        {
+            if (value.IsEmpty())
+                return this;
+            return MultiMatch(value, expressions);
+        }
+
+        /// <summary>
+        /// 匹配范围
+        /// </summary>
+        /// <typeparam name="TProperty">属性类型</typeparam>
+        /// <param name="propertyExpression">属性表达式。范围：t = > t.Age</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <param name="boundary">包含边界</param>
+        public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, int? min, int? max, Boundary boundary = Boundary.Both)
+        {
+            return And(new LongRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary));
+        }
+
+        /// <summary>
+        /// 匹配范围
+        /// </summary>
+        /// <typeparam name="TProperty">属性类型</typeparam>
+        /// <param name="propertyExpression">属性表达式。范围：t = > t.Age</param>
+        /// <param name="condition">该值为true时添加查询条件，否则忽略</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <param name="boundary">包含边界</param>
+        public EsQuery<TResult> BetweenIf<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, bool condition, int? min, int? max = null, Boundary boundary = Boundary.Both)
+        {
+            return condition ? Between(propertyExpression, min, max, boundary) : this;
+        }
+
+        /// <summary>
+        /// 匹配范围
+        /// </summary>
+        /// <typeparam name="TProperty">属性类型</typeparam>
+        /// <param name="propertyExpression">属性表达式。范围：t = > t.Age</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <param name="boundary">包含边界</param>
+        public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, double? min, double? max, Boundary boundary = Boundary.Both)
+        {
+            return And(new DoubleRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary));
+        }
+
+        /// <summary>
+        /// 匹配范围
+        /// </summary>
+        /// <typeparam name="TProperty">属性类型</typeparam>
+        /// <param name="propertyExpression">属性表达式。范围：t = > t.Age</param>
+        /// <param name="condition">该值为true时添加查询条件，否则忽略</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <param name="boundary">包含边界</param>
+        public EsQuery<TResult> BetweenIf<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, bool condition, double? min, double? max = null, Boundary boundary = Boundary.Both)
+        {
+            return condition ? Between(propertyExpression, min, max, boundary) : this;
+        }
+
+        /// <summary>
+        /// 匹配范围
+        /// </summary>
+        /// <typeparam name="TProperty">属性类型</typeparam>
+        /// <param name="propertyExpression">属性表达式。范围：t = > t.Time</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <param name="includeTime">是否包含时间</param>
+        /// <param name="boundary">包含边界</param>
+        public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, DateTime? min, DateTime? max, bool includeTime = true, Boundary? boundary = null)
+        {
+            if (includeTime)
+                return And(new DateTimeRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary ?? Boundary.Both));
+            return And(new DateRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary ?? Boundary.Left));
+        }
+
+        /// <summary>
         /// 获取查询条件
         /// </summary>
         public QueryContainer GetCondition()
         {
-            throw new NotImplementedException();
+            if (_query == null)
+                return new MatchAllQuery();
+            return _query;
         }
     }
 }

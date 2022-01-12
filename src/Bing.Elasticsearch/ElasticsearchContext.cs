@@ -196,7 +196,7 @@ namespace Bing.Elasticsearch
         /// </summary>
         /// <typeparam name="TDocument">文档类型</typeparam>
         /// <param name="index">索引名称。注意：必须小写</param>
-        public string GetIndexName<TDocument>(string index = null) => _resolver.GetIndexName(index);
+        public string GetIndexName<TDocument>(string index = null) => _resolver.GetIndexName(Helper.SafeIndexName<TDocument>(index));
 
         /// <summary>
         /// 获取索引名称

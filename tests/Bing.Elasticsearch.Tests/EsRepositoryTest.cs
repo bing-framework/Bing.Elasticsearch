@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bing.Data.Queries;
 using Bing.Elasticsearch.Repositories;
 using Bing.Elasticsearch.Tests.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -281,9 +282,8 @@ namespace Bing.Elasticsearch.Tests
             using var scope = ServiceProvider.CreateScope();
             var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             await resp.InsertManyAsync(_students);
-
             await Task.Delay(1000);
-
+            var context = scope.ServiceProvider.GetService<IElasticsearchContext>();
             var descriptor = new SearchDescriptor<StudentSample>();
             var result = await resp.SearchAsync(descriptor);
             Assert.Equal(_students.Count, result.TotalCount);

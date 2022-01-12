@@ -118,7 +118,7 @@ namespace Bing.Elasticsearch.Repositories
         public async Task DeleteByQueryAsync(DeleteByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
-            descriptor = descriptor.Index(Context.GetIndexName<TEntity>(IndexName));
+            descriptor = descriptor.Index(Context.GetIndexName(IndexName));
             Func<DeleteByQueryDescriptor<TEntity>, IDeleteByQueryRequest> selector = x => descriptor;
             var response = await Context.DeleteByQueryAsync(selector, cancellationToken);
             if(!response.IsValid)
@@ -160,7 +160,7 @@ namespace Bing.Elasticsearch.Repositories
         public async Task UpdateByQueryAsync(UpdateByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
-            descriptor = descriptor.Index(Context.GetIndexName<TEntity>(IndexName));
+            descriptor = descriptor.Index(Context.GetIndexName(IndexName));
             Func<UpdateByQueryDescriptor<TEntity>, IUpdateByQueryRequest> selector = x => descriptor;
             var response = await Context.UpdateByQueryAsync(selector, cancellationToken);
             if (!response.IsValid)
