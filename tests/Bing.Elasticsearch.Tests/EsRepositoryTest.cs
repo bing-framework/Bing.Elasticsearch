@@ -72,7 +72,9 @@ namespace Bing.Elasticsearch.Tests
             {
                 o.Urls = new List<string>
                 {
-                    "http://10.186.132.138:9200"
+                    "http://10.186.135.120:9200",
+                    "http://10.186.135.125:9200",
+                    "http://10.186.135.135:9200",
                 };
                 o.DefaultIndex = "bing_es_sample";
                 o.Prefix = "bing_sample";

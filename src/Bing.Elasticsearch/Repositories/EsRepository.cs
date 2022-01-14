@@ -279,6 +279,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="cancellationToken">取消令牌</param>
         protected async Task ExistOrCreateAsync(string indexName, CancellationToken cancellationToken = default)
         {
+            indexName = Context.GetIndexName(indexName);
             var result = await _client.Indices.ExistsAsync(indexName, null, cancellationToken);
             if (result.Exists)
                 return;
