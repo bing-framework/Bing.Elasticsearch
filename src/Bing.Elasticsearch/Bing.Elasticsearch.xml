@@ -938,7 +938,7 @@
         </member>
         <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.Prefix">
             <summary>
-            索引名称前缀
+            索引前缀（防止索引名称重复）
             </summary>
         </member>
         <member name="M:Bing.Elasticsearch.Options.ElasticsearchOptions.IsCompatibleVersion">

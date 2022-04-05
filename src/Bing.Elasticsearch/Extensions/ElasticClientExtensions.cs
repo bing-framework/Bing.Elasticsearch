@@ -34,12 +34,11 @@ namespace Bing.Elasticsearch
 
             var result = await client.Indices.CreateAsync(
                 indexName,
-                x => x.Index(indexName)
+                x => x.Map<T>(m=>m.AutoMap())
                     .Settings(o =>
                         o.NumberOfShards(numberOfShards)
                             .NumberOfReplicas(numberOfReplicas)
-                            .Setting("max_result_window", int.MaxValue))
-                    .Map(m => m.AutoMap<T>()),
+                            .Setting("max_result_window", int.MaxValue)),
                 cancellationToken);
             if (!result.Acknowledged)
                 throw new ElasticsearchException($"索引[{indexName}]创建失败：{result.ServerError.Error.Reason}");

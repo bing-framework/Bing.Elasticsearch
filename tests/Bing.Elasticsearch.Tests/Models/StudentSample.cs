@@ -17,5 +17,7 @@ namespace Bing.Elasticsearch.Tests.Models
         public DateTime BirthDay { get; set; }
 
         public bool IsValid { get; set; }
+
+        public Guid UserId { get; set; }
     }
 }
