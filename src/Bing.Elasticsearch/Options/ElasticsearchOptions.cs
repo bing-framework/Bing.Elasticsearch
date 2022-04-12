@@ -70,6 +70,11 @@ namespace Bing.Elasticsearch.Options
         public string Prefix { get; set; }
 
         /// <summary>
+        /// 是否检查索引
+        /// </summary>
+        public bool CheckIndex { get; set; } = true;
+
+        /// <summary>
         /// 兼容版本(>=7.0)
         /// </summary>
         public bool IsCompatibleVersion()

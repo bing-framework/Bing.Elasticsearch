@@ -1,4 +1,5 @@
 ﻿using System;
+using Bing.Elasticsearch.Mapping;
 using Bing.Elasticsearch.Options;
 using Bing.Elasticsearch.Provider;
 using Bing.Elasticsearch.Repositories;
@@ -20,9 +21,12 @@ namespace Bing.Elasticsearch
         public static void AddElasticsearch(this IServiceCollection services, Action<ElasticsearchOptions> setupAction)
         {
             services.Configure(setupAction);
+            services.GetOrAddAllAssemblyFinder();
+            services.GetOrAddTypeFinder<IElasticMappingTypeFinder>(assemblyFinder => new ElasticMappingTypeFinder(assemblyFinder));
             services.TryAddSingleton<IIndexNameResolver, IndexNameResolver>();
             services.TryAddSingleton<IElasticClientProvider, ElasticClientProvider>();
             services.TryAddScoped<IElasticsearchContext, ElasticsearchContext>();
+            services.TryAddSingleton<IElasticMappingFactory, ElasticMappingFactory>();
             services.TryAddScoped(typeof(IEsRepository<>), typeof(EsRepository<>));
         }
     }

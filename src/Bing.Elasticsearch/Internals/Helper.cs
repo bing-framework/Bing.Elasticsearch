@@ -20,11 +20,17 @@ namespace Bing.Elasticsearch.Internals
         /// </summary>
         /// <typeparam name="TDocument">文档类型</typeparam>
         /// <param name="index">索引名称。注意：必须小写</param>
-        public static string SafeIndexName<TDocument>(string index = null)
+        public static string SafeIndexName<TDocument>(string index = null) => SafeIndexName(typeof(TDocument), index);
+
+        /// <summary>
+        /// 安全获取索引名称
+        /// </summary>
+        /// <param name="type">文档类型</param>
+        /// <param name="index">索引名称。注意：必须小写</param>
+        public static string SafeIndexName(Type type, string index = null)
         {
             if (index.IsEmpty() == false)
                 return index;
-            var type = typeof(TDocument);
             if (!IndexCacheDict.ContainsKey(type))
             {
                 var elasticsearchTypeAttribute = type.GetAttribute<ElasticsearchTypeAttribute>();

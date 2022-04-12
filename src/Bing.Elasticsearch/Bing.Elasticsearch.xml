@@ -29,12 +29,18 @@
             ES选项配置
             </summary>
         </member>
-        <member name="M:Bing.Elasticsearch.ElasticsearchContext.#ctor(Bing.Elasticsearch.Provider.IElasticClientProvider,Bing.Elasticsearch.Repositories.IIndexNameResolver,Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions})">
+        <member name="F:Bing.Elasticsearch.ElasticsearchContext._mappingFactory">
+            <summary>
+            ES映射工厂
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.#ctor(Bing.Elasticsearch.Provider.IElasticClientProvider,Bing.Elasticsearch.Repositories.IIndexNameResolver,Bing.Elasticsearch.Mapping.IElasticMappingFactory,Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions})">
             <summary>
             初始化一个<see cref="T:Bing.Elasticsearch.ElasticsearchContext"/>类型的实例
             </summary>
             <param name="provider">ES客户端提供程序</param>
             <param name="resolver">索引名称解析器</param>
+            <param name="mappingFactory">ES映射工厂</param>
             <param name="options">ES选项配置</param>
         </member>
         <member name="M:Bing.Elasticsearch.ElasticsearchContext.AliasExistsAsync(System.String,System.Threading.CancellationToken)">
@@ -356,6 +362,16 @@
             <param name="indexName">索引名</param>
             <param name="numberOfShards">主分片数量</param>
             <param name="numberOfReplicas">每个主分片的副分片数量</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticClientExtensions.CreateIndexAsync``1(Nest.IElasticClient,Bing.Elasticsearch.Mapping.IElasticMappingFactory,System.String,System.Threading.CancellationToken)">
+            <summary>
+            创建索引
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="client">ES客户端</param>
+            <param name="factory">ES映射工厂</param>
+            <param name="indexName">索引名</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="T:Bing.Elasticsearch.ElasticsearchContextExtensions">
@@ -685,11 +701,251 @@
             <typeparam name="TDocument">文档类型</typeparam>
             <param name="index">索引名称。注意：必须小写</param>
         </member>
+        <member name="M:Bing.Elasticsearch.Internals.Helper.SafeIndexName(System.Type,System.String)">
+            <summary>
+            安全获取索引名称
+            </summary>
+            <param name="type">文档类型</param>
+            <param name="index">索引名称。注意：必须小写</param>
+        </member>
         <member name="M:Bing.Elasticsearch.Internals.Helper.GetEsId(System.Object)">
             <summary>
             获取ES标识
             </summary>
             <param name="id">标识</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.DefaultElasticMapping">
+            <summary>
+            默认映射
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.DefaultElasticMapping.#ctor(System.Type,Bing.Elasticsearch.Options.ElasticsearchOptions)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Mapping.ElasticMapping"/>类型的实例
+            </summary>
+            <param name="type">类型</param>
+            <param name="options">ES选项配置</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.DefaultElasticMapping.ConfigureIndex(Nest.CreateIndexDescriptor)">
+            <summary>
+            配置索引
+            </summary>
+            <param name="idx">创建索引描述符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.DefaultElasticMapping.ConfigureIndexSettings(Nest.IndexSettingsDescriptor)">
+            <summary>
+            配置索引设置
+            </summary>
+            <param name="settings">索引设置描述符</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.ElasticMapping">
+            <summary>
+            ES 映射
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Mapping.ElasticMapping.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Mapping.ElasticMapping.Name">
+            <summary>
+            索引名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Mapping.ElasticMapping.HasMultipleIndexes">
+            <summary>
+            是否拥有多个索引
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Mapping.ElasticMapping.Options">
+            <summary>
+            ES选项配置
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping.#ctor(System.Type,Bing.Elasticsearch.Options.ElasticsearchOptions)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Mapping.ElasticMapping"/>类型的实例
+            </summary>
+            <param name="type">类型</param>
+            <param name="options">ES选项配置</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping.Map(Nest.CreateIndexDescriptor)">
+            <summary>
+            映射
+            </summary>
+            <param name="descriptor">创建索引描述符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping.ConfigureIndex(Nest.CreateIndexDescriptor)">
+            <summary>
+            配置索引
+            </summary>
+            <param name="idx">创建索引描述符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping.ConfigureIndexAliases(Nest.AliasesDescriptor)">
+            <summary>
+            配置索引别名
+            </summary>
+            <param name="aliases">别名描述符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping.ConfigureIndexSettings(Nest.IndexSettingsDescriptor)">
+            <summary>
+            配置索引设置
+            </summary>
+            <param name="settings">索引设置描述符</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.ElasticMapping`1">
+            <summary>
+            ES映射
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping`1.#ctor(System.Type,Bing.Elasticsearch.Options.ElasticsearchOptions)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Mapping.ElasticMapping"/>类型的实例
+            </summary>
+            <param name="type">类型</param>
+            <param name="options">ES选项配置</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping`1.ConfigureIndexMapping(Nest.TypeMappingDescriptor{`0})">
+            <summary>
+            配置索引映射
+            </summary>
+            <param name="map">映射</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping`1.ConfigureIndex(Nest.CreateIndexDescriptor)">
+            <summary>
+            配置索引
+            </summary>
+            <param name="idx">创建索引描述符</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.ElasticMappingFactory">
+            <summary>
+            ES映射工厂
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Mapping.ElasticMappingFactory.RefInstanceType">
+            <summary>
+            反射实例类型
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Mapping.ElasticMappingFactory._options">
+            <summary>
+            ES选项配置
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Mapping.ElasticMappingFactory._finder">
+            <summary>
+            ES映射 类型查找器
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Mapping.ElasticMappingFactory.MappingDict">
+            <summary>
+            映射字典
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMappingFactory.#ctor(Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions},Bing.Elasticsearch.Mapping.IElasticMappingTypeFinder)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Mapping.ElasticMappingFactory"/>类型的实例
+            </summary>
+            <param name="options">ES选项配置</param>
+            <param name="finder">ES映射 类型查找器</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMappingFactory.InitMapping">
+            <summary>
+            初始化映射
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMappingFactory.GetMapping(System.Type)">
+            <summary>
+            获取ES映射类
+            </summary>
+            <param name="type">类型</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMappingFactory.GetMapping``1">
+            <summary>
+            获取ES映射类
+            </summary>
+            <typeparam name="T">泛型类型</typeparam>
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.ElasticMappingTypeFinder">
+            <summary>
+            ES映射 类型查找器
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Mapping.ElasticMappingTypeFinder._allAssemblyFinder">
+            <summary>
+            所有程序集查找器
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMappingTypeFinder.#ctor(Bing.Reflection.IAllAssemblyFinder)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Mapping.ElasticMappingTypeFinder"/>类型的实例
+            </summary>
+            <param name="allAssemblyFinder">所有程序集查找器</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMappingTypeFinder.FindAllItems">
+            <inheritdoc />
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.IElasticMapping">
+            <summary>
+            ES映射
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Mapping.IElasticMapping.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Mapping.IElasticMapping.Name">
+            <summary>
+            索引名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Mapping.IElasticMapping.HasMultipleIndexes">
+            <summary>
+            是否拥有多个索引
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.IElasticMapping.Map(Nest.CreateIndexDescriptor)">
+            <summary>
+            映射
+            </summary>
+            <param name="descriptor">创建索引描述符</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.IElasticMapping`1">
+            <summary>
+            ES映射
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.IElasticMapping`1.ConfigureIndexMapping(Nest.TypeMappingDescriptor{`0})">
+            <summary>
+            配置索引映射
+            </summary>
+            <param name="map">映射</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.IElasticMappingFactory">
+            <summary>
+            ES映射工厂
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.IElasticMappingFactory.GetMapping(System.Type)">
+            <summary>
+            获取ES映射类
+            </summary>
+            <param name="type">类型</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.IElasticMappingFactory.GetMapping``1">
+            <summary>
+            获取ES映射类
+            </summary>
+            <typeparam name="T">泛型类型</typeparam>
+        </member>
+        <member name="T:Bing.Elasticsearch.Mapping.IElasticMappingTypeFinder">
+            <summary>
+            ES映射 类型查找器
+            </summary>
         </member>
         <member name="T:Bing.Elasticsearch.Model.HighlightParam">
             <summary>

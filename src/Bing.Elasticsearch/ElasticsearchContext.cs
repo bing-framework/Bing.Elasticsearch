@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bing.Elasticsearch.Internals;
+using Bing.Elasticsearch.Mapping;
 using Bing.Elasticsearch.Options;
 using Bing.Elasticsearch.Provider;
 using Bing.Elasticsearch.Repositories;
@@ -40,15 +41,22 @@ namespace Bing.Elasticsearch
         private readonly ElasticsearchOptions _options;
 
         /// <summary>
+        /// ES映射工厂
+        /// </summary>
+        private readonly IElasticMappingFactory _mappingFactory;
+
+        /// <summary>
         /// 初始化一个<see cref="ElasticsearchContext"/>类型的实例
         /// </summary>
         /// <param name="provider">ES客户端提供程序</param>
         /// <param name="resolver">索引名称解析器</param>
+        /// <param name="mappingFactory">ES映射工厂</param>
         /// <param name="options">ES选项配置</param>
-        public ElasticsearchContext(IElasticClientProvider provider, IIndexNameResolver resolver, IOptions<ElasticsearchOptions> options)
+        public ElasticsearchContext(IElasticClientProvider provider, IIndexNameResolver resolver, IElasticMappingFactory mappingFactory, IOptions<ElasticsearchOptions> options)
         {
             _provider = provider;
             _resolver = resolver;
+            _mappingFactory = mappingFactory;
             _client = provider.GetClient();
             _options = options.Value;
         }
@@ -117,7 +125,8 @@ namespace Bing.Elasticsearch
         /// <param name="cancellationToken">取消令牌</param>
         public async Task CreateIndexAsync<TDocument>(string index, string alias = null, CancellationToken cancellationToken = default) where TDocument : class
         {
-            await _client.CreateIndexAsync<TDocument>(index, _options.NumberOfShards, _options.NumberOfReplicas, cancellationToken);
+            //await _client.CreateIndexAsync<TDocument>(index, _options.NumberOfShards, _options.NumberOfReplicas, cancellationToken);
+            await _client.CreateIndexAsync<TDocument>(_mappingFactory, index, cancellationToken);
             if (alias.IsEmpty() == false)
                 await _client.Indices.PutAliasAsync(index, alias, ct: cancellationToken);
         }

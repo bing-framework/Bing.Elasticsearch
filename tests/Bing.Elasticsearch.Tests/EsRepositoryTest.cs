@@ -13,13 +13,8 @@ namespace Bing.Elasticsearch.Tests
     /// <summary>
     /// ES仓储测试
     /// </summary>
-    public class EsRepositoryTest
+    public class EsRepositoryTest:EsTestBase
     {
-        /// <summary>
-        /// 服务提供程序
-        /// </summary>
-        protected IServiceProvider ServiceProvider { get; }
-
         private readonly List<StudentSample> _students = new List<StudentSample>
         {
             new StudentSample
@@ -59,28 +54,6 @@ namespace Bing.Elasticsearch.Tests
                 IsValid = false
             }
         };
-
-        public EsRepositoryTest()
-        {
-            ServiceProvider = GetServiceProvider();
-        }
-
-        protected IServiceProvider GetServiceProvider()
-        {
-            var services = new ServiceCollection();
-            services.AddElasticsearch(o =>
-            {
-                o.Urls = new List<string>
-                {
-                    "http://10.186.135.120:9200",
-                    "http://10.186.135.125:9200",
-                    "http://10.186.135.135:9200",
-                };
-                o.DefaultIndex = "bing_es_sample";
-                o.Prefix = "bing_sample";
-            });
-            return services.BuildServiceProvider();
-        }
 
         [Fact]
         public void Test_GetEsRepository()

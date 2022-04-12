@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Bing.Elasticsearch.Internals;
+using Bing.Elasticsearch.Mapping;
 using Nest;
 
 // ReSharper disable once CheckNamespace
@@ -31,14 +32,44 @@ namespace Bing.Elasticsearch
             var existsResult = await client.Indices.ExistsAsync(indexName, null, cancellationToken);
             if (existsResult.Exists)
                 return;
-
             var result = await client.Indices.CreateAsync(
                 indexName,
-                x => x.Map<T>(m=>m.AutoMap())
+                x => x.Map<T>(m => m.AutoMap())
                     .Settings(o =>
                         o.NumberOfShards(numberOfShards)
                             .NumberOfReplicas(numberOfReplicas)
                             .Setting("max_result_window", int.MaxValue)),
+                cancellationToken);
+            if (!result.Acknowledged)
+                throw new ElasticsearchException($"索引[{indexName}]创建失败：{result.ServerError.Error.Reason}");
+        }
+
+        /// <summary>
+        /// 创建索引
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="client">ES客户端</param>
+        /// <param name="factory">ES映射工厂</param>
+        /// <param name="indexName">索引名</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        public static async Task CreateIndexAsync<T>(this IElasticClient client,
+            IElasticMappingFactory factory,
+            string indexName = "",
+            CancellationToken cancellationToken = default)
+            where T : class
+        {
+            indexName = Helper.SafeIndexName<T>(indexName);
+            var existsResult = await client.Indices.ExistsAsync(indexName, null, cancellationToken);
+            if (existsResult.Exists)
+                return;
+            var mapping = factory.GetMapping<T>();
+            var result = await client.Indices.CreateAsync(
+                indexName,
+                x =>
+                {
+                    mapping.Map(x);
+                    return x;
+                },
                 cancellationToken);
             if (!result.Acknowledged)
                 throw new ElasticsearchException($"索引[{indexName}]创建失败：{result.ServerError.Error.Reason}");

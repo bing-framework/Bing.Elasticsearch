@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bing.Elasticsearch.Internals;
 using Bing.Elasticsearch.Model;
+using Bing.Elasticsearch.Options;
+using Microsoft.Extensions.Options;
 using Nest;
 
 namespace Bing.Elasticsearch.Repositories
@@ -32,12 +34,19 @@ namespace Bing.Elasticsearch.Repositories
         protected virtual string IndexName { get; set; }
 
         /// <summary>
+        /// ES选项配置
+        /// </summary>
+        protected ElasticsearchOptions Options { get; set; }
+
+        /// <summary>
         /// 初始化一个<see cref="EsRepository{TEntity}"/>类型的实例
         /// </summary>
         /// <param name="context">ES上下文</param>
-        public EsRepository(IElasticsearchContext context)
+        /// <param name="options">ES选项配置</param>
+        public EsRepository(IElasticsearchContext context, IOptions<ElasticsearchOptions> options)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
+            Options = options.Value;
             _client = Context.GetClient();
             IndexName = Helper.SafeIndexName<TEntity>(IndexName);
         }
@@ -47,7 +56,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
+        public virtual async Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             await ExistOrCreateAsync(indexName, cancellationToken);
@@ -61,7 +70,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="entities">实体集合</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task InsertManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+        public virtual async Task InsertManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             await ExistOrCreateAsync(indexName, cancellationToken);
@@ -75,7 +84,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="entities">实体集合</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task BulkAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+        public virtual async Task BulkAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             await ExistOrCreateAsync(indexName, cancellationToken);
@@ -89,7 +98,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+        public virtual async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             var response = await Context.DeleteAsync<TEntity>(entity, indexName, cancellationToken);
@@ -102,7 +111,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="id">标识</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task DeleteAsync(object id, CancellationToken cancellationToken = default)
+        public virtual async Task DeleteAsync(object id, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             var response = await Context.DeleteAsync<TEntity>(id, indexName, cancellationToken);
@@ -115,7 +124,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="descriptor">查询删除描述符</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task DeleteByQueryAsync(DeleteByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
+        public virtual async Task DeleteByQueryAsync(DeleteByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             descriptor = descriptor.Index(Context.GetIndexName(IndexName));
@@ -130,7 +139,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+        public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             var response = await Context.UpdateAsync(entity, indexName, cancellationToken);
@@ -144,7 +153,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="id">标识</param>
         /// <param name="entity">实体</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task UpdateAsync(object id, TEntity entity, CancellationToken cancellationToken = default)
+        public virtual async Task UpdateAsync(object id, TEntity entity, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             var response = await Context.UpdateAsync(id, entity, indexName, cancellationToken);
@@ -157,7 +166,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="descriptor">查询更新描述符</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task UpdateByQueryAsync(UpdateByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
+        public virtual async Task UpdateByQueryAsync(UpdateByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             descriptor = descriptor.Index(Context.GetIndexName(IndexName));
@@ -172,7 +181,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="id">标识</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<TEntity> FindByIdAsync(object id, CancellationToken cancellationToken = default)
+        public virtual async Task<TEntity> FindByIdAsync(object id, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             return await Context.FindByIdAsync<TEntity>(id, indexName, cancellationToken);
@@ -182,21 +191,21 @@ namespace Bing.Elasticsearch.Repositories
         /// 通过标识集合查找
         /// </summary>
         /// <param name="ids">标识集合</param>
-        public Task<IEnumerable<TEntity>> FindByIdsAsync(params string[] ids) => 
+        public virtual Task<IEnumerable<TEntity>> FindByIdsAsync(params string[] ids) => 
             FindByIdsAsync((IEnumerable<string>)ids);
 
         /// <summary>
         /// 通过标识集合查找
         /// </summary>
         /// <param name="ids">标识集合</param>
-        public Task<IEnumerable<TEntity>> FindByIdsAsync(params long[] ids) => FindByIdsAsync((IEnumerable<long>)ids);
+        public virtual Task<IEnumerable<TEntity>> FindByIdsAsync(params long[] ids) => FindByIdsAsync((IEnumerable<long>)ids);
 
         /// <summary>
         /// 通过标识集合查找
         /// </summary>
         /// <param name="ids">标识集合</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<string> ids, CancellationToken cancellationToken = default)
+        public virtual async Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<string> ids, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             return await Context.FindByIdsAsync<TEntity>(ids, indexName, cancellationToken);
@@ -207,7 +216,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="ids">标识集合</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<long> ids, CancellationToken cancellationToken = default)
+        public virtual async Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<long> ids, CancellationToken cancellationToken = default)
         {
             var indexName = Helper.SafeIndexName<TEntity>(IndexName);
             return await Context.FindByIdsAsync<TEntity>(ids, indexName, cancellationToken);
@@ -218,7 +227,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="descriptor">查询描述器</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<IQueryResult<TEntity>> SearchAsync(SearchDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
+        public virtual async Task<IQueryResult<TEntity>> SearchAsync(SearchDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
         {
             var result = new List<TEntity>();
             descriptor = descriptor.Index(Context.GetIndexName<TEntity>(IndexName));
@@ -245,7 +254,7 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="descriptor">查询描述符</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<IEnumerable<IHit<TEntity>>> HitsSearchAsync(SearchDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
+        public virtual async Task<IEnumerable<IHit<TEntity>>> HitsSearchAsync(SearchDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default)
         {
             descriptor = descriptor.Index(Context.GetIndexName<TEntity>(IndexName));
             Func<SearchDescriptor<TEntity>, ISearchRequest> selector = x => descriptor;
@@ -259,7 +268,7 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="descriptor">查询描述符</param>
         /// <param name="key">键名</param>
         /// <param name="cancellationToken">取消令牌</param>
-        public async Task<TermsAggregate<string>> AggregationsSearchAsync(SearchDescriptor<TEntity> descriptor, string key, CancellationToken cancellationToken = default)
+        public virtual async Task<TermsAggregate<string>> AggregationsSearchAsync(SearchDescriptor<TEntity> descriptor, string key, CancellationToken cancellationToken = default)
         {
             descriptor = descriptor.Index(Context.GetIndexName<TEntity>(IndexName));
             Func<SearchDescriptor<TEntity>, ISearchRequest> selector = x => descriptor;
@@ -277,8 +286,10 @@ namespace Bing.Elasticsearch.Repositories
         /// </summary>
         /// <param name="indexName">索引名称</param>
         /// <param name="cancellationToken">取消令牌</param>
-        protected async Task ExistOrCreateAsync(string indexName, CancellationToken cancellationToken = default)
+        protected virtual async Task ExistOrCreateAsync(string indexName, CancellationToken cancellationToken = default)
         {
+            if (!Options.CheckIndex)
+                return;
             indexName = Context.GetIndexName(indexName);
             var result = await _client.Indices.ExistsAsync(indexName, null, cancellationToken);
             if (result.Exists)
