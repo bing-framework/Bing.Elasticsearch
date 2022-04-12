@@ -1197,6 +1197,11 @@
             索引前缀（防止索引名称重复）
             </summary>
         </member>
+        <member name="P:Bing.Elasticsearch.Options.ElasticsearchOptions.CheckIndex">
+            <summary>
+            是否检查索引
+            </summary>
+        </member>
         <member name="M:Bing.Elasticsearch.Options.ElasticsearchOptions.IsCompatibleVersion">
             <summary>
             兼容版本(>=7.0)
@@ -1305,11 +1310,17 @@
             索引名称
             </summary>
         </member>
-        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.#ctor(Bing.Elasticsearch.IElasticsearchContext)">
+        <member name="P:Bing.Elasticsearch.Repositories.EsRepository`1.Options">
+            <summary>
+            ES选项配置
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.#ctor(Bing.Elasticsearch.IElasticsearchContext,Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions})">
             <summary>
             初始化一个<see cref="T:Bing.Elasticsearch.Repositories.EsRepository`1"/>类型的实例
             </summary>
             <param name="context">ES上下文</param>
+            <param name="options">ES选项配置</param>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.InsertAsync(`0,System.Threading.CancellationToken)">
             <summary>
