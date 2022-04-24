@@ -374,6 +374,76 @@
             <param name="indexName">索引名</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
+        <member name="T:Bing.Elasticsearch.ElasticExtensions">
+            <summary>
+            Elastic 相关扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticExtensions.GetErrorMessage(Elasticsearch.Net.IElasticsearchResponse,System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            获取错误消息
+            </summary>
+            <param name="elasticResponse">es响应内容</param>
+            <param name="message">消息</param>
+            <param name="normalize">是否标准化输出</param>
+            <param name="includeResponse">是否包含响应内容</param>
+            <param name="includeDebugInformation">是否包含调试信息</param>
+            <returns>处理后的错误消息</returns>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticExtensions.GetRequest(Elasticsearch.Net.IElasticsearchResponse,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            获取请求
+            </summary>
+            <param name="elasticResponse">es响应内容</param>
+            <param name="normalize">是否标准化输出</param>
+            <param name="includeResponse">是否包含响应内容</param>
+            <param name="includeDebugInformation">是否包含调试信息</param>
+            <returns>处理后请求内容</returns>
+        </member>
+        <member name="T:Bing.Elasticsearch.ElasticMappingExtensions">
+            <summary>
+            ES映射扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticMappingExtensions.AddKeywordField``1(Nest.TextPropertyDescriptor{``0})">
+            <summary>
+            添加关键词(keyword)字段。注意：不能与 AddSortField 链式调用，如要调用则 AddKeywordAndSortFields。
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="descriptor">文本属性描述符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticMappingExtensions.AddSortField``1(Nest.TextPropertyDescriptor{``0},System.String)">
+            <summary>
+            添加排序(sort)字段。注意：不能与 AddKeywordField 链式调用，如要调用则 AddKeywordAndSortFields。
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="descriptor">文本属性描述符</param>
+            <param name="normalizer">排序规范器</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticMappingExtensions.AddKeywordAndSortFields``1(Nest.TextPropertyDescriptor{``0},System.String)">
+            <summary>
+            添加关键词(keyword)及排序(sort)字段
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="descriptor">文本属性描述符</param>
+            <param name="sortNormalizer">排序规范器</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticMappingExtensions.AddSortNormalizer(Nest.AnalysisDescriptor)">
+            <summary>
+            添加排序规范器
+            </summary>
+            <param name="descriptor">分析描述符</param>
+        </member>
+        <member name="F:Bing.Elasticsearch.ElasticMappingExtensions.KeywordFieldName">
+            <summary>
+            keyword 字段名
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ElasticMappingExtensions.SortFieldName">
+            <summary>
+            sort 字段名
+            </summary>
+        </member>
         <member name="T:Bing.Elasticsearch.ElasticsearchContextExtensions">
             <summary>
             ES上下文扩展
@@ -389,6 +459,63 @@
             <param name="value">值</param>
             <param name="index">索引名称。注意：必须小写</param>
             <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.LoggerExtensions">
+            <summary>
+            日志(<see cref="T:Microsoft.Extensions.Logging.ILogger"/>) 扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.LoggerExtensions.LogRequest(Microsoft.Extensions.Logging.ILogger,Elasticsearch.Net.IElasticsearchResponse,Microsoft.Extensions.Logging.LogLevel)">
+            <summary>
+            记录请求
+            </summary>
+            <param name="logger">日志</param>
+            <param name="elasticResponse">es响应内容</param>
+            <param name="logLevel">日志级别</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.LoggerExtensions.LogErrorRequest(Microsoft.Extensions.Logging.ILogger,Elasticsearch.Net.IElasticsearchResponse,System.String,System.Object[])">
+            <summary>
+            记录错误请求
+            </summary>
+            <param name="logger">日志</param>
+            <param name="elasticResponse">es响应内容</param>
+            <param name="message">消息</param>
+            <param name="args">参数</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.LoggerExtensions.LogErrorRequest(Microsoft.Extensions.Logging.ILogger,System.Exception,Elasticsearch.Net.IElasticsearchResponse,System.String,System.Object[])">
+            <summary>
+            记录错误请求
+            </summary>
+            <param name="logger">日志</param>
+            <param name="ex">异常</param>
+            <param name="elasticResponse">es响应内容</param>
+            <param name="message">消息</param>
+            <param name="args">参数</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.JsonUtility">
+            <summary>
+            Json工具类
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.JsonUtility.Normalize(System.String)">
+            <summary>
+            标准化json字符串
+            </summary>
+            <param name="jsonStr">json字符串</param>
+            <returns>标准化后的json字符串</returns>
+        </member>
+        <member name="M:Bing.Elasticsearch.JsonUtility.Normalize(System.Text.Json.JsonElement)">
+            <summary>
+            标准化json字符串
+            </summary>
+            <param name="element">json元素</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.JsonUtility.Write(System.Text.Json.JsonElement,System.Text.Json.Utf8JsonWriter)">
+            <summary>
+            写入
+            </summary>
+            <param name="element">json元素</param>
+            <param name="writer">基于utf8的json写入器</param>
         </member>
         <member name="T:Bing.Elasticsearch.TextPropertyDescriptorExtensions">
             <summary>
