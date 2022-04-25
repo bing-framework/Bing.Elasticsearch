@@ -13,6 +13,10 @@ using Nest;
 
 namespace Bing.Elasticsearch.Model
 {
+    /// <summary>
+    /// ES查询模型
+    /// </summary>
+    /// <typeparam name="TResult">查询结果类型</typeparam>
     public class EsSearch<TResult> where TResult : class
     {
         /// <summary>
@@ -65,6 +69,11 @@ namespace Bing.Elasticsearch.Model
         /// </summary>
         private readonly EsQuery<TResult> _query;
 
+        /// <summary>
+        /// 初始化一个<see cref="EsSearch{TResult}"/>类型的实例
+        /// </summary>
+        /// <param name="context">ES上下文</param>
+        /// <param name="query">查询参数</param>
         public EsSearch(IElasticsearchContext context, IQueryParameter query)
         {
             context.CheckNull(nameof(context));

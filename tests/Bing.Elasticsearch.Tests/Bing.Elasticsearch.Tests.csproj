@@ -18,4 +18,10 @@
     <ProjectReference Include="..\..\src\Bing.Extensions.Elasticsearch\Bing.Extensions.Elasticsearch.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\BlogSample.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

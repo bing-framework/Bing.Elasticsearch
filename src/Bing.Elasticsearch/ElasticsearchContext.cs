@@ -60,7 +60,12 @@ namespace Bing.Elasticsearch
         /// <param name="mappingFactory">ES映射工厂</param>
         /// <param name="options">ES选项配置</param>
         /// <param name="loggerFactory">日志工厂</param>
-        public ElasticsearchContext(IElasticClientProvider provider, IIndexNameResolver resolver, IElasticMappingFactory mappingFactory, IOptions<ElasticsearchOptions> options, ILoggerFactory loggerFactory = null)
+        public ElasticsearchContext(
+            IElasticClientProvider provider,
+            IIndexNameResolver resolver,
+            IElasticMappingFactory mappingFactory,
+            IOptions<ElasticsearchOptions> options,
+            ILoggerFactory loggerFactory = null)
         {
             LoggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
             _provider = provider;
