@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Bing.Elasticsearch.Internals;
 using Bing.Elasticsearch.Model;
 using Bing.Elasticsearch.Options;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nest;
 
@@ -22,6 +23,11 @@ namespace Bing.Elasticsearch.Repositories
         /// ES客户端
         /// </summary>
         private readonly IElasticClient _client;
+
+        /// <summary>
+        /// 日志
+        /// </summary>
+        private readonly ILogger _logger;
 
         /// <summary>
         /// ES上下文
@@ -49,6 +55,7 @@ namespace Bing.Elasticsearch.Repositories
             Options = options.Value;
             _client = Context.GetClient();
             IndexName = Helper.SafeIndexName<TEntity>(IndexName);
+            _logger = context.LoggerFactory.CreateLogger(GetType());
         }
 
         /// <summary>

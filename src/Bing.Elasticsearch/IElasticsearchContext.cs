@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Nest;
 
 namespace Bing.Elasticsearch
@@ -11,6 +12,11 @@ namespace Bing.Elasticsearch
     /// </summary>
     public interface IElasticsearchContext
     {
+        /// <summary>
+        /// 日志工厂
+        /// </summary>
+        ILoggerFactory LoggerFactory { get; }
+
         #region Index(索引)
 
         /// <summary>

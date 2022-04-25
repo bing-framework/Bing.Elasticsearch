@@ -34,7 +34,12 @@
             ES映射工厂
             </summary>
         </member>
-        <member name="M:Bing.Elasticsearch.ElasticsearchContext.#ctor(Bing.Elasticsearch.Provider.IElasticClientProvider,Bing.Elasticsearch.Repositories.IIndexNameResolver,Bing.Elasticsearch.Mapping.IElasticMappingFactory,Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions})">
+        <member name="F:Bing.Elasticsearch.ElasticsearchContext._logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.#ctor(Bing.Elasticsearch.Provider.IElasticClientProvider,Bing.Elasticsearch.Repositories.IIndexNameResolver,Bing.Elasticsearch.Mapping.IElasticMappingFactory,Microsoft.Extensions.Options.IOptions{Bing.Elasticsearch.Options.ElasticsearchOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             初始化一个<see cref="T:Bing.Elasticsearch.ElasticsearchContext"/>类型的实例
             </summary>
@@ -42,6 +47,12 @@
             <param name="resolver">索引名称解析器</param>
             <param name="mappingFactory">ES映射工厂</param>
             <param name="options">ES选项配置</param>
+            <param name="loggerFactory">日志工厂</param>
+        </member>
+        <member name="P:Bing.Elasticsearch.ElasticsearchContext.LoggerFactory">
+            <summary>
+            日志工厂
+            </summary>
         </member>
         <member name="M:Bing.Elasticsearch.ElasticsearchContext.AliasExistsAsync(System.String,System.Threading.CancellationToken)">
             <summary>
@@ -546,6 +557,11 @@
         <member name="T:Bing.Elasticsearch.IElasticsearchContext">
             <summary>
             ES上下文
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.IElasticsearchContext.LoggerFactory">
+            <summary>
+            日志工厂
             </summary>
         </member>
         <member name="M:Bing.Elasticsearch.IElasticsearchContext.AliasExistsAsync(System.String,System.Threading.CancellationToken)">
@@ -1425,6 +1441,11 @@
         <member name="F:Bing.Elasticsearch.Repositories.EsRepository`1._client">
             <summary>
             ES客户端
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Repositories.EsRepository`1._logger">
+            <summary>
+            日志
             </summary>
         </member>
         <member name="P:Bing.Elasticsearch.Repositories.EsRepository`1.Context">

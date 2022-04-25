@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bing.Elasticsearch.Repositories;
 using Bing.Elasticsearch.Tests.Models;
-using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Xunit;
 
@@ -13,7 +12,7 @@ namespace Bing.Elasticsearch.Tests
     /// <summary>
     /// ES仓储测试
     /// </summary>
-    public class EsRepositoryTest:EsTestBase
+    public class EsRepositoryTest
     {
         private readonly List<StudentSample> _students = new List<StudentSample>
         {
@@ -55,91 +54,79 @@ namespace Bing.Elasticsearch.Tests
             }
         };
 
-        [Fact]
-        public void Test_GetEsRepository()
-        {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
-            Assert.NotNull(resp);
+        /// <summary>
+        /// student sample repo
+        /// </summary>
+        private readonly IEsRepository<StudentSample> _studentRepo;
 
-            Assert.IsType<EsRepository<StudentSample>>(resp);
+        public EsRepositoryTest(IEsRepository<StudentSample> studentRepo)
+        {
+            _studentRepo = studentRepo;
         }
 
         [Fact]
         public async Task Test_InsertAsync()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             var student = _students.First();
-            await resp.InsertAsync(student);
+            await _studentRepo.InsertAsync(student);
 
-            var result = await resp.FindByIdAsync(student.StudentId);
+            var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Equal(student.StudentId, result.StudentId);
-            await resp.DeleteAsync(student.StudentId);
+            await _studentRepo.DeleteAsync(student.StudentId);
         }
 
         [Fact]
         public async Task Test_InsertManyAsync()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
-            await resp.InsertManyAsync(_students);
+            await _studentRepo.InsertManyAsync(_students);
 
-            var result = await resp.FindByIdsAsync(_students.Select(x => x.StudentId));
+            var result = await _studentRepo.FindByIdsAsync(_students.Select(x => x.StudentId));
             Assert.Equal(_students.Count, result.Count());
             foreach (var student in _students)
-                await resp.DeleteAsync(student);
+                await _studentRepo.DeleteAsync(student);
         }
 
         [Fact]
         public async Task Test_BulkAsync()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
-            await resp.InsertManyAsync(_students);
-            foreach (var student in _students) 
+            await _studentRepo.InsertManyAsync(_students);
+            foreach (var student in _students)
                 student.Name = "隔壁老王";
-            await resp.BulkAsync(_students);
+            await _studentRepo.BulkAsync(_students);
 
-            var result = await resp.FindByIdsAsync(_students.Select(x => x.StudentId));
+            var result = await _studentRepo.FindByIdsAsync(_students.Select(x => x.StudentId));
             Assert.Equal(_students.First().Name, result.First().Name);
             foreach (var student in _students)
-                await resp.DeleteAsync(student);
+                await _studentRepo.DeleteAsync(student);
         }
 
         [Fact]
         public async Task Test_DeleteAsync_Id()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             var student = _students.First();
-            await resp.InsertAsync(student);
-            await resp.DeleteAsync(student.StudentId);
+            await _studentRepo.InsertAsync(student);
+            await _studentRepo.DeleteAsync(student.StudentId);
 
-            var result = await resp.FindByIdAsync(student.StudentId);
+            var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Null(result);
         }
 
         [Fact]
         public async Task Test_DeleteAsync_Entity()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             var student = _students.First();
-            await resp.InsertAsync(student);
-            await resp.DeleteAsync(student);
+            await _studentRepo.InsertAsync(student);
+            await _studentRepo.DeleteAsync(student);
 
-            var result = await resp.FindByIdAsync(student.StudentId);
+            var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Null(result);
         }
 
         [Fact]
         public async Task Test_DeleteByQueryAsync()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             var student = _students.First();
-            await resp.InsertAsync(student);
+            await _studentRepo.InsertAsync(student);
 
             // 需要延迟一下
             await Task.Delay(1000);
@@ -149,49 +136,43 @@ namespace Bing.Elasticsearch.Tests
                 .Term(r => r
                     .Field(f => f.StudentId)
                     .Value(student.StudentId)));
-            await resp.DeleteByQueryAsync(descriptor);
+            await _studentRepo.DeleteByQueryAsync(descriptor);
 
-            var result = await resp.FindByIdAsync(student.StudentId);
+            var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Null(result);
         }
 
         [Fact]
         public async Task Test_UpdateAsync()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             var student = _students.First();
-            await resp.InsertAsync(student);
+            await _studentRepo.InsertAsync(student);
             student.Name = "隔壁老王666";
-            await resp.UpdateAsync(student);
+            await _studentRepo.UpdateAsync(student);
 
-            var result = await resp.FindByIdAsync(student.StudentId);
+            var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Equal(student.Name, result.Name);
-            await resp.DeleteAsync(student);
+            await _studentRepo.DeleteAsync(student);
         }
 
         [Fact]
         public async Task Test_UpdateAsync_Id()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             var student = _students.First();
-            await resp.InsertAsync(student);
+            await _studentRepo.InsertAsync(student);
             student.Name = "隔壁老王666";
-            await resp.UpdateAsync(student.StudentId, student);
+            await _studentRepo.UpdateAsync(student.StudentId, student);
 
-            var result = await resp.FindByIdAsync(student.StudentId);
+            var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Equal(student.Name, result.Name);
-            await resp.DeleteAsync(student);
+            await _studentRepo.DeleteAsync(student);
         }
 
         [Fact]
         public async Task Test_UpdateByQueryAsync()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             var student = _students.First();
-            await resp.InsertAsync(student);
+            await _studentRepo.InsertAsync(student);
 
             // 需要延迟一下
             await Task.Delay(1000);
@@ -205,64 +186,55 @@ namespace Bing.Elasticsearch.Tests
                     .Term(r => r
                         .Field(f => f.StudentId)
                         .Value(student.StudentId)));
-            await resp.UpdateByQueryAsync(descriptor);
+            await _studentRepo.UpdateByQueryAsync(descriptor);
 
-            var result = await resp.FindByIdAsync(student.StudentId);
+            var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Equal("隔壁老王八", result.Name);
-            await resp.DeleteAsync(student);
+            await _studentRepo.DeleteAsync(student);
         }
 
         [Fact]
         public async Task Test_FindByIdAsync()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
             var student = _students.First();
-            await resp.InsertAsync(student);
-            var result = await resp.FindByIdAsync(student.StudentId);
+            await _studentRepo.InsertAsync(student);
+            var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Equal(student.StudentId, result.StudentId);
-            await resp.DeleteAsync(student);
+            await _studentRepo.DeleteAsync(student);
         }
 
         [Fact]
         public async Task Test_FindByIdsAsync_1()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
-            await resp.InsertManyAsync(_students);
+            await _studentRepo.InsertManyAsync(_students);
 
-            var result = await resp.FindByIdsAsync(_students.Select(x => x.StudentId));
+            var result = await _studentRepo.FindByIdsAsync(_students.Select(x => x.StudentId));
             Assert.Equal(_students.Count, result.Count());
             foreach (var student in _students)
-                await resp.DeleteAsync(student);
+                await _studentRepo.DeleteAsync(student);
         }
 
         [Fact]
         public async Task Test_FindByIdsAsync_2()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
-            await resp.InsertManyAsync(_students);
+            await _studentRepo.InsertManyAsync(_students);
 
-            var result = await resp.FindByIdsAsync(_students.Select(x => x.StudentId).ToArray());
+            var result = await _studentRepo.FindByIdsAsync(_students.Select(x => x.StudentId).ToArray());
             Assert.Equal(_students.Count, result.Count());
             foreach (var student in _students)
-                await resp.DeleteAsync(student);
+                await _studentRepo.DeleteAsync(student);
         }
 
         [Fact]
         public async Task Test_SearchAsync()
         {
-            using var scope = ServiceProvider.CreateScope();
-            var resp = scope.ServiceProvider.GetService<IEsRepository<StudentSample>>();
-            await resp.InsertManyAsync(_students);
+            await _studentRepo.InsertManyAsync(_students);
             await Task.Delay(1000);
-            var context = scope.ServiceProvider.GetService<IElasticsearchContext>();
             var descriptor = new SearchDescriptor<StudentSample>();
-            var result = await resp.SearchAsync(descriptor);
+            var result = await _studentRepo.SearchAsync(descriptor);
             Assert.Equal(_students.Count, result.TotalCount);
             foreach (var student in _students)
-                await resp.DeleteAsync(student);
+                await _studentRepo.DeleteAsync(student);
         }
     }
 }
