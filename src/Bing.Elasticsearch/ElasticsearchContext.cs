@@ -133,6 +133,7 @@ namespace Bing.Elasticsearch
         public async Task<CreateIndexResponse> CreateIndexAsync(string index, string alias = null, Func<CreateIndexDescriptor, ICreateIndexRequest> selector = null, CancellationToken cancellationToken = default)
         {
             var result = await _client.Indices.CreateAsync(_resolver.GetIndexName(index), selector, cancellationToken);
+            _logger.LogRequest(result);
             if (alias.IsEmpty() == false)
                 await _client.Indices.PutAliasAsync(_resolver.GetIndexName(index), alias, ct: cancellationToken);
             return result;
@@ -147,7 +148,6 @@ namespace Bing.Elasticsearch
         /// <param name="cancellationToken">取消令牌</param>
         public async Task CreateIndexAsync<TDocument>(string index, string alias = null, CancellationToken cancellationToken = default) where TDocument : class
         {
-            //await _client.CreateIndexAsync<TDocument>(index, _options.NumberOfShards, _options.NumberOfReplicas, cancellationToken);
             await _client.CreateIndexAsync<TDocument>(_mappingFactory, index, cancellationToken);
             if (alias.IsEmpty() == false)
                 await _client.Indices.PutAliasAsync(index, alias, ct: cancellationToken);

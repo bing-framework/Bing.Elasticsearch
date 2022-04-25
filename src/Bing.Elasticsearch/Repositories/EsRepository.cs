@@ -299,6 +299,7 @@ namespace Bing.Elasticsearch.Repositories
                 return;
             indexName = Context.GetIndexName(indexName);
             var result = await _client.Indices.ExistsAsync(indexName, null, cancellationToken);
+            _logger.LogRequest(result);
             if (result.Exists)
                 return;
             await Context.CreateIndexAsync<TEntity>(indexName, null, cancellationToken);
