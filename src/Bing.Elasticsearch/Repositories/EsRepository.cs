@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Bing.Elasticsearch.Exceptions;
 using Bing.Elasticsearch.Internals;
 using Bing.Elasticsearch.Model;
 using Bing.Elasticsearch.Options;
@@ -17,22 +18,28 @@ namespace Bing.Elasticsearch.Repositories
     /// ES仓储基类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public class EsRepository<TEntity> : IEsRepository<TEntity> where TEntity : class
+    public class EsRepository<TEntity> : IEsRepository<TEntity>
+        where TEntity : class
     {
-        /// <summary>
-        /// ES客户端
-        /// </summary>
-        private readonly IElasticClient _client;
-
         /// <summary>
         /// 日志
         /// </summary>
-        private readonly ILogger _logger;
+        protected readonly ILogger _logger;
+
+        /// <summary>
+        /// 延迟加载的ES客户端
+        /// </summary>
+        protected readonly Lazy<IElasticClient> _lazyClient;
+
+        /// <summary>
+        /// ES客户端
+        /// </summary>
+        protected IElasticClient Client => _lazyClient.Value;
 
         /// <summary>
         /// ES上下文
         /// </summary>
-        protected IElasticsearchContext Context { get;  set; }
+        protected IElasticsearchContext Context { get; set; }
 
         /// <summary>
         /// 索引名称
@@ -53,8 +60,8 @@ namespace Bing.Elasticsearch.Repositories
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
             Options = options.Value;
-            _client = Context.GetClient();
             IndexName = Helper.SafeIndexName<TEntity>(IndexName);
+            _lazyClient = new Lazy<IElasticClient>(() => Context.GetClient());
             _logger = context.LoggerFactory.CreateLogger(GetType());
         }
 
@@ -84,6 +91,65 @@ namespace Bing.Elasticsearch.Repositories
             var response = await Context.BulkSaveAsync(entities, indexName, cancellationToken: cancellationToken);
             if (!response.IsValid)
                 throw new ElasticsearchException($"索引[{indexName}]批量新增数据失败 : {response.ServerError.Error.Reason}");
+        }
+
+        /// <summary>
+        /// 批量插入
+        /// </summary>
+        /// <param name="documents">文档集合</param>
+        /// <param name="chunkSize">每次批量请求的数量。默认：51000</param>
+        /// <param name="backOffTime">重试等待时间。默认：30s</param>
+        /// <param name="retries">重试次数。默认：3</param>
+        /// <param name="maxRuntime">最大运行时间。默认：15分钟</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        /// <remarks>
+        /// 参考链接：https://www.elastic.co/guide/en/elasticsearch/client/net-api/current/indexing-documents.html
+        /// </remarks>
+        public virtual async Task BulkInsertAsync(IEnumerable<TEntity> documents, int chunkSize = 1000, int backOffTime = 30, int retries = 3, double maxRuntime = 15, CancellationToken cancellationToken = default)
+        {
+            var docs = documents?.ToList();
+            if (docs == null || docs.Any(d => d == null))
+                throw new ArgumentNullException(nameof(documents));
+            if (docs.Count == 0)
+                return;
+            var indexName = Helper.SafeIndexName<TEntity>(IndexName);
+            if (docs.Count <= chunkSize)
+            {
+                var response = await Client.BulkAsync(x =>
+                {
+                    x.Index(indexName);
+                    x.IndexMany(docs);
+                    return x;
+                }, cancellationToken);
+                if (response.IsValid)
+                {
+                    _logger.LogRequest(response);
+                }
+                else
+                {
+                    var message = "Error adding document";
+                    if (response.ServerError?.Status == 400)
+                        throw new DuplicateDocumentException(response.GetErrorMessage(message), response.OriginalException);
+                    throw new DocumentException(response.GetErrorMessage(message), response.OriginalException);
+                }
+            }
+            else
+            {
+                long totalCount = 0;
+                Client.BulkAll(docs, x =>
+                {
+                    x.Index(indexName)
+                        .BackOffTime($"{backOffTime}s")
+                        .BackOffRetries(retries)
+                        .RefreshOnCompleted()
+                        .MaxDegreeOfParallelism(Environment.ProcessorCount)
+                        .Size(chunkSize);
+                    return x;
+                }).Wait(TimeSpan.FromMinutes(maxRuntime), next =>
+                {
+                    Interlocked.Add(ref totalCount, next.Items.Count);
+                });
+            }
         }
 
         /// <summary>
@@ -137,7 +203,7 @@ namespace Bing.Elasticsearch.Repositories
             descriptor = descriptor.Index(Context.GetIndexName(IndexName));
             Func<DeleteByQueryDescriptor<TEntity>, IDeleteByQueryRequest> selector = x => descriptor;
             var response = await Context.DeleteByQueryAsync(selector, cancellationToken);
-            if(!response.IsValid)
+            if (!response.IsValid)
                 throw new ElasticsearchException($"索引[{indexName}]删除数据失败 : {response.ServerError.Error.Reason}");
         }
 
@@ -198,7 +264,7 @@ namespace Bing.Elasticsearch.Repositories
         /// 通过标识集合查找
         /// </summary>
         /// <param name="ids">标识集合</param>
-        public virtual Task<IEnumerable<TEntity>> FindByIdsAsync(params string[] ids) => 
+        public virtual Task<IEnumerable<TEntity>> FindByIdsAsync(params string[] ids) =>
             FindByIdsAsync((IEnumerable<string>)ids);
 
         /// <summary>
@@ -298,7 +364,7 @@ namespace Bing.Elasticsearch.Repositories
             if (!Options.CheckIndex)
                 return;
             indexName = Context.GetIndexName(indexName);
-            var result = await _client.Indices.ExistsAsync(indexName, null, cancellationToken);
+            var result = await Client.Indices.ExistsAsync(indexName, null, cancellationToken);
             _logger.LogRequest(result);
             if (result.Exists)
                 return;

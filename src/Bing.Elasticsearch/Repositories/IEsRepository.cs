@@ -10,7 +10,8 @@ namespace Bing.Elasticsearch.Repositories
     /// ES仓储
     /// </summary>
     /// <typeparam name="TEntity">实体类类型</typeparam>
-    public interface IEsRepository<TEntity> where TEntity : class
+    public interface IEsRepository<TEntity> : IEsReadOnlyRepository<TEntity>
+        where TEntity : class
     {
         /// <summary>
         /// 插入
@@ -25,6 +26,20 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="entities">实体集合</param>
         /// <param name="cancellationToken">取消令牌</param>
         Task InsertManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 批量插入
+        /// </summary>
+        /// <param name="documents">文档集合</param>
+        /// <param name="chunkSize">每次批量请求的数量。默认：51000</param>
+        /// <param name="backOffTime">重试等待时间。默认：30s</param>
+        /// <param name="retries">重试次数。默认：3</param>
+        /// <param name="maxRuntime">最大运行时间。默认：15分钟</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        /// <remarks>
+        /// 参考链接：https://www.elastic.co/guide/en/elasticsearch/client/net-api/current/indexing-documents.html
+        /// </remarks>
+        Task BulkInsertAsync(IEnumerable<TEntity> documents, int chunkSize = 1000, int backOffTime = 30, int retries = 3, double maxRuntime = 15, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 批量操作
@@ -75,39 +90,6 @@ namespace Bing.Elasticsearch.Repositories
         /// <param name="descriptor">查询更新描述符</param>
         /// <param name="cancellationToken">取消令牌</param>
         Task UpdateByQueryAsync(UpdateByQueryDescriptor<TEntity> descriptor, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 通过标识查找
-        /// </summary>
-        /// <param name="id">标识</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task<TEntity> FindByIdAsync(object id, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 通过标识集合查找
-        /// </summary>
-        /// <param name="ids">标识集合</param>
-        Task<IEnumerable<TEntity>> FindByIdsAsync(params string[] ids);
-
-        /// <summary>
-        /// 通过标识集合查找
-        /// </summary>
-        /// <param name="ids">标识集合</param>
-        Task<IEnumerable<TEntity>> FindByIdsAsync(params long[] ids);
-
-        /// <summary>
-        /// 通过标识集合查找
-        /// </summary>
-        /// <param name="ids">标识集合</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<string> ids, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 通过标识集合查找
-        /// </summary>
-        /// <param name="ids">标识集合</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        Task<IEnumerable<TEntity>> FindByIdsAsync(IEnumerable<long> ids, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询

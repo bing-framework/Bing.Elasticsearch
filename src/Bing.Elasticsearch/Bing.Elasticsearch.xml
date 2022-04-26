@@ -1438,14 +1438,19 @@
             </summary>
             <typeparam name="TEntity">实体类型</typeparam>
         </member>
-        <member name="F:Bing.Elasticsearch.Repositories.EsRepository`1._client">
+        <member name="F:Bing.Elasticsearch.Repositories.EsRepository`1._logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Repositories.EsRepository`1._lazyClient">
             <summary>
             ES客户端
             </summary>
         </member>
-        <member name="F:Bing.Elasticsearch.Repositories.EsRepository`1._logger">
+        <member name="P:Bing.Elasticsearch.Repositories.EsRepository`1._client">
             <summary>
-            日志
+            ES客户端
             </summary>
         </member>
         <member name="P:Bing.Elasticsearch.Repositories.EsRepository`1.Context">
@@ -1481,14 +1486,21 @@
             <summary>
             批量插入
             </summary>
-            <param name="entities">实体集合</param>
+            <param name="documents">实体集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.BulkInsertAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+            <summary>
+            批量插入
+            </summary>
+            <param name="documents">实体集合</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.BulkAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
             <summary>
             批量操作
             </summary>
-            <param name="entities">实体集合</param>
+            <param name="documents">实体集合</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.DeleteAsync(`0,System.Threading.CancellationToken)">
@@ -1618,14 +1630,14 @@
             <summary>
             批量插入
             </summary>
-            <param name="entities">实体集合</param>
+            <param name="documents">实体集合</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.BulkAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
             <summary>
             批量操作
             </summary>
-            <param name="entities">实体集合</param>
+            <param name="documents">实体集合</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.DeleteAsync(`0,System.Threading.CancellationToken)">
