@@ -116,5 +116,16 @@ namespace Bing.Elasticsearch.Mapping
             idx = base.ConfigureIndex(idx);
             return idx.Map<T>(ConfigureIndexMapping);
         }
+
+        /// <summary>
+        /// 配置索引设置
+        /// </summary>
+        /// <param name="settings">索引设置描述符</param>
+        public override IPromise<IIndexSettings> ConfigureIndexSettings(IndexSettingsDescriptor settings)
+        {
+            return settings.NumberOfShards(Options.NumberOfShards)
+                .NumberOfReplicas(Options.NumberOfReplicas)
+                .Setting("max_result_window", int.MaxValue);
+        }
     }
 }

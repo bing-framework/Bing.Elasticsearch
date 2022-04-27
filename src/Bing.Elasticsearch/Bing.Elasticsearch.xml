@@ -114,6 +114,13 @@
             <param name="alias">别名名称。注意：必须小写</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteIndexesAsync(System.String[],System.Threading.CancellationToken)">
+            <summary>
+            删除多个索引
+            </summary>
+            <param name="names">索引名称数组</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
         <member name="M:Bing.Elasticsearch.ElasticsearchContext.DeleteAllIndexAsync(System.Threading.CancellationToken)">
             <summary>
             删除全部索引
@@ -347,6 +354,98 @@
             <param name="message">错误消息</param>
             <param name="innerException">内部异常</param>
         </member>
+        <member name="T:Bing.Elasticsearch.Exceptions.DocumentException">
+            <summary>
+            文档异常
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.DocumentException.#ctor">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.DocumentException"/>类型的实例
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.DocumentException.#ctor(System.String)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.DocumentException"/>类型的实例
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.DocumentException.#ctor(System.String,System.Exception)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.DocumentException"/>类型的实例
+            </summary>
+            <param name="message">消息</param>
+            <param name="innerException">内部异常</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Exceptions.DuplicateDocumentException">
+            <summary>
+            重复文档异常
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.DuplicateDocumentException.#ctor">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.DuplicateDocumentException"/>类型的实例
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.DuplicateDocumentException.#ctor(System.String)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.DuplicateDocumentException"/>类型的实例
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.DuplicateDocumentException.#ctor(System.String,System.Exception)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.DuplicateDocumentException"/>类型的实例
+            </summary>
+            <param name="message">消息</param>
+            <param name="innerException">内部异常</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Exceptions.EsRepositoryException">
+            <summary>
+            ES仓储异常
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.EsRepositoryException.#ctor">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.EsRepositoryException"/>类型的实例
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.EsRepositoryException.#ctor(System.String)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.EsRepositoryException"/>类型的实例
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.EsRepositoryException.#ctor(System.String,System.Exception)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.EsRepositoryException"/>类型的实例
+            </summary>
+            <param name="message">消息</param>
+            <param name="innerException">内部异常</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Exceptions.VersionConflictDocumentException">
+            <summary>
+            版本冲突文档异常
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.VersionConflictDocumentException.#ctor">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.VersionConflictDocumentException"/>类型的实例
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.VersionConflictDocumentException.#ctor(System.String)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.VersionConflictDocumentException"/>类型的实例
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Exceptions.VersionConflictDocumentException.#ctor(System.String,System.Exception)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Exceptions.VersionConflictDocumentException"/>类型的实例
+            </summary>
+            <param name="message">消息</param>
+            <param name="innerException">内部异常</param>
+        </member>
         <member name="T:Bing.Elasticsearch.Extensions">
             <summary>
             Elasticsearch 扩展
@@ -373,16 +472,6 @@
             <param name="indexName">索引名</param>
             <param name="numberOfShards">主分片数量</param>
             <param name="numberOfReplicas">每个主分片的副分片数量</param>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
-        <member name="M:Bing.Elasticsearch.ElasticClientExtensions.CreateIndexAsync``1(Nest.IElasticClient,Bing.Elasticsearch.Mapping.IElasticMappingFactory,System.String,System.Threading.CancellationToken)">
-            <summary>
-            创建索引
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="client">ES客户端</param>
-            <param name="factory">ES映射工厂</param>
-            <param name="indexName">索引名</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="T:Bing.Elasticsearch.ElasticExtensions">
@@ -837,7 +926,7 @@
             索引缓存字典
             </summary>
         </member>
-        <member name="M:Bing.Elasticsearch.Internals.Helper.SafeIndexName``1(System.String)">
+        <member name="M:Bing.Elasticsearch.Internals.Helper.SafeIndexName``1(System.String,System.String)">
             <summary>
             安全获取索引名称
             </summary>
@@ -961,6 +1050,12 @@
             配置索引
             </summary>
             <param name="idx">创建索引描述符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Mapping.ElasticMapping`1.ConfigureIndexSettings(Nest.IndexSettingsDescriptor)">
+            <summary>
+            配置索引设置
+            </summary>
+            <param name="settings">索引设置描述符</param>
         </member>
         <member name="T:Bing.Elasticsearch.Mapping.ElasticMappingFactory">
             <summary>
@@ -1445,10 +1540,10 @@
         </member>
         <member name="F:Bing.Elasticsearch.Repositories.EsRepository`1._lazyClient">
             <summary>
-            ES客户端
+            延迟加载的ES客户端
             </summary>
         </member>
-        <member name="P:Bing.Elasticsearch.Repositories.EsRepository`1._client">
+        <member name="P:Bing.Elasticsearch.Repositories.EsRepository`1.Client">
             <summary>
             ES客户端
             </summary>
@@ -1486,21 +1581,28 @@
             <summary>
             批量插入
             </summary>
-            <param name="documents">实体集合</param>
+            <param name="entities">实体集合</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
-        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.BulkInsertAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
+        <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.BulkInsertAsync(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32,System.Double,System.Threading.CancellationToken)">
             <summary>
             批量插入
             </summary>
-            <param name="documents">实体集合</param>
+            <param name="documents">文档集合</param>
+            <param name="chunkSize">每次批量请求的数量。默认：51000</param>
+            <param name="backOffTime">重试等待时间。默认：30s</param>
+            <param name="retries">重试次数。默认：3</param>
+            <param name="maxRuntime">最大运行时间。默认：15分钟</param>
             <param name="cancellationToken">取消令牌</param>
+            <remarks>
+            参考链接：https://www.elastic.co/guide/en/elasticsearch/client/net-api/current/indexing-documents.html
+            </remarks>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.BulkAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
             <summary>
             批量操作
             </summary>
-            <param name="documents">实体集合</param>
+            <param name="entities">实体集合</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.EsRepository`1.DeleteAsync(`0,System.Threading.CancellationToken)">
@@ -1613,6 +1715,45 @@
             <param name="indexName">索引名称</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
+        <member name="T:Bing.Elasticsearch.Repositories.IEsReadOnlyRepository`1">
+            <summary>
+            ES 只读仓储
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsReadOnlyRepository`1.FindByIdAsync(System.Object,System.Threading.CancellationToken)">
+            <summary>
+            通过标识查找
+            </summary>
+            <param name="id">标识</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsReadOnlyRepository`1.FindByIdsAsync(System.String[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsReadOnlyRepository`1.FindByIdsAsync(System.Int64[])">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsReadOnlyRepository`1.FindByIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsReadOnlyRepository`1.FindByIdsAsync(System.Collections.Generic.IEnumerable{System.Int64},System.Threading.CancellationToken)">
+            <summary>
+            通过标识集合查找
+            </summary>
+            <param name="ids">标识集合</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
         <member name="T:Bing.Elasticsearch.Repositories.IEsRepository`1">
             <summary>
             ES仓储
@@ -1630,14 +1771,28 @@
             <summary>
             批量插入
             </summary>
-            <param name="documents">实体集合</param>
+            <param name="entities">实体集合</param>
             <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.BulkInsertAsync(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32,System.Double,System.Threading.CancellationToken)">
+            <summary>
+            批量插入
+            </summary>
+            <param name="documents">文档集合</param>
+            <param name="chunkSize">每次批量请求的数量。默认：51000</param>
+            <param name="backOffTime">重试等待时间。默认：30s</param>
+            <param name="retries">重试次数。默认：3</param>
+            <param name="maxRuntime">最大运行时间。默认：15分钟</param>
+            <param name="cancellationToken">取消令牌</param>
+            <remarks>
+            参考链接：https://www.elastic.co/guide/en/elasticsearch/client/net-api/current/indexing-documents.html
+            </remarks>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.BulkAsync(System.Collections.Generic.IEnumerable{`0},System.Threading.CancellationToken)">
             <summary>
             批量操作
             </summary>
-            <param name="documents">实体集合</param>
+            <param name="entities">实体集合</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.DeleteAsync(`0,System.Threading.CancellationToken)">
@@ -1681,39 +1836,6 @@
             按查询条件更新
             </summary>
             <param name="descriptor">查询更新描述符</param>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
-        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdAsync(System.Object,System.Threading.CancellationToken)">
-            <summary>
-            通过标识查找
-            </summary>
-            <param name="id">标识</param>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
-        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdsAsync(System.String[])">
-            <summary>
-            通过标识集合查找
-            </summary>
-            <param name="ids">标识集合</param>
-        </member>
-        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdsAsync(System.Int64[])">
-            <summary>
-            通过标识集合查找
-            </summary>
-            <param name="ids">标识集合</param>
-        </member>
-        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdsAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <summary>
-            通过标识集合查找
-            </summary>
-            <param name="ids">标识集合</param>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
-        <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.FindByIdsAsync(System.Collections.Generic.IEnumerable{System.Int64},System.Threading.CancellationToken)">
-            <summary>
-            通过标识集合查找
-            </summary>
-            <param name="ids">标识集合</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="M:Bing.Elasticsearch.Repositories.IEsRepository`1.SearchAsync(Nest.SearchDescriptor{`0},System.Threading.CancellationToken)">

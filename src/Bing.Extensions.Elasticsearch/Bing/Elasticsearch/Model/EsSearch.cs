@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Bing.Data;
 using Bing.Data.Queries;
-using Bing.Data.Queries.Internal;
 using Bing.Extensions;
-using Bing.Helpers;
 using Nest;
 
 namespace Bing.Elasticsearch.Model

@@ -49,5 +49,53 @@ namespace Bing.Elasticsearch.Tests
             });
             Assert.True(result.IsValid);
         }
+
+        /// <summary>
+        /// 测试 - 上下文 - 创建索引
+        /// </summary>
+        [Fact]
+        public async Task Test_Context_CreateIndexAsync_1()
+        {
+            await _context.CreateIndexAsync<TestModel1>("test_model_1");
+            await _context.CreateIndexAsync<TestModel5>("test_model_5");
+        }
+
+        /// <summary>
+        /// 测试 - 上下文 - 创建索引及设置别名
+        /// </summary>
+        [Fact]
+        public async Task Test_Context_CreateIndex_With_Alias_Async_1()
+        {
+            await _context.CreateIndexAsync<TestModel1>("test_model_1", "test_1");
+            await _context.CreateIndexAsync<TestModel5>("test_model_5", "test_5");
+        }
+
+        /// <summary>
+        /// 测试 - 上下文 - 删除索引
+        /// </summary>
+        [Fact]
+        public async Task Test_Context_DeleteIndexAsync_1()
+        {
+            await _context.CreateIndexAsync<TestModel1>("test_model_1");
+            await _context.CreateIndexAsync<TestModel5>("test_model_5");
+
+            await _context.DeleteIndexAsync("test_model_1");
+            await _context.DeleteIndexAsync("test_model_5");
+        }
+
+        /// <summary>
+        /// 测试 - 上下文 - 通过别名删除索引集合
+        /// </summary>
+        [Fact]
+        public async Task Test_Context_DeleteIndexesByAliasAsync_1()
+        {
+            await _context.CreateIndexAsync<TestModel1>("test_model_1", "test_1");
+            await _context.CreateIndexAsync<TestModel1>("test_model_2", "test_1");
+            await _context.CreateIndexAsync<TestModel1>("test_model_3", "test_1");
+            await _context.CreateIndexAsync<TestModel1>("test_model_4", "test_1");
+            await _context.CreateIndexAsync<TestModel1>("test_model_5", "test_1");
+
+            await _context.DeleteIndexesByAliasAsync("test_1");
+        }
     }
 }

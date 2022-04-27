@@ -4,7 +4,11 @@ using System.Threading.Tasks;
 using Bing.Data.Queries;
 using Bing.Elasticsearch.Repositories;
 using Bing.Elasticsearch.Tests.Models;
+using Bing.Extensions;
 using Bing.IO;
+using Bing.MockData.Core.Options;
+using Bing.MockData.Factories;
+using Bing.Utils.IdGenerators.Core;
 using Bing.Utils.Json;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -74,6 +78,29 @@ namespace Bing.Elasticsearch.Tests
             var result = await _context.Search<BlogSample>(param).Match(x => x.Title, keyword).GetResultAsync();
             _logger.LogInformation(JsonHelper.ToJson(result.Data));
             Assert.Equal(count, result.TotalCount);
+        }
+
+        /// <summary>
+        /// 测试 - 批量插入数据
+        /// </summary>
+        [Fact]
+        public async Task Test_BulkInsertAsync()
+        {
+            var list = new List<BlogSample>();
+            var timeRandom = RandomizerFactory.GetRandomizer(new DateTimeFieldOptions());
+            var titleRandom = RandomizerFactory.GetRandomizer(new TextFieldOptions()
+                { Min = 3, Max = 30, UseLetter = true, UseNumber = true });
+            for (int i = 0; i < 10000; i++)
+            {
+                list.Add(new BlogSample
+                {
+                    Id = SnowflakeIdGenerator.Current.Create().ToString(),
+                    Title = titleRandom.Generate(),
+                    Time = timeRandom.Generate().SafeValue(),
+                });
+            }
+
+            await _blogRepo.BulkInsertAsync(list);
         }
     }
 }

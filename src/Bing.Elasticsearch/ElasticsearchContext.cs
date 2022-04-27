@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Bing.Elasticsearch.Exceptions;
 using Bing.Elasticsearch.Internals;
 using Bing.Elasticsearch.Mapping;
 using Bing.Elasticsearch.Options;
@@ -91,7 +92,8 @@ namespace Bing.Elasticsearch
             if (alias.IsEmpty())
                 return false;
             var response = await _client.Indices.AliasExistsAsync(alias, ct: cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response.Exists;
         }
 
@@ -106,7 +108,8 @@ namespace Bing.Elasticsearch
                 throw new ArgumentNullException(nameof(index));
             index = GetIndexName(index);
             var response = await _client.Indices.ExistsAsync(index, ct: cancellation);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response.Exists;
         }
 
@@ -133,7 +136,8 @@ namespace Bing.Elasticsearch
         public async Task<CreateIndexResponse> CreateIndexAsync(string index, string alias = null, Func<CreateIndexDescriptor, ICreateIndexRequest> selector = null, CancellationToken cancellationToken = default)
         {
             var result = await _client.Indices.CreateAsync(_resolver.GetIndexName(index), selector, cancellationToken);
-            _logger.LogRequest(result);
+            if (result.IsValid)
+                _logger.LogRequest(result);
             if (alias.IsEmpty() == false)
                 await _client.Indices.PutAliasAsync(_resolver.GetIndexName(index), alias, ct: cancellationToken);
             return result;
@@ -148,9 +152,28 @@ namespace Bing.Elasticsearch
         /// <param name="cancellationToken">取消令牌</param>
         public async Task CreateIndexAsync<TDocument>(string index, string alias = null, CancellationToken cancellationToken = default) where TDocument : class
         {
-            await _client.CreateIndexAsync<TDocument>(_mappingFactory, index, cancellationToken);
-            if (alias.IsEmpty() == false)
-                await _client.Indices.PutAliasAsync(index, alias, ct: cancellationToken);
+            index = GetIndexName<TDocument>(index);
+            var mapping = _mappingFactory.GetMapping<TDocument>();
+            var result = await _client.Indices.CreateAsync(index, x =>
+            {
+                mapping.Map(x);
+                return x;
+            }, cancellationToken);
+            if (result.IsValid || result.ServerError?.Status == 400 &&
+                (result.ServerError.Error.Type == "index_already_exists_exception" ||
+                 result.ServerError.Error.Type == "resource_already_exists_exception"))
+            {
+                _logger.LogRequest(result);
+                if (alias.IsEmpty() == false)
+                {
+                    var aliasResult = await _client.Indices.PutAliasAsync(index, alias, ct: cancellationToken);
+                    if (aliasResult.IsValid)
+                        _logger.LogRequest(aliasResult);
+                }
+                return;
+            }
+
+            throw new EsRepositoryException(result.GetErrorMessage($"Error creating the index {index}"), result.OriginalException);
         }
 
         /// <summary>
@@ -172,7 +195,10 @@ namespace Bing.Elasticsearch
         public async Task<DeleteIndexResponse> DeleteIndexAsync(string index, CancellationToken cancellationToken = default)
         {
             index = GetIndexName(index);
-            return await _client.Indices.DeleteAsync(index, ct: cancellationToken);
+            var response = await _client.Indices.DeleteAsync(index, ct: cancellationToken);
+            if (response.IsValid)
+                _logger.LogRequest(response);
+            return response;
         }
 
         /// <summary>
@@ -185,8 +211,26 @@ namespace Bing.Elasticsearch
             if (alias.IsEmpty())
                 return;
             var indexes = await GetIndexesByAliasAsync(alias, cancellationToken);
-            foreach (var index in indexes)
-                await DeleteIndexAsync(index, cancellationToken);
+            await DeleteIndexesAsync(indexes.ToArray(), cancellationToken);
+        }
+
+        /// <summary>
+        /// 删除多个索引
+        /// </summary>
+        /// <param name="names">索引名称数组</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        protected async Task DeleteIndexesAsync(string[] names, CancellationToken cancellationToken = default)
+        {
+            if (names == null || names.Length == 0)
+                throw new ArgumentNullException(nameof(names));
+            var response = await _client.Indices.DeleteAsync(Indices.Index(names), i => i.IgnoreUnavailable(), cancellationToken);
+            if (response.IsValid)
+            {
+                _logger.LogRequest(response);
+                return;
+            }
+
+            throw new EsRepositoryException(response.GetErrorMessage("Error deleting the index {names}"), response.OriginalException);
         }
 
         /// <summary>
@@ -196,7 +240,8 @@ namespace Bing.Elasticsearch
         public async Task<DeleteIndexResponse> DeleteAllIndexAsync(CancellationToken cancellationToken = default)
         {
             var response = await _client.Indices.DeleteAsync("_all", ct: cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -252,7 +297,8 @@ namespace Bing.Elasticsearch
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var response = await _client.SearchAsync<TDocument>(s => s.Index(index).Size(10000).Query(q => q.MatchAll()),
                 cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response.Documents.ToList();
         }
 

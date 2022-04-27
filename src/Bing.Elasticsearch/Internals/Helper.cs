@@ -20,7 +20,7 @@ namespace Bing.Elasticsearch.Internals
         /// </summary>
         /// <typeparam name="TDocument">文档类型</typeparam>
         /// <param name="index">索引名称。注意：必须小写</param>
-        public static string SafeIndexName<TDocument>(string index = null) => SafeIndexName(typeof(TDocument), index);
+        public static string SafeIndexName<TDocument>(string index = null, string prefix = null) => SafeIndexName(typeof(TDocument), index);
 
         /// <summary>
         /// 安全获取索引名称

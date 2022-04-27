@@ -544,7 +544,7 @@
         </member>
         <member name="T:Bing.Elasticsearch.ElasticsearchContextExtensions">
             <summary>
-            ES上下文扩展
+            ES上下文(<see cref="T:Bing.Elasticsearch.IElasticsearchContext"/>) 扩展
             </summary>
         </member>
         <member name="M:Bing.Elasticsearch.ElasticsearchContextExtensions.Search``1(Bing.Elasticsearch.IElasticsearchContext,Bing.Data.Queries.IQueryParameter)">
@@ -552,7 +552,20 @@
             搜索
             </summary>
             <typeparam name="TResult">结果类型</typeparam>
-            <param name="context">服务</param>
+            <param name="context">ES上下文</param>
+            <param name="query">查询参数</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.EsRepositoryExtensions">
+            <summary>
+            ES仓储(<see cref="T:Bing.Elasticsearch.Repositories.IEsRepository`1"/>) 扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.EsRepositoryExtensions.Search``1(Bing.Elasticsearch.Repositories.IEsRepository{``0},Bing.Data.Queries.IQueryParameter)">
+            <summary>
+            搜索
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="repository">仓储</param>
             <param name="query">查询参数</param>
         </member>
         <member name="T:Bing.Elasticsearch.Model.EsSearch`1">
