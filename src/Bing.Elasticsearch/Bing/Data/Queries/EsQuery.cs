@@ -8,6 +8,10 @@ using Nest;
 
 namespace Bing.Data.Queries
 {
+    /// <summary>
+    /// ES查询
+    /// </summary>
+    /// <typeparam name="TResult">结果类型</typeparam>
     public class EsQuery<TResult> : IEsCondition where TResult : class
     {
         /// <summary>

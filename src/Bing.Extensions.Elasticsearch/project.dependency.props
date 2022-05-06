@@ -1,6 +1,6 @@
 ﻿<Project>
 	<ItemGroup>
-		<PackageReference Include="Bing.Data" Version="2.2.0-preview-20220104-1" />
+		<PackageReference Include="Bing.Data" Version="2.2.3" />
 	</ItemGroup>
 
 	<ItemGroup>

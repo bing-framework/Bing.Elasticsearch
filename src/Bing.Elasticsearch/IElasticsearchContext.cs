@@ -299,6 +299,15 @@ namespace Bing.Elasticsearch
         Task<long> GetTotalCountAsync<TDocument>(string index = null, CancellationToken cancellationToken = default)
             where TDocument : class;
 
+        /// <summary>
+        /// 获取计数
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="selector">查询表达式</param>
+        /// <param name="cancellationToken"></param>
+        Task<CountResponse> CountAsync<TDocument>(Func<CountDescriptor<TDocument>, ICountRequest> selector = null, CancellationToken cancellationToken = default) 
+            where TDocument : class;
+
         #endregion
 
         #region 辅助操作

@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Bing.Elasticsearch.Internals;
-using Bing.Elasticsearch.Mapping;
 using Nest;
 
 // ReSharper disable once CheckNamespace

@@ -1,6 +1,6 @@
 ﻿<Project>
 	<ItemGroup>
-		<PackageReference Include="Bing.Core" Version="2.2.3" />
+		<PackageReference Include="Bing.Data" Version="2.2.3" />
 		<PackageReference Include="Bing.Utils" Version="1.3.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.23" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.23" />

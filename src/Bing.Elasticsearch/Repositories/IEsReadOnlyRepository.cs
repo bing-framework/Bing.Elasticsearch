@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 namespace Bing.Elasticsearch.Repositories
 {
     /// <summary>
-    /// ES 只读仓储
+    /// ES只读仓储
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public interface IEsReadOnlyRepository<TEntity> 
+    public interface IEsReadOnlyRepository<TEntity>
         where TEntity : class
     {
         /// <summary>

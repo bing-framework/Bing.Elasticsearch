@@ -255,7 +255,11 @@ namespace Bing.Elasticsearch
             if (alias.IsEmpty())
                 return;
             foreach (var index in indexes)
-                await _client.Indices.PutAliasAsync(GetIndexName(index), alias);
+            {
+                var response = await _client.Indices.PutAliasAsync(GetIndexName(index), alias);
+                if (response.IsValid)
+                    _logger.LogRequest(response);
+            }
         }
 
         /// <summary>
@@ -268,7 +272,11 @@ namespace Bing.Elasticsearch
             if (alias.IsEmpty())
                 return;
             foreach (var index in indexes)
-                await _client.Indices.DeleteAliasAsync(GetIndexName(index), alias);
+            {
+                var response = await _client.Indices.DeleteAliasAsync(GetIndexName(index), alias);
+                if (response.IsValid)
+                    _logger.LogRequest(response);
+            }
         }
 
         /// <summary>
@@ -313,7 +321,8 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var response = await _client.GetAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index), cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response.IsValid ? response.Source : null;
         }
 
@@ -329,9 +338,12 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var result = new List<TDocument>();
-            var response = await _client.GetManyAsync<TDocument>(ids, index, cancellationToken);
-            if ((response?.Count() ?? 0) != 0)
-                result.AddRange(response.Select(x => x.Source));
+            var response = await _client.MultiGetAsync(idx => idx.Index(index).GetMany<TDocument>(ids), cancellationToken);
+            if (response.IsValid)
+                _logger.LogRequest(response);
+
+            if ((response.Hits?.Count ?? 0) != 0)
+                result.AddRange(response.Hits.Select(x => (TDocument)x.Source));
             return result;
         }
 
@@ -347,9 +359,11 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var result = new List<TDocument>();
-            var response = await _client.GetManyAsync<TDocument>(ids, index, cancellationToken);
-            if ((response?.Count() ?? 0) != 0)
-                result.AddRange(response.Select(x => x.Source));
+            var response = await _client.MultiGetAsync(idx => idx.Index(index).GetMany<TDocument>(ids), cancellationToken);
+            if (response.IsValid)
+                _logger.LogRequest(response);
+            if ((response.Hits?.Count ?? 0) != 0)
+                result.AddRange(response.Hits.Select(x => (TDocument)x.Source));
             return result;
         }
 
@@ -383,7 +397,8 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var response = await _client.SearchAsync<TDocument>(x => x.Query(searchTerms).Index(index).Size(20), cancellationToken);
-            _logger.LogRequest(response);
+            if(response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -397,7 +412,24 @@ namespace Bing.Elasticsearch
             where TDocument : class
         {
             var response = await _client.SearchAsync<TDocument>(selector, cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
+            return response;
+        }
+
+        /// <summary>
+        /// 获取计数
+        /// </summary>
+        /// <typeparam name="TDocument">文档类型</typeparam>
+        /// <param name="selector">查询表达式</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<CountResponse> CountAsync<TDocument>(Func<CountDescriptor<TDocument>, ICountRequest> selector = null, CancellationToken cancellationToken = default)
+            where TDocument : class
+        {
+            var response = await _client.CountAsync(selector, cancellationToken);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -427,7 +459,8 @@ namespace Bing.Elasticsearch
             var response = id == null
                 ? await _client.IndexAsync(document, x => x.Index(index), cancellationToken)
                 : await _client.IndexAsync(document, x => x.Index(index).Id(Helper.GetEsId(id)), cancellationToken);
-            _logger.LogRequest(response);
+            if(response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -448,7 +481,8 @@ namespace Bing.Elasticsearch
                      .IndexMany(documents)
                      .Timeout(timeout),
                 cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -464,7 +498,8 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var response = await _client.DeleteAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index), cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -480,7 +515,8 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var response = await _client.DeleteAsync<TDocument>(Helper.GetEsId(document), x => x.Index(index), cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -493,7 +529,8 @@ namespace Bing.Elasticsearch
         public async Task<DeleteByQueryResponse> DeleteByQueryAsync<TDocument>(Func<DeleteByQueryDescriptor<TDocument>, IDeleteByQueryRequest> selector, CancellationToken cancellationToken = default) where TDocument : class
         {
             var response = await _client.DeleteByQueryAsync(selector, cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -509,7 +546,8 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var response = await _client.UpdateAsync<TDocument>(Helper.GetEsId(document), x => x.Index(index).Doc(document), cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -526,7 +564,8 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var response = await _client.UpdateAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index).Doc(document), cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -539,7 +578,8 @@ namespace Bing.Elasticsearch
         public async Task<UpdateByQueryResponse> UpdateByQueryAsync<TDocument>(Func<UpdateByQueryDescriptor<TDocument>, IUpdateByQueryRequest> selector, CancellationToken cancellationToken = default) where TDocument : class
         {
             var response = await _client.UpdateByQueryAsync(selector, cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response;
         }
 
@@ -554,7 +594,8 @@ namespace Bing.Elasticsearch
         {
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var response = await _client.DocumentExistsAsync<TDocument>(Helper.GetEsId(id), ct: cancellationToken);
-            _logger.LogRequest(response);
+            if (response.IsValid)
+                _logger.LogRequest(response);
             return response.Exists;
         }
 
@@ -569,9 +610,11 @@ namespace Bing.Elasticsearch
             index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
             var search = new SearchDescriptor<TDocument>().MatchAll();
             var response = await _client.SearchAsync<TDocument>(search, cancellationToken);
-            _logger.LogRequest(response);
             if (response.IsValid)
+            {
+                _logger.LogRequest(response);
                 return response.Total;
+            }
             throw new ElasticsearchClientException($"索引[{index}]获取文档计数失败 : {response.ServerError.Error.Reason}");
         }
     }

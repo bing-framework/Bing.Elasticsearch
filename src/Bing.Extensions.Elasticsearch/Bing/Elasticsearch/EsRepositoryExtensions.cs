@@ -1,5 +1,5 @@
 ﻿using Bing.Data.Queries;
-using Bing.Elasticsearch.Model;
+using Bing.Elasticsearch.Models;
 using Bing.Elasticsearch.Repositories;
 using Bing.Extensions;
 
@@ -16,12 +16,12 @@ namespace Bing.Elasticsearch
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <param name="repository">仓储</param>
         /// <param name="query">查询参数</param>
-        public static EsSearch<TEntity> Search<TEntity>(this IEsRepository<TEntity> repository, IQueryParameter query)
+        public static EsPageSearch<TEntity> Search<TEntity>(this IEsRepository<TEntity> repository, IQueryParameter query)
             where TEntity : class
         {
             repository.CheckNull(nameof(repository));
             query.CheckNull(nameof(query));
-            return new EsSearch<TEntity>(repository.GetContext(), query);
+            return new EsPageSearch<TEntity>(repository.GetContext(), query);
         }
     }
 }

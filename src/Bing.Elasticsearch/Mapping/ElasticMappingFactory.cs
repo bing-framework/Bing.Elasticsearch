@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Bing.Elasticsearch.Options;
-using Bing.Extensions;
-using Bing.Reflection;
 using Microsoft.Extensions.Options;
 
 namespace Bing.Elasticsearch.Mapping

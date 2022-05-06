@@ -66,7 +66,6 @@ namespace Bing.Elasticsearch.Tests
         [Fact]
         public async Task Test_Search_MatchAsync()
         {
-
             await SearchByMatchAsync("java", 5);
             await SearchByMatchAsync("入门", 3);
             await SearchByMatchAsync("java入门", 7);
@@ -75,7 +74,26 @@ namespace Bing.Elasticsearch.Tests
         private async Task SearchByMatchAsync(string keyword, int count)
         {
             var param = new QueryParameter();
-            var result = await _context.Search<BlogSample>(param).Match(x => x.Title, keyword).GetResultAsync();
+            var result = await _context.Search<BlogSample>().Match(x => x.Title, keyword).GetResultAsync();
+            _logger.LogInformation(JsonHelper.ToJson(result));
+            Assert.Equal(count, result.Count);
+        }
+
+        /// <summary>
+        /// 测试 - 分页查询 - 模糊匹配词条
+        /// </summary>
+        [Fact]
+        public async Task Test_PageSearch_MatchAsync()
+        {
+            await PageSearchByMatchAsync("java", 5);
+            await PageSearchByMatchAsync("入门", 3);
+            await PageSearchByMatchAsync("java入门", 7);
+        }
+
+        private async Task PageSearchByMatchAsync(string keyword, int count)
+        {
+            var param = new QueryParameter();
+            var result = await _context.PageSearch<BlogSample>(param).Match(x => x.Title, keyword).GetPageResultAsync();
             _logger.LogInformation(JsonHelper.ToJson(result.Data));
             Assert.Equal(count, result.TotalCount);
         }

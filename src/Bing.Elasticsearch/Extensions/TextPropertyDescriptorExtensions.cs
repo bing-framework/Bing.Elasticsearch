@@ -24,7 +24,7 @@ namespace Bing.Elasticsearch
         /// <param name="source">文本属性</param>
         public static TextPropertyDescriptor<T> MaxWordAnalyzer<T>(this TextPropertyDescriptor<T> source)
             where T : class =>
-            source.Analyzer("ik_max_word");
+            source.Analyzer(ESAnalyzerConst.IkMaxWord);
 
         /// <summary>
         /// 设置搜索分析器为 ik_smart
@@ -33,6 +33,6 @@ namespace Bing.Elasticsearch
         /// <param name="source">文本属性</param>
         public static TextPropertyDescriptor<T> SmartSearchAnalyzer<T>(this TextPropertyDescriptor<T> source)
             where T : class =>
-            source.SearchAnalyzer("ik_smart");
+            source.SearchAnalyzer(ESAnalyzerConst.IkSmart);
     }
 }
