@@ -14,6 +14,33 @@
             获取查询条件
             </summary>
         </member>
+        <member name="T:Bing.Data.Queries.Conditions.AndEsCondition">
+            <summary>
+            And连接条件
+            </summary>
+        </member>
+        <member name="F:Bing.Data.Queries.Conditions.AndEsCondition._condition1">
+            <summary>
+            ES条件1
+            </summary>
+        </member>
+        <member name="F:Bing.Data.Queries.Conditions.AndEsCondition._condition2">
+            <summary>
+            ES条件2
+            </summary>
+        </member>
+        <member name="M:Bing.Data.Queries.Conditions.AndEsCondition.#ctor(Bing.Data.IEsCondition,Bing.Data.IEsCondition)">
+            <summary>
+            初始化一个<see cref="T:Bing.Data.Queries.Conditions.AndEsCondition"/>
+            </summary>
+            <param name="condition1">ES条件1</param>
+            <param name="condition2">ES条件2</param>
+        </member>
+        <member name="M:Bing.Data.Queries.Conditions.AndEsCondition.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
         <member name="T:Bing.Data.Queries.Conditions.DateRangeEsCondition`2">
             <summary>
             日期范围过滤条件 - 不包含时间
@@ -229,6 +256,33 @@
             <param name="condition">查询条件</param>
             <param name="max">最大值</param>
         </member>
+        <member name="T:Bing.Data.Queries.Conditions.OrEsCondition">
+            <summary>
+            Or连接条件
+            </summary>
+        </member>
+        <member name="F:Bing.Data.Queries.Conditions.OrEsCondition._condition1">
+            <summary>
+            ES条件1
+            </summary>
+        </member>
+        <member name="F:Bing.Data.Queries.Conditions.OrEsCondition._condition2">
+            <summary>
+            ES条件2
+            </summary>
+        </member>
+        <member name="M:Bing.Data.Queries.Conditions.OrEsCondition.#ctor(Bing.Data.IEsCondition,Bing.Data.IEsCondition)">
+            <summary>
+            初始化一个<see cref="T:Bing.Data.Queries.Conditions.OrEsCondition"/>类型的实例
+            </summary>
+            <param name="condition1">ES条件1</param>
+            <param name="condition2">ES条件2</param>
+        </member>
+        <member name="M:Bing.Data.Queries.Conditions.OrEsCondition.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
         <member name="T:Bing.Data.Queries.Conditions.RangeEsConditionBase`4">
             <summary>
             范围过滤条件
@@ -347,6 +401,11 @@
             </summary>
             <param name="condition">查询条件</param>
             <param name="max">最大值</param>
+        </member>
+        <member name="T:Bing.Data.Queries.Conditions.SegmentEsCondition">
+            <summary>
+            范围过滤条件
+            </summary>
         </member>
         <member name="T:Bing.Data.Queries.EsQuery`1">
             <summary>
@@ -552,6 +611,54 @@
             <summary>
             Select 子句
             </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.EsConditionFactory">
+            <summary>
+            ES条件工厂
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.EsConditionFactory.Create``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Object,Bing.Operator)">
+            <summary>
+            创建ES条件
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="column">列名</param>
+            <param name="value">值</param>
+            <param name="operator">操作符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.EsConditionFactory.Create``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Object,System.Object,Bing.Data.Queries.Boundary)">
+            <summary>
+            创建ES范围条件
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="column">列名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="boundary">包含边界</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.IEsConditionFactory">
+            <summary>
+            ES条件工厂
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.IEsConditionFactory.Create``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Object,Bing.Operator)">
+            <summary>
+            创建ES条件
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="column">列名</param>
+            <param name="value">值</param>
+            <param name="operator">操作符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.IEsConditionFactory.Create``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Object,System.Object,Bing.Data.Queries.Boundary)">
+            <summary>
+            创建ES范围条件
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="column">列名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="boundary">包含边界</param>
         </member>
         <member name="T:Bing.Elasticsearch.Builders.Operations.IFrom">
             <summary>
