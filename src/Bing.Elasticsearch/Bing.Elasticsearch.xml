@@ -548,6 +548,52 @@
             获取查询条件
             </summary>
         </member>
+        <member name="T:Bing.Elasticsearch.Builders.Clauses.ISelectClause">
+            <summary>
+            Select 子句
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Operations.IFrom">
+            <summary>
+            From 子句操作
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Operations.IOrderBy">
+            <summary>
+            OrderBy 子句操作
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Operations.IQueryOperation">
+            <summary>
+            查询操作
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Operations.ISelect">
+            <summary>
+            Select 子句操作
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Operations.IWhere">
+            <summary>
+            Where 子句操作
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ElasticsearchContextExtensions">
+            <summary>
+            ES上下文扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContextExtensions.SearchAsync``1(Bing.Elasticsearch.IElasticsearchContext,System.String,System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            查询。单一条件查询，一般是精确查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="context">ES上下恩</param>
+            <param name="field">字段名</param>
+            <param name="value">值</param>
+            <param name="index">索引名称。注意：必须小写</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
         <member name="T:Bing.Elasticsearch.ESAnalyzerConst">
             <summary>
             ES分词常量
@@ -567,6 +613,37 @@
             <summary>
             IK分词 - 将需要分词的文本做最小粒度的拆分，尽量分更多的词。
             </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Models.EsScrollAllSearch`1">
+            <summary>
+            ES滚动查询模型
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Models.EsScrollAllSearch`1.#ctor(Bing.Elasticsearch.IElasticsearchContext)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Models.EsScrollAllSearch`1"/>类型的实例
+            </summary>
+            <param name="context">ES上下文</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Models.EsScrollAllSearch`2">
+            <summary>
+            ES滚动查询模型
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Models.EsScrollAllSearch`2.#ctor(Bing.Elasticsearch.IElasticsearchContext)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Models.EsScrollAllSearch`2"/>类型的实例
+            </summary>
+            <param name="context">ES上下文</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Models.EsScrollAllSearch`2.GetLargeListAsync(System.Int32,System.Double,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            获取大批量数据
+            </summary>
+            <param name="timeout">超时时间，单位：秒。默认：10秒</param>
+            <param name="maximumRunTime">查询最大超时时间，单位：分钟。默认：20分钟</param>
+            <param name="maxParallelism">最大并行度。默认：3</param>
+            <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="T:Bing.Elasticsearch.Models.EsSearch`1">
             <summary>
@@ -920,6 +997,11 @@
         <member name="M:Bing.Elasticsearch.Models.EsSearchBase`2.GetEsResultAsync">
             <summary>
             获取ES结果
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Models.EsSearchBase`2.BuildSearchRequest">
+            <summary>
+            构建查询请求 
             </summary>
         </member>
         <member name="M:Bing.Elasticsearch.Models.EsSearchBase`2.GetResultAsync">
@@ -1281,6 +1363,11 @@
         <member name="P:Bing.Elasticsearch.Repositories.EsReadOnlyRepositoryBase`1.IndexName">
             <summary>
             索引名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.Repositories.EsReadOnlyRepositoryBase`1.AliasName">
+            <summary>
+            别名
             </summary>
         </member>
         <member name="P:Bing.Elasticsearch.Repositories.EsReadOnlyRepositoryBase`1.Options">
@@ -1861,6 +1948,39 @@
             <param name="selector">查询表达式</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.ScrollAll``1(Nest.Time,System.Int32,System.Func{Nest.ScrollAllDescriptor{``0},Nest.IScrollAllRequest},System.Threading.CancellationToken)">
+            <summary>
+            滚动查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="timeout">超时时间</param>
+            <param name="numberOfReplicas">切片数</param>
+            <param name="selector">查询表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.ScrollAll``1(System.Int32,System.Int32,System.TimeSpan,System.Func{Nest.ScrollAllDescriptor{``0},Nest.IScrollAllRequest},System.Threading.CancellationToken)">
+            <summary>
+            滚动查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="timeout">超时时间。单位：秒</param>
+            <param name="numberOfReplicas">切片数</param>
+            <param name="maximumRunTime">查询最大超时时间</param>
+            <param name="selector">查询表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContext.ScrollAll``1(System.Func{Nest.SearchDescriptor{``0},Nest.ISearchRequest},System.Int32,System.Double,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            滚动查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="selector">查询表达式</param>
+            <param name="timeout">超时时间，单位：秒。默认：10秒</param>
+            <param name="maximumRunTime">查询最大超时时间，单位：分钟。默认：20分钟</param>
+            <param name="maxDegreeOfParallelism">最大并行度。默认：3</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
         <member name="M:Bing.Elasticsearch.ElasticsearchContext.CountAsync``1(System.Func{Nest.CountDescriptor{``0},Nest.ICountRequest},System.Threading.CancellationToken)">
             <summary>
             获取计数
@@ -2191,22 +2311,6 @@
             sort 字段名
             </summary>
         </member>
-        <member name="T:Bing.Elasticsearch.ElasticsearchContextExtensions">
-            <summary>
-            ES上下文扩展
-            </summary>
-        </member>
-        <member name="M:Bing.Elasticsearch.ElasticsearchContextExtensions.SearchAsync``1(Bing.Elasticsearch.IElasticsearchContext,System.String,System.Object,System.String,System.Threading.CancellationToken)">
-            <summary>
-            查询。单一条件查询，一般是精确查询
-            </summary>
-            <typeparam name="TDocument">文档类型</typeparam>
-            <param name="context">ES上下恩</param>
-            <param name="field">字段名</param>
-            <param name="value">值</param>
-            <param name="index">索引名称。注意：必须小写</param>
-            <param name="cancellationToken">取消令牌</param>
-        </member>
         <member name="T:Bing.Elasticsearch.LoggerExtensions">
             <summary>
             日志(<see cref="T:Microsoft.Extensions.Logging.ILogger"/>) 扩展
@@ -2447,6 +2551,38 @@
             </summary>
             <typeparam name="TDocument">文档类型</typeparam>
             <param name="selector">查询表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.ScrollAll``1(Nest.Time,System.Int32,System.Func{Nest.ScrollAllDescriptor{``0},Nest.IScrollAllRequest},System.Threading.CancellationToken)">
+            <summary>
+            滚动查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="timeout">超时时间</param>
+            <param name="numberOfReplicas">切片数</param>
+            <param name="selector">查询表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.ScrollAll``1(System.Int32,System.Int32,System.TimeSpan,System.Func{Nest.ScrollAllDescriptor{``0},Nest.IScrollAllRequest},System.Threading.CancellationToken)">
+            <summary>
+            滚动查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="timeout">超时时间。单位：秒</param>
+            <param name="numberOfReplicas">切片数</param>
+            <param name="maximumRunTime">查询最大超时时间</param>
+            <param name="selector">查询表达式</param>
+            <param name="cancellationToken">取消令牌</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.IElasticsearchContext.ScrollAll``1(System.Func{Nest.SearchDescriptor{``0},Nest.ISearchRequest},System.Int32,System.Double,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            滚动查询
+            </summary>
+            <typeparam name="TDocument">文档类型</typeparam>
+            <param name="selector">查询表达式</param>
+            <param name="timeout">超时时间，单位：秒。默认：10秒</param>
+            <param name="maximumRunTime">查询最大超时时间，单位：分钟。默认：20分钟</param>
+            <param name="maxDegreeOfParallelism">最大并行度。默认：3</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
         <member name="M:Bing.Elasticsearch.IElasticsearchContext.GetClient">

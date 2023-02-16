@@ -24,22 +24,59 @@
             <param name="context">ES上下文</param>
             <param name="query">查询参数</param>
         </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContextExtensions.ScrollAllSearch``1(Bing.Elasticsearch.IElasticsearchContext)">
+            <summary>
+            滚动搜索
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="context">ES上下文</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.ElasticsearchContextExtensions.ScrollAllSearch``2(Bing.Elasticsearch.IElasticsearchContext)">
+            <summary>
+            滚动搜索
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <typeparam name="TResult">结果类型</typeparam>
+            <param name="context">ES上下文</param>
+        </member>
         <member name="T:Bing.Elasticsearch.EsRepositoryExtensions">
             <summary>
             ES仓储(<see cref="T:Bing.Elasticsearch.Repositories.IEsRepository`1"/>) 扩展
             </summary>
         </member>
-        <member name="M:Bing.Elasticsearch.EsRepositoryExtensions.Search``1(Bing.Elasticsearch.Repositories.IEsRepository{``0},Bing.Data.Queries.IQueryParameter)">
+        <member name="M:Bing.Elasticsearch.EsRepositoryExtensions.Search``1(Bing.Elasticsearch.Repositories.IEsRepository{``0})">
             <summary>
             搜索
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="context">ES上下文</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.EsRepositoryExtensions.PageSearch``1(Bing.Elasticsearch.Repositories.IEsRepository{``0},Bing.Data.Queries.IQueryParameter)">
+            <summary>
+            分页搜索
             </summary>
             <typeparam name="TEntity">实体类型</typeparam>
             <param name="repository">仓储</param>
             <param name="query">查询参数</param>
         </member>
+        <member name="M:Bing.Elasticsearch.EsRepositoryExtensions.ScrollAllSearch``1(Bing.Elasticsearch.Repositories.IEsRepository{``0})">
+            <summary>
+            滚动搜索
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="repository">仓储</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.EsRepositoryExtensions.ScrollAllSearch``2(Bing.Elasticsearch.Repositories.IEsRepository{``0})">
+            <summary>
+            滚动搜索
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <typeparam name="TResult">结果类型</typeparam>
+            <param name="repository">仓储</param>
+        </member>
         <member name="T:Bing.Elasticsearch.Models.EsPageSearch`1">
             <summary>
-            ES查询模型
+            ES分页查询模型
             </summary>
             <typeparam name="TResult">查询结果类型</typeparam>
         </member>

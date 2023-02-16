@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bing.Date;
 using Bing.Elasticsearch.ConsoleSample.Additionals.Products;
 using Bing.Elasticsearch.ConsoleSample.ESModel;
 using Bing.Elasticsearch.ConsoleSample.Model.Products;

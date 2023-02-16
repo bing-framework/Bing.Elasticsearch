@@ -33,14 +33,18 @@ namespace Bing.Elasticsearch.Tests
             {
                 o.Urls = new List<string>
                 {
-                    "http://10.186.103.244:9201",
-                    "http://10.186.103.244:9202",
-                    "http://10.186.103.244:9203",
+                    //"http://10.186.103.244:9201",
+                    //"http://10.186.103.244:9202",
+                    //"http://10.186.103.244:9203",
+                    "http://10.186.135.127:9200",
+                    "http://10.186.135.143:9200",
+                    "http://10.186.135.113:9200"
                 };
-                o.DefaultIndex = "bing_es_sample";
-                o.Prefix = "bing_sample";
+                //o.DefaultIndex = "bing_es_sample";
+                //o.Prefix = "bing_sample";
                 o.UserName = "elastic";
-                o.Password = "gzdevops2022";
+                //o.Password = "gzdevops2022";
+                o.Password = "elastic@2022";
                 o.NumberOfShards = 3;
                 o.NumberOfReplicas = 1;
             });

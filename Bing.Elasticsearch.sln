@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31911.196
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Elasticsearch", "src\Bing.Elasticsearch\Bing.Elasticsearch.csproj", "{A1DDAB86-3F28-486A-AD74-CDAB7F94EA7B}"
 EndProject
@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Elasticsearch.Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-samples", "03-samples", "{72B2A1A6-7745-4A1B-91D0-514AC55E6A6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Elasticsearch.ConsoleSample", "samples\Bing.Elasticsearch.ConsoleSample\Bing.Elasticsearch.ConsoleSample.csproj", "{E43DDCA3-A4DE-46D7-918D-37F960D06B28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Elasticsearch.ConsoleSample", "samples\Bing.Elasticsearch.ConsoleSample\Bing.Elasticsearch.ConsoleSample.csproj", "{E43DDCA3-A4DE-46D7-918D-37F960D06B28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Elasticsearch.WinformSample", "samples\Bing.Elasticsearch.WinformSample\Bing.Elasticsearch.WinformSample.csproj", "{081A8A4B-6730-4646-8263-703D686DE866}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Elasticsearch.WinformSample", "samples\Bing.Elasticsearch.WinformSample\Bing.Elasticsearch.WinformSample.csproj", "{081A8A4B-6730-4646-8263-703D686DE866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Extensions.Elasticsearch", "src\Bing.Extensions.Elasticsearch\Bing.Extensions.Elasticsearch.csproj", "{48567761-E7E4-4C07-AD42-A91A870342BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Extensions.Elasticsearch", "src\Bing.Extensions.Elasticsearch\Bing.Extensions.Elasticsearch.csproj", "{48567761-E7E4-4C07-AD42-A91A870342BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{69DE1812-2212-49D3-AE5B-5879E808409D}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_Solution
 		LICENSE = LICENSE
 		Publish.bat = Publish.bat
 		README.md = README.md
+		version.dev.props = version.dev.props
 		version.props = version.props
 	EndProjectSection
 EndProject

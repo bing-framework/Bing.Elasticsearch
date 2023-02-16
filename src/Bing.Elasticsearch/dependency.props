@@ -1,0 +1,9 @@
+﻿<Project>
+	<ItemGroup>
+		<PackageReference Include="Bing.Data" Version="$(BingFrameworkVersion)" />
+		<PackageReference Include="Bing.Utils" Version="$(BingUtilsPackageVersion)" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftPackageVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="$(MicrosoftPackageVersion)" />
+		<PackageReference Include="NEST" Version="7.16.0" />
+	</ItemGroup>
+</Project>

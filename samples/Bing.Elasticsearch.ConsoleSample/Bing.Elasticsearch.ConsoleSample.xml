@@ -1,0 +1,1240 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bing.Elasticsearch.ConsoleSample</name>
+    </assembly>
+    <members>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Additionals.Products.GoodsCustomFieldAdditional">
+            <summary>
+            商品自定义字段附加
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.GoodsCustomFieldAdditional.Items">
+            <summary>
+            明细
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Additionals.Products.GoodsCustomFieldAdditional.GoodsCustomFieldAdditionalItem">
+            <summary>
+            自定义字段附加
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.GoodsCustomFieldAdditional.GoodsCustomFieldAdditionalItem.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.GoodsCustomFieldAdditional.GoodsCustomFieldAdditionalItem.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductAdditional">
+            <summary>
+            产品附加
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductAdditional.AttributeName">
+            <summary>
+            属性名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductAdditional.AttributeValue">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductAdditional.AttributeAdditional">
+            <summary>
+            产品属性附加
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductAdditional.CustomFieldAdditional">
+            <summary>
+            产品自定义字段附加
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductAttributeAdditional">
+            <summary>
+            产品属性附加
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductAttributeAdditional.Items">
+            <summary>
+            商品所选属性
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductCustomFieldAdditional">
+            <summary>
+            产品自定义字段附加
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Additionals.Products.ProductCustomFieldAdditional.Items">
+            <summary>
+            明细
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Enums.BusinessRelatedUnitType">
+            <summary>
+            单位类型
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.BusinessRelatedUnitType.Supplier">
+            <summary>
+            供应商
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.BusinessRelatedUnitType.Shop">
+            <summary>
+            门店
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.BusinessRelatedUnitType.Client">
+            <summary>
+            客户
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.BusinessRelatedUnitType.Warehouse">
+            <summary>
+            仓库
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType">
+            <summary>
+            出入库单类型
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.PurchaseReturn">
+            <summary>
+            采购退货出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.Sale">
+            <summary>
+            销售出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.InventoryOut">
+            <summary>
+            盘亏出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.TransferOut">
+            <summary>
+            调拨出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.Loss">
+            <summary>
+            报损出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.Gift">
+            <summary>
+            赠品出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.AdjustOut">
+            <summary>
+            库存调整出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.ExchangeOut">
+            <summary>
+            销售换货出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.OutStockOut">
+            <summary>
+            出库单出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.OtherOut">
+            <summary>
+            其它出库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.Purchase">
+            <summary>
+            采购入库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.SaleReturn">
+            <summary>
+            销售退货入库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.InventoryIn">
+            <summary>
+            盘盈入库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.TransferIn">
+            <summary>
+            调拨入库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.TransferRegainIn">
+            <summary>
+            调拨回货入库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.AdjustIn">
+            <summary>
+            库存调整入库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.ExchangeIn">
+            <summary>
+            销售换货入库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.InStockIn">
+            <summary>
+            入库单入库
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.InOutStockType.OtherIn">
+            <summary>
+            其它入库
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Enums.OrderBillingType">
+            <summary>
+            结算类型
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.OrderBillingType.None">
+            <summary>
+            空
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.OrderBillingType.PurchaseSale">
+            <summary>
+            购销
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.OrderBillingType.Consignment">
+            <summary>
+            代销
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.OrderBillingType.All">
+            <summary>
+            购销并代销
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Enums.StockCostWay">
+            <summary>
+            成本计算方式值
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.StockCostWay.IncludeTax">
+            <summary>
+            以含税单价计算
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.ConsoleSample.Enums.StockCostWay.ExIncludeTax">
+            <summary>
+            以不含税单价计算
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo">
+            <summary>
+            出入库产品日报表 ES对象
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InOutStockProductDailyReportId">
+            <summary>
+            出入库产品日报表标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.ReportDate">
+            <summary>
+            报表日期
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.MerchantId">
+            <summary>
+            商户标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.WarehouseId">
+            <summary>
+            仓库标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.WarehouseName">
+            <summary>
+            仓库名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.ProductId">
+            <summary>
+            产品标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.OpeningQty">
+            <summary>
+            期初数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.OpeningCostPrice">
+            <summary>
+            期初含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.OpeningNotTaxCost">
+            <summary>
+            期初不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferInQty">
+            <summary>
+            调拨入库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferInCostPrice">
+            <summary>
+            调拨入库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferInNotTaxCost">
+            <summary>
+            调拨入库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferRegainInQty">
+            <summary>
+            调拨回货入库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferRegainInCostPrice">
+            <summary>
+            调拨回货入库成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferRegainInNotTaxCost">
+            <summary>
+            调拨回货入库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.PurchaseQty">
+            <summary>
+            采购入库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.PurchaseCostPrice">
+            <summary>
+            采购入库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.PurchaseNotTaxCost">
+            <summary>
+            采购入库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.SaleReturnQty">
+            <summary>
+            销售退货入库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.SaleReturnCostPrice">
+            <summary>
+            销售退货入库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.SaleReturnNotTaxCost">
+            <summary>
+            销售退货入库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryInQty">
+            <summary>
+            盘盈入库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryInCostPrice">
+            <summary>
+            盘盈入库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryInNotTaxCost">
+            <summary>
+            盘盈入库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AdjustInQty">
+            <summary>
+            校正入库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AdjustInCost">
+            <summary>
+            调整入库成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AdjustInNotTaxCost">
+            <summary>
+            调整入库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AlterInQty">
+            <summary>
+            调整入库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AlterInCost">
+            <summary>
+            调整入库成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AlterInNotTaxCost">
+            <summary>
+            调整入库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryCostInQty">
+            <summary>
+            成本调整入库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryCostInCost">
+            <summary>
+            成本调整入库成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryCostInNotTaxCost">
+            <summary>
+            成本调整入库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InStockQty">
+            <summary>
+            入库合计数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InStockCostPrice">
+            <summary>
+            入库合计含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InStockNotTaxCost">
+            <summary>
+            入库合计不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.SaleQty">
+            <summary>
+            销售出库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.SaleCostPrice">
+            <summary>
+            销售出库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.SaleNotTaxCost">
+            <summary>
+            销售出库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.PurchaseReturnQty">
+            <summary>
+            采购退货数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.PurchaseReturnCostPrice">
+            <summary>
+            采购退货含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.PurchaseReturnNotTaxCost">
+            <summary>
+            采购退货不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferOutQty">
+            <summary>
+            调拨出库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferOutCostPrice">
+            <summary>
+            调拨出库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.TransferOutNotTaxCost">
+            <summary>
+            调拨出库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryOutQty">
+            <summary>
+            盘亏出库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryOutCostPrice">
+            <summary>
+            盘亏出库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryOutNotTaxCost">
+            <summary>
+            盘亏出库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.LossOutQty">
+            <summary>
+            报损出库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.LossOutCostPrice">
+            <summary>
+            报损出库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.LossOutNotTaxCost">
+            <summary>
+            报损出库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AdjustOutQty">
+            <summary>
+            校正出库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AdjustOutCost">
+            <summary>
+            校正出库成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AdjustOutNotTaxCost">
+            <summary>
+            校正出库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AlterOutQty">
+            <summary>
+            调整出库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AlterOutCost">
+            <summary>
+            调整出库成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.AlterOutNotTaxCost">
+            <summary>
+            调整出库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryCostOutQty">
+            <summary>
+            成本调整出库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryCostOutCost">
+            <summary>
+            成本调整出库成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.InventoryCostOutNotTaxCost">
+            <summary>
+            成本调整出库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.GiftOutQty">
+            <summary>
+            赠品出库数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.GiftOutCostPrice">
+            <summary>
+            赠品出库含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.GiftOutNotTaxCost">
+            <summary>
+            赠品出库不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.OutStockQty">
+            <summary>
+            出库合计数量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.OutStockCostPrice">
+            <summary>
+            出库合计含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.OutStockNotTaxCost">
+            <summary>
+            出库合计不含税成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.OrderBillingType">
+            <summary>
+            结算类型
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductDailyReportEo.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.InOutStockProductReportId">
+            <summary>
+            标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.MerchantId">
+            <summary>
+            商户标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.GoodsId">
+            <summary>
+            商品标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.GoodsCode">
+            <summary>
+            商品编码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.GoodsName">
+            <summary>
+            商品名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.ProductId">
+            <summary>
+            产品标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.ProductCode">
+            <summary>
+            产品编码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.ProductName">
+            <summary>
+            产品名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.Barcode">
+            <summary>
+            条码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.AttributeName">
+            <summary>
+            属性名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.AttributeValue">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.Unit">
+            <summary>
+            商品单位
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.BrandId">
+            <summary>
+            品牌标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.BrandName">
+            <summary>
+            品牌名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.CategoryId">
+            <summary>
+            分类标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.CategoryName">
+            <summary>
+            分类名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OrganizationId">
+            <summary>
+            组织机构标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OrganizationName">
+            <summary>
+            组织机构名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.WarehouseId">
+            <summary>
+            仓库标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.WarehouseName">
+            <summary>
+            仓库名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.UpSheetId">
+            <summary>
+            上游订单标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.UpSheet">
+            <summary>
+            上游订单号
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.UpSheetTime">
+            <summary>
+            上游订单时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OriginalSheet">
+            <summary>
+            原始订单号
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OriginalSheetId">
+            <summary>
+            原始订单标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OrderTime">
+            <summary>
+            单据时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.Type">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.TypeDesc">
+            <summary>
+            业务类型描述
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.ChangeQty">
+            <summary>
+            改变值
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.TotalQty">
+            <summary>
+            总库存
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.CostPrice">
+            <summary>
+            成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.TotalCostPrice">
+            <summary>
+            总成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.InventoryCostPrice">
+            <summary>
+            库存成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.TotalInventoryCostPrice">
+            <summary>
+            总库存成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.NotTaxCostPrice">
+            <summary>
+            不含税成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.NotTaxTotalCostPrice">
+            <summary>
+            不含税总成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.NotTaxInventoryCostPrice">
+            <summary>
+            不含税库存成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.NotTaxTotalInventoryCostPrice">
+            <summary>
+            不含税总库存成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OriginalPrice">
+            <summary>
+            源单含税价格
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OriginalAmount">
+            <summary>
+            源单含税金额
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OriginalNotTaxPrice">
+            <summary>
+            源单不含税价格
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OriginalNotTaxAmount">
+            <summary>
+            源单不含税金额
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.StockCostWay">
+            <summary>
+            成本计算方式
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.CreatorId">
+            <summary>
+            创建人标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.Creator">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.BusinessRelatedUnitName">
+            <summary>
+            往来单位名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.BusinessRelatedUnitId">
+            <summary>
+            往来单位标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.BusinessRelatedUnitType">
+            <summary>
+            往来单位类型
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.ESModel.InOutStockProductReportEo.OrderBillingType">
+            <summary>
+            结算类型
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Log">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ConsoleSample.Log.Write(System.String)">
+            <summary>
+            输出
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Model.Products.Product">
+            <summary>
+            产品
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.ProductId">
+            <summary>
+            产品标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.GoodsId">
+            <summary>
+            商品标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.MerchantId">
+            <summary>
+            商户标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.Barcode">
+            <summary>
+            条码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.NationalCode">
+            <summary>
+            国标码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.Unit">
+            <summary>
+            单位
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.SuggestedRetailPrice">
+            <summary>
+            建议零售价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.ReferPurchasePrice">
+            <summary>
+            参考采购价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.Weight">
+            <summary>
+            重量
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.ShareBarcode">
+            <summary>
+            共享条码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.IsBusinessOccupy">
+            <summary>
+            是否业务占用
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.IsDeleted">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.CreatorId">
+            <summary>
+            创建人标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.Creator">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.LastModificationTime">
+            <summary>
+            最后修改时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.LastModifierId">
+            <summary>
+            最后修改人标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.LastModifier">
+            <summary>
+            最后修改人
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Products.Product.Extend">
+            <summary>
+            扩展
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport">
+            <summary>
+            出入库产品报表
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.InOutStockProductReportId">
+            <summary>
+            出入库产品报表标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.MerchantId">
+            <summary>
+            商户标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.GoodsId">
+            <summary>
+            商品标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.GoodsCode">
+            <summary>
+            商品编码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.GoodsName">
+            <summary>
+            商品名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.ProductId">
+            <summary>
+            产品标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.ProductCode">
+            <summary>
+            产品编码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.ProductName">
+            <summary>
+            产品名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.Barcode">
+            <summary>
+            条码
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.Unit">
+            <summary>
+            商品单位
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.BrandId">
+            <summary>
+            品牌标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.BrandName">
+            <summary>
+            品牌名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.CategoryId">
+            <summary>
+            分类标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.CategoryName">
+            <summary>
+            分类名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OrganizationId">
+            <summary>
+            组织机构标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OrganizationName">
+            <summary>
+            组织机构名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.WarehouseId">
+            <summary>
+            仓库标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.WarehouseName">
+            <summary>
+            仓库名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.UpSheetId">
+            <summary>
+            上游订单标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.UpSheet">
+            <summary>
+            上游订单号
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.UpSheetTime">
+            <summary>
+            上游订单时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OriginalSheet">
+            <summary>
+            原始订单号
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OriginalSheetId">
+            <summary>
+            原始订单标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OrderTime">
+            <summary>
+            单据时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.ChangeQty">
+            <summary>
+            改变值
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.TotalQty">
+            <summary>
+            总库存
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.CostPrice">
+            <summary>
+            成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.TotalCostPrice">
+            <summary>
+            总成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.InventoryCostPrice">
+            <summary>
+            库存成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.TotalInventoryCostPrice">
+            <summary>
+            总库存成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.NotTaxCostPrice">
+            <summary>
+            不含税成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.NotTaxTotalCostPrice">
+            <summary>
+            不含税总成本
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.NotTaxInventoryCostPrice">
+            <summary>
+            不含税库存成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.NotTaxTotalInventoryCostPrice">
+            <summary>
+            不含税总库存成本价
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OriginalPrice">
+            <summary>
+            源单含税价格
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OriginalAmount">
+            <summary>
+            源单含税金额
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OriginalNotTaxPrice">
+            <summary>
+            源单不含税价格
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OriginalNotTaxAmount">
+            <summary>
+            源单不含税金额
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.StockCostWay">
+            <summary>
+            成本计算方式
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.CreatorId">
+            <summary>
+            创建人标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.Creator">
+            <summary>
+            创建人
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.BusinessRelatedUnitName">
+            <summary>
+            往来单位名称
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.BusinessRelatedUnitId">
+            <summary>
+            往来单位标识
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.BusinessRelatedUnitType">
+            <summary>
+            往来单位类型
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.Model.Reports.InOutStockProductReport.OrderBillingType">
+            <summary>
+            结算类型
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ConsoleSample.Program.GetFreeSql(System.String)">
+            <summary>
+            获取FreeSQL
+            </summary>
+            <param name="connectionString">连接字符串</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.SampleContext">
+            <summary>
+            上下文
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.SampleContext.Orm">
+            <summary>
+            中间库
+            </summary>
+        </member>
+        <member name="P:Bing.Elasticsearch.ConsoleSample.SampleContext.ESContext">
+            <summary>
+            ES上下文
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Samples.QueryInOutStockProductReportAct">
+            <summary>
+            查询 - 出入库产品报表
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ConsoleSample.Samples.QueryInOutStockProductReportAct.ExecuteAsync(Bing.Elasticsearch.ConsoleSample.SampleContext)">
+            <summary>
+            执行
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.ConsoleSample.Samples.SaveInOutStockProductReportAct">
+            <summary>
+            保存 - 出入库产品报表
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.ConsoleSample.Samples.SaveInOutStockProductReportAct.ExecuteAsync(Bing.Elasticsearch.ConsoleSample.SampleContext)">
+            <summary>
+            执行
+            </summary>
+        </member>
+    </members>
+</doc>

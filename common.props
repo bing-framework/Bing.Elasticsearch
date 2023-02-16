@@ -21,9 +21,17 @@
     <DocumentationFile>$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
+	<ItemGroup>
+		<!--移除Xml、DotSettings-->
+		<None Remove="$(AssemblyName).xml" />
+		<None Remove="$(AssemblyName).csproj.DotSettings" />
+	</ItemGroup>
+
   <Import Project="asset/props/package.props"/>
 
   <Import Project="asset/props/misc.props"/>
 
   <Import Project="./version.props"/>
+
+  <Import Project="./version.dev.props"/>
 </Project>
