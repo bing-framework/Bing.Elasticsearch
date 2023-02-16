@@ -93,5 +93,23 @@ namespace Bing.Elasticsearch.Tests
                 .GetLargeListAsync(300, maxParallelism: 10);
             _logger.LogInformation($"返回数量：{result.Count}");
         }
+
+        /// <summary>
+        /// 测试 - 通过别名进行查询
+        /// </summary>
+        [Fact]
+        public async Task Test_ScrollAll_With_Alias_Async_2()
+        {
+            var beginTime = DateTime.Parse("2022-12-01");
+            var endTime = DateTime.Parse("2022-12-02");
+            var result = await _context
+                .ScrollAllSearch<WarehouseProductStockBakEo>()
+                .Size(10000)
+                .Term(x => x.MerchantId, "3a02e707-3265-3213-a676-b043d8208460")
+                .Between(x => x.BakTime, beginTime, endTime, true, Boundary.Left)
+                //.Index("in_out_stock_product_daily_report")
+                .GetLargeListAsync(300, maxParallelism: 3);
+            _logger.LogInformation($"返回数量：{result.Count}");
+        }
     }
 }
