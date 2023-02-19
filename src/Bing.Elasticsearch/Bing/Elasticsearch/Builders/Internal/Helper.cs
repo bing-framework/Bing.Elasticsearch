@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Bing.Data;
 using Bing.Data.Queries.Conditions;
-using Bing.Utils.Parameters;
+using Bing.Elasticsearch.Builders.Conditions;
 using Nest;
 
 namespace Bing.Elasticsearch.Builders.Internal;
@@ -35,15 +35,19 @@ public class Helper
         return new Field(expression);
     }
 
-    public IEsCondition CreateCondition(Expression expression, object value, Operator @operator)
-    {
-    }
+    //public IEsCondition CreateCondition(Expression expression, object value, Operator @operator)
+    //{
+    //}
 
     public IEsCondition CreateCondition(Field column, object value, Operator @operator)
     {
         if (column == null)
             throw new ArgumentNullException(nameof(column));
-
+        if (IsInCondition(@operator, value))
+            return CreateInCondition(column, value as IEnumerable);
+        if (IsNotInCondition(@operator, value))
+            return CreateInCondition(column, value as IEnumerable, true);
+        return NullEsCondition.Instance;
     }
 
     /// <summary>
@@ -82,12 +86,29 @@ public class Helper
     {
         if (values == null)
             return NullEsCondition.Instance;
-        var paramNames = new List<string>();
-        foreach (var value in values)
-        {
-        }
+        var objects = new List<object>();
+        foreach (var value in values) 
+            objects.Add(value);
         if (notIn)
-            return new NotInCondition(column, paramNames);
-        return new InCondition(column, paramNames);
+            return new NotInCondition(column, objects);
+        return new InCondition(column, objects);
+    }
+
+    /// <summary>
+    /// 创建In条件
+    /// </summary>
+    /// <param name="column">列名</param>
+    /// <param name="values">值列表</param>
+    /// <param name="notIn">是否Not In条件</param>
+    private IEsCondition CreateInCondition(Field column, IEnumerable values, bool notIn = false)
+    {
+        if (values == null)
+            return NullEsCondition.Instance;
+        var objects = new List<object>();
+        foreach (var value in values) 
+            objects.Add(value);
+        if (notIn)
+            return new NotInCondition(column, objects);
+        return new InCondition(column, objects);
     }
 }

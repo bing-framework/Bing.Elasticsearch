@@ -17,7 +17,6 @@
 	<ItemGroup>
 	  <Folder Include="Bing\Elasticsearch\Builders\Operations\" />
 	  <Folder Include="Bing\Elasticsearch\Builders\Clauses\" />
-	  <Folder Include="Bing\Elasticsearch\Builders\Internal\" />
 	</ItemGroup>
 
 </Project>

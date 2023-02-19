@@ -2,20 +2,31 @@
 using System.Linq.Expressions;
 using Bing.Data;
 using Bing.Data.Queries.Conditions;
+using Bing.Elasticsearch.Builders.Internal;
 using Nest;
 
 namespace Bing.Elasticsearch.Builders.Clauses;
 
-public class WhereClause : IWhereClause
+/// <summary>
+/// Where子句
+/// </summary>
+public class WhereClause : ClauseBase, IWhereClause
 {
     /// <summary>
     /// 查询条件
     /// </summary>
     private IEsCondition _condition;
 
-    public WhereClause(IEsCondition condition = null)
+    private readonly Helper _helper;
+
+    /// <summary>
+    /// 初始化一个<see cref="WhereClause"/>类型的实例
+    /// </summary>
+    /// <param name="esBuilder">ES生成器</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public WhereClause(EsBuilderBase esBuilder) : base(esBuilder)
     {
-        _condition = condition;
+        _helper = new Helper();
     }
 
     /// <summary>
@@ -64,6 +75,16 @@ public class WhereClause : IWhereClause
     /// <param name="operator">运算符</param>
     public void Where<TEntity>(Expression<Func<TEntity, object>> expression, object value, Operator @operator = Operator.Equal) where TEntity : class
     {
-        throw new NotImplementedException();
+        var condition = _helper.CreateCondition(expression, value, @operator);
+        And(condition);
+    }
+
+    /// <summary>
+    /// 添加到查询请求
+    /// </summary>
+    /// <param name="builder">查询请求</param>
+    public void AppendTo(ISearchRequest builder)
+    {
+        builder.Query = GetCondition();
     }
 }

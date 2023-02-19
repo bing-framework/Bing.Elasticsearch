@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Bing.Data.Queries.Conditions;
+using Bing.Elasticsearch.Builders.Operations;
 using Bing.Extensions;
 using Nest;
 
@@ -12,7 +13,8 @@ namespace Bing.Data.Queries;
 /// ES查询
 /// </summary>
 /// <typeparam name="TResult">结果类型</typeparam>
-public class EsQuery<TResult> : IEsCondition where TResult : class
+public class EsQuery<TResult> : IEsCondition, IWhere
+    where TResult : class
 {
     /// <summary>
     /// 查询容器

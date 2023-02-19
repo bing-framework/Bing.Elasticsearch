@@ -4,7 +4,10 @@ using Bing.Data;
 
 namespace Bing.Elasticsearch.Builders.Clauses;
 
-public interface IWhereClause : IEsCondition
+/// <summary>
+/// Where子句
+/// </summary>
+public interface IWhereClause : IEsCondition, IEsClause
 {
     /// <summary>
     /// And连接条件
@@ -32,5 +35,5 @@ public interface IWhereClause : IEsCondition
     /// <param name="expression">列名表达式</param>
     /// <param name="value">值</param>
     /// <param name="operator">运算符</param>
-    void Where<TEntity>(Expression<Func<TEntity,object>> expression,object value, Operator @operator = Operator.Equal) where TEntity : class;
+    void Where<TEntity>(Expression<Func<TEntity, object>> expression, object value, Operator @operator = Operator.Equal) where TEntity : class;
 }
