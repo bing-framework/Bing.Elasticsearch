@@ -47,6 +47,11 @@ public abstract class EsBuilderBase : IEsBuilder, IEsPartAccessor
     /// </summary>
     private IIndexNameResolver _indexNameResolver;
 
+    /// <summary>
+    /// ES条件工厂
+    /// </summary>
+    private IEsConditionFactory _conditionFactory;
+
     #endregion
 
     #region 构造函数
@@ -90,6 +95,11 @@ public abstract class EsBuilderBase : IEsBuilder, IEsPartAccessor
     /// </summary>
     public IIndexNameResolver IndexNameResolver => _indexNameResolver;
 
+    /// <summary>
+    /// ES条件工厂
+    /// </summary>
+    public IEsConditionFactory ConditionFactory => _conditionFactory ??= CreateConditionFactory();
+
     #endregion
 
     #region 工厂方法
@@ -118,6 +128,11 @@ public abstract class EsBuilderBase : IEsBuilder, IEsPartAccessor
     /// 创建结束子句
     /// </summary>
     protected virtual IEndClause CreateEndClause() => new EndClause(this);
+
+    /// <summary>
+    /// 创建ES条件工厂
+    /// </summary>
+    protected virtual IEsConditionFactory CreateConditionFactory() => new EsConditionFactory();
 
     #endregion
 
@@ -167,6 +182,8 @@ public abstract class EsBuilderBase : IEsBuilder, IEsPartAccessor
     /// </summary>
     protected void AppendEs(ISearchRequest builder, IEsClause content)
     {
+        if (content == null)
+            return;
         content.AppendTo(builder);
     }
 

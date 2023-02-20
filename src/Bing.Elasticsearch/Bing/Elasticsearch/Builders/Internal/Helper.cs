@@ -47,6 +47,8 @@ public class Helper
             return CreateInCondition(column, value as IEnumerable);
         if (IsNotInCondition(@operator, value))
             return CreateInCondition(column, value as IEnumerable, true);
+        if (@operator == Operator.Equal)
+            return new Bing.Elasticsearch.Builders.Conditions.EqualCondition(column, value);
         return NullEsCondition.Instance;
     }
 

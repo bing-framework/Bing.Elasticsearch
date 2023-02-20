@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Bing.Data;
-using Bing.Data.Queries.Conditions;
+using Bing.Elasticsearch.Builders.Conditions;
 using Bing.Elasticsearch.Builders.Internal;
 using Nest;
 
@@ -43,7 +43,7 @@ public class WhereClause : ClauseBase, IWhereClause
     /// <param name="condition">查询条件</param>
     public void And(IEsCondition condition)
     {
-        _condition = new AndEsCondition(_condition, condition);
+        _condition = new AndCondition(_condition, condition);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class WhereClause : ClauseBase, IWhereClause
     /// <param name="condition">查询条件</param>
     public void Or(IEsCondition condition)
     {
-        _condition = new OrEsCondition(_condition, condition);
+        _condition = new OrCondition(_condition, condition);
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class WhereClause : ClauseBase, IWhereClause
     /// <param name="operator">运算符</param>
     public void Where<TEntity>(Expression<Func<TEntity, object>> expression, object value, Operator @operator = Operator.Equal) where TEntity : class
     {
-        var condition = _helper.CreateCondition(expression, value, @operator);
+        var condition = EsBuilder.ConditionFactory.Create(expression, value, @operator);
         And(condition);
     }
 

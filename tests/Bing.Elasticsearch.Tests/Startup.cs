@@ -46,7 +46,7 @@ namespace Bing.Elasticsearch.Tests
                 //o.DefaultIndex = "bing_es_sample";
                 //o.Prefix = "bing_sample";
                 o.UserName = "elastic";
-                o.Password = "";
+                o.Password = "elastic@2022";
                 o.NumberOfShards = 3;
                 o.NumberOfReplicas = 1;
             });

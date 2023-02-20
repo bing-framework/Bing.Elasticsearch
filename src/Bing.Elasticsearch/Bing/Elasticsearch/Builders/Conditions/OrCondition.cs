@@ -1,11 +1,12 @@
-﻿using Nest;
+﻿using Bing.Data;
+using Nest;
 
-namespace Bing.Data.Queries.Conditions;
+namespace Bing.Elasticsearch.Builders.Conditions;
 
 /// <summary>
-/// And连接条件
+/// Or连接条件
 /// </summary>
-public class AndEsCondition : IEsCondition
+public class OrCondition : IEsCondition
 {
     /// <summary>
     /// ES条件1
@@ -18,11 +19,11 @@ public class AndEsCondition : IEsCondition
     private readonly QueryContainer _condition2;
 
     /// <summary>
-    /// 初始化一个<see cref="AndEsCondition"/>
+    /// 初始化一个<see cref="OrCondition"/>类型的实例
     /// </summary>
     /// <param name="condition1">ES条件1</param>
     /// <param name="condition2">ES条件2</param>
-    public AndEsCondition(IEsCondition condition1, IEsCondition condition2)
+    public OrCondition(IEsCondition condition1, IEsCondition condition2)
     {
         _condition1 = condition1?.GetCondition();
         _condition2 = condition2?.GetCondition();
@@ -37,6 +38,6 @@ public class AndEsCondition : IEsCondition
             return _condition2;
         if (_condition2 == null)
             return _condition1;
-        return _condition1 && _condition2;
+        return _condition1 || _condition2;
     }
 }

@@ -14,33 +14,6 @@
             获取查询条件
             </summary>
         </member>
-        <member name="T:Bing.Data.Queries.Conditions.AndEsCondition">
-            <summary>
-            And连接条件
-            </summary>
-        </member>
-        <member name="F:Bing.Data.Queries.Conditions.AndEsCondition._condition1">
-            <summary>
-            ES条件1
-            </summary>
-        </member>
-        <member name="F:Bing.Data.Queries.Conditions.AndEsCondition._condition2">
-            <summary>
-            ES条件2
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.AndEsCondition.#ctor(Bing.Data.IEsCondition,Bing.Data.IEsCondition)">
-            <summary>
-            初始化一个<see cref="T:Bing.Data.Queries.Conditions.AndEsCondition"/>
-            </summary>
-            <param name="condition1">ES条件1</param>
-            <param name="condition2">ES条件2</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.AndEsCondition.GetCondition">
-            <summary>
-            获取查询条件
-            </summary>
-        </member>
         <member name="T:Bing.Data.Queries.Conditions.DateRangeEsCondition`2">
             <summary>
             日期范围过滤条件 - 不包含时间
@@ -266,33 +239,6 @@
             获取查询条件
             </summary>
         </member>
-        <member name="T:Bing.Data.Queries.Conditions.OrEsCondition">
-            <summary>
-            Or连接条件
-            </summary>
-        </member>
-        <member name="F:Bing.Data.Queries.Conditions.OrEsCondition._condition1">
-            <summary>
-            ES条件1
-            </summary>
-        </member>
-        <member name="F:Bing.Data.Queries.Conditions.OrEsCondition._condition2">
-            <summary>
-            ES条件2
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.OrEsCondition.#ctor(Bing.Data.IEsCondition,Bing.Data.IEsCondition)">
-            <summary>
-            初始化一个<see cref="T:Bing.Data.Queries.Conditions.OrEsCondition"/>类型的实例
-            </summary>
-            <param name="condition1">ES条件1</param>
-            <param name="condition2">ES条件2</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.OrEsCondition.GetCondition">
-            <summary>
-            获取查询条件
-            </summary>
-        </member>
         <member name="T:Bing.Data.Queries.Conditions.RangeEsConditionBase`4">
             <summary>
             范围过滤条件
@@ -411,11 +357,6 @@
             </summary>
             <param name="condition">查询条件</param>
             <param name="max">最大值</param>
-        </member>
-        <member name="T:Bing.Data.Queries.Conditions.SegmentEsCondition">
-            <summary>
-            范围过滤条件
-            </summary>
         </member>
         <member name="T:Bing.Data.Queries.EsQuery`1">
             <summary>
@@ -1031,19 +972,185 @@
             </summary>
             <param name="builder">查询请求</param>
         </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.AndCondition">
+            <summary>
+            And连接条件
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.AndCondition._condition1">
+            <summary>
+            ES条件1
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.AndCondition._condition2">
+            <summary>
+            ES条件2
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.AndCondition.#ctor(Bing.Data.IEsCondition,Bing.Data.IEsCondition)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.AndCondition"/>
+            </summary>
+            <param name="condition1">ES条件1</param>
+            <param name="condition2">ES条件2</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.AndCondition.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2">
+            <summary>
+            比较条件基类
+            </summary>
+            <typeparam name="TValue">值类型</typeparam>
+            <typeparam name="TQuery">字段名称查询类型</typeparam>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2._operator">
+            <summary>
+            查询操作符
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2.#ctor(Nest.Field,System.Object,Bing.Operator)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="value">值</param>
+            <param name="operator">操作符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2.CreateCondition">
+            <summary>
+            创建查询条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2.GetValue">
+            <summary>
+            获取值
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2.SetLess(`1,System.Nullable{`0})">
+            <summary>
+            设置小于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2.SetLessEqual(`1,System.Nullable{`0})">
+            <summary>
+            设置小于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2.SetGreater(`1,System.Nullable{`0})">
+            <summary>
+            设置大于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.CompareConditionBase`2.SetGreaterEqual(`1,System.Nullable{`0})">
+            <summary>
+            设置大于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition">
+            <summary>
+            日期比较过滤条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition.#ctor(Nest.Field,System.Object,Bing.Operator)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="value">值</param>
+            <param name="operator">查询操作符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition.GetValue">
+            <summary>
+            获取值
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition.SetLess(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
+            <summary>
+            设置小于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition.SetLessEqual(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
+            <summary>
+            设置小于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition.SetGreater(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
+            <summary>
+            设置大于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition.SetGreaterEqual(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
+            <summary>
+            设置大于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.EqualCondition">
+            <summary>
+            相等查询条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.EqualCondition.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.EsConditionBase">
+            <summary>
+            ES查询条件基类
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.EsConditionBase.Column">
+            <summary>
+            列名
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.EsConditionBase.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.EsConditionBase.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.GreaterCondition">
+            <summary>
+            大于查询条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.GreaterCondition.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
         <member name="T:Bing.Elasticsearch.Builders.Conditions.InCondition">
             <summary>
             In查询条件
-            </summary>
-        </member>
-        <member name="F:Bing.Elasticsearch.Builders.Conditions.InCondition._field">
-            <summary>
-            字段
-            </summary>
-        </member>
-        <member name="F:Bing.Elasticsearch.Builders.Conditions.InCondition._values">
-            <summary>
-            值集合
             </summary>
         </member>
         <member name="M:Bing.Elasticsearch.Builders.Conditions.InCondition.GetCondition">
@@ -1051,24 +1158,148 @@
             获取查询条件
             </summary>
         </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.InCondition.GetValues">
+            <summary>
+            获取值
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.LongCompareCondition">
+            <summary>
+            long比较过滤条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongCompareCondition.#ctor(Nest.Field,System.Object,Bing.Operator)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.LongCompareCondition"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="value">值</param>
+            <param name="operator">查询操作符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongCompareCondition.GetValue">
+            <summary>
+            获取值
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongCompareCondition.SetLess(Nest.LongRangeQuery,System.Nullable{System.Int64})">
+            <summary>
+            设置小于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongCompareCondition.SetLessEqual(Nest.LongRangeQuery,System.Nullable{System.Int64})">
+            <summary>
+            设置小于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongCompareCondition.SetGreater(Nest.LongRangeQuery,System.Nullable{System.Int64})">
+            <summary>
+            设置大于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongCompareCondition.SetGreaterEqual(Nest.LongRangeQuery,System.Nullable{System.Int64})">
+            <summary>
+            设置大于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
         <member name="T:Bing.Elasticsearch.Builders.Conditions.NotInCondition">
             <summary>
             Not In查询条件
             </summary>
         </member>
-        <member name="F:Bing.Elasticsearch.Builders.Conditions.NotInCondition._field">
-            <summary>
-            字段
-            </summary>
-        </member>
-        <member name="F:Bing.Elasticsearch.Builders.Conditions.NotInCondition._values">
-            <summary>
-            值集合
-            </summary>
-        </member>
         <member name="M:Bing.Elasticsearch.Builders.Conditions.NotInCondition.GetCondition">
             <summary>
             获取查询条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NotInCondition.GetValues">
+            <summary>
+            获取值
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.NumericCompareCondition">
+            <summary>
+            数值比较过滤条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericCompareCondition.#ctor(Nest.Field,System.Object,Bing.Operator)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.NumericCompareCondition"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="value">值</param>
+            <param name="operator">查询操作符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericCompareCondition.GetValue">
+            <summary>
+            获取值
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericCompareCondition.SetLess(Nest.NumericRangeQuery,System.Nullable{System.Double})">
+            <summary>
+            设置小于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericCompareCondition.SetLessEqual(Nest.NumericRangeQuery,System.Nullable{System.Double})">
+            <summary>
+            设置小于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericCompareCondition.SetGreater(Nest.NumericRangeQuery,System.Nullable{System.Double})">
+            <summary>
+            设置大于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericCompareCondition.SetGreaterEqual(Nest.NumericRangeQuery,System.Nullable{System.Double})">
+            <summary>
+            设置大于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.OrCondition">
+            <summary>
+            Or连接条件
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.OrCondition._condition1">
+            <summary>
+            ES条件1
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.OrCondition._condition2">
+            <summary>
+            ES条件2
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.OrCondition.#ctor(Bing.Data.IEsCondition,Bing.Data.IEsCondition)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.OrCondition"/>类型的实例
+            </summary>
+            <param name="condition1">ES条件1</param>
+            <param name="condition2">ES条件2</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.OrCondition.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.EsBuilder">
+            <summary>
+            ES生成器
             </summary>
         </member>
         <member name="T:Bing.Elasticsearch.Builders.EsBuilderBase">
@@ -1111,6 +1342,11 @@
             索引名称解析器
             </summary>
         </member>
+        <member name="F:Bing.Elasticsearch.Builders.EsBuilderBase._conditionFactory">
+            <summary>
+            ES条件工厂
+            </summary>
+        </member>
         <member name="P:Bing.Elasticsearch.Builders.EsBuilderBase.SelectClause">
             <summary>
             Select子句
@@ -1141,6 +1377,11 @@
             索引名称解析器
             </summary>
         </member>
+        <member name="P:Bing.Elasticsearch.Builders.EsBuilderBase.ConditionFactory">
+            <summary>
+            ES条件工厂
+            </summary>
+        </member>
         <member name="M:Bing.Elasticsearch.Builders.EsBuilderBase.CreateSelectClause">
             <summary>
             创建From子句
@@ -1164,6 +1405,11 @@
         <member name="M:Bing.Elasticsearch.Builders.EsBuilderBase.CreateEndClause">
             <summary>
             创建结束子句
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.EsBuilderBase.CreateConditionFactory">
+            <summary>
+            创建ES条件工厂
             </summary>
         </member>
         <member name="M:Bing.Elasticsearch.Builders.EsBuilderBase.GetSearchRequest">
@@ -1192,7 +1438,7 @@
             <summary>
             设置列名
             </summary>
-            <typeparam name="TEntity">源类型</typeparam>
+            <typeparam name="TEntity">实体类型</typeparam>
             <param name="source">源</param>
             <param name="column">列名，范例：x=>appId</param>
         </member>
@@ -1200,9 +1446,16 @@
             <summary>
             移除列名
             </summary>
-            <typeparam name="TEntity">源类型</typeparam>
+            <typeparam name="TEntity">实体类型</typeparam>
             <param name="source">源</param>
             <param name="column">列名，范例：x=>appId</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.EsBuilderExtensions.From``1(Bing.Elasticsearch.IEsBuilder)">
+            <summary>
+            设置表名
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="source">源</param>
         </member>
         <member name="T:Bing.Elasticsearch.Builders.EsConditionFactory">
             <summary>
@@ -1217,6 +1470,29 @@
             <param name="column">列名</param>
             <param name="value">值</param>
             <param name="operator">操作符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.EsConditionFactory.CreateCompareCondition``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Object,Bing.Operator)">
+            <summary>
+            创建比较条件
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="column">列名</param>
+            <param name="value">值</param>
+            <param name="operator">操作符</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.EsConditionFactory.IsInCondition(Bing.Operator,System.Object)">
+            <summary>
+            是否In条件
+            </summary>
+            <param name="operator">运算符</param>
+            <param name="value">值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.EsConditionFactory.IsNotInCondition(Bing.Operator,System.Object)">
+            <summary>
+            是否Not In条件
+            </summary>
+            <param name="operator">运算符</param>
+            <param name="value">值</param>
         </member>
         <member name="M:Bing.Elasticsearch.Builders.EsConditionFactory.Create``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Object,System.Object,Bing.Data.Queries.Boundary)">
             <summary>
@@ -1408,6 +1684,25 @@
             <param name="index">索引名称。注意：必须小写</param>
             <param name="cancellationToken">取消令牌</param>
         </member>
+        <member name="T:Bing.Elasticsearch.EndClauseExtensions">
+            <summary>
+            结束子句操作扩展
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.EndClauseExtensions.Skip``1(``0,System.Int32)">
+            <summary>
+            设置跳过行数
+            </summary>
+            <param name="source">源</param>
+            <param name="count">跳过的行数</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.EndClauseExtensions.Take``1(``0,System.Int32)">
+            <summary>
+            设置获取行数
+            </summary>
+            <param name="source">源</param>
+            <param name="count">获取的行数</param>
+        </member>
         <member name="T:Bing.Elasticsearch.ESAnalyzerConst">
             <summary>
             ES分词常量
@@ -1426,6 +1721,11 @@
         <member name="F:Bing.Elasticsearch.ESAnalyzerConst.IkMaxWord">
             <summary>
             IK分词 - 将需要分词的文本做最小粒度的拆分，尽量分更多的词。
+            </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.FromClauseExtensions">
+            <summary>
+            From子句扩展
             </summary>
         </member>
         <member name="T:Bing.Elasticsearch.IEsBuilder">
