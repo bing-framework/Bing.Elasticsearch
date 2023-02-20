@@ -5,7 +5,7 @@ using Nest;
 namespace Bing.Elasticsearch.Builders.Conditions;
 
 /// <summary>
-/// ES查询条件基类
+/// Elasticsearch 查询条件基类
 /// </summary>
 public abstract class EsConditionBase : IEsCondition
 {
@@ -19,6 +19,12 @@ public abstract class EsConditionBase : IEsCondition
     /// </summary>
     protected readonly object Value;
 
+    /// <summary>
+    /// 初始化一个<see cref="EsConditionBase"/>类型的实例
+    /// </summary>
+    /// <param name="column">列名</param>
+    /// <param name="value">值</param>
+    /// <exception cref="ArgumentNullException"></exception>
     protected EsConditionBase(Field column, object value)
     {
         if (column == null)

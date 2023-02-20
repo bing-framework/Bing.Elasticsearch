@@ -4,7 +4,7 @@ using Nest;
 namespace Bing.Elasticsearch.Builders.Conditions;
 
 /// <summary>
-/// 相等查询条件
+/// Elasticsearch 相等查询条件
 /// </summary>
 public class EqualCondition : EsConditionBase
 {
