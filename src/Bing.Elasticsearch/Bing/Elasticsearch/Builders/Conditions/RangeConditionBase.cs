@@ -1,35 +1,32 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using Bing.Data;
+using Bing.Data.Queries;
 using Nest;
 
-namespace Bing.Data.Queries.Conditions;
+namespace Bing.Elasticsearch.Builders.Conditions;
 
 /// <summary>
 /// 范围过滤条件
 /// </summary>
-/// <typeparam name="TEntity">实体类型</typeparam>
-/// <typeparam name="TProperty">属性类型</typeparam>
 /// <typeparam name="TValue">值类型</typeparam>
 /// <typeparam name="TQuery">查询类型</typeparam>
-public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> : IEsCondition
-    where TEntity : class
+public abstract class RangeConditionBase<TValue, TQuery> : IEsCondition
     where TValue : struct
-    where TQuery : QueryBase
+    where TQuery : FieldNameQueryBase, new()
 {
     /// <summary>
-    /// 字段
+    /// 列名
     /// </summary>
-    private readonly Field _field;
+    private readonly Field Column;
 
     /// <summary>
     /// 最小值
     /// </summary>
-    private TValue? _min;
+    private TValue? MinValue;
 
     /// <summary>
     /// 最大值
     /// </summary>
-    private TValue? _max;
+    private TValue? MaxValue;
 
     /// <summary>
     /// 包含边界
@@ -37,17 +34,17 @@ public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> :
     private readonly Boundary _boundary;
 
     /// <summary>
-    /// 初始化一个<see cref="RangeEsConditionBase{TEntity,TProperty,TValue,TQuery}"/>类型的实例
+    /// 初始化一个<see cref="RangeConditionBase{TValue,TQuery}"/>类型的实例
     /// </summary>
-    /// <param name="propertyExpression">属性表达式</param>
-    /// <param name="min">最小值</param>
-    /// <param name="max">最大值</param>
+    /// <param name="column">列名</param>
+    /// <param name="minValue">最小值</param>
+    /// <param name="maxValue">最大值</param>
     /// <param name="boundary">包含边界</param>
-    protected RangeEsConditionBase(Expression<Func<TEntity, TProperty>> propertyExpression, TValue? min, TValue? max, Boundary boundary)
+    protected RangeConditionBase(Field column, TValue? minValue, TValue? maxValue, Boundary boundary)
     {
-        _field = new Field(propertyExpression);
-        _min = min;
-        _max = max;
+        Column = column;
+        MinValue = minValue;
+        MaxValue = maxValue;
         _boundary = boundary;
     }
 
@@ -56,11 +53,11 @@ public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> :
     /// </summary>
     public QueryContainer GetCondition()
     {
-        if (_min == null && _max == null)
+        if (MinValue == null && MaxValue == null)
             return null;
-        Adjust(_min, _max);
+        Adjust(MinValue, MaxValue);
         var condition = CreateCondition();
-        SetField(condition, _field);
+        condition.Field = Column;
         SetLeftOperation(condition);
         SetRightOperation(condition);
         return condition;
@@ -75,8 +72,8 @@ public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> :
     {
         if (IsMinGreaterMax(min, max) == false)
             return;
-        _min = max;
-        _max = min;
+        MinValue = max;
+        MaxValue = min;
     }
 
     /// <summary>
@@ -89,14 +86,7 @@ public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> :
     /// <summary>
     /// 创建查询条件
     /// </summary>
-    protected abstract TQuery CreateCondition();
-
-    /// <summary>
-    /// 设置字段
-    /// </summary>
-    /// <param name="condition">查询条件</param>
-    /// <param name="field">字段</param>
-    protected abstract void SetField(TQuery condition, Field field);
+    protected TQuery CreateCondition() => new TQuery();
 
     /// <summary>
     /// 设置左操作
@@ -104,7 +94,7 @@ public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> :
     /// <param name="condition">查询条件</param>
     private void SetLeftOperation(TQuery condition)
     {
-        if (_min == null)
+        if (MinValue == null)
             return;
         if (_boundary == Boundary.Left || _boundary == Boundary.Both)
         {
@@ -124,7 +114,7 @@ public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> :
     /// <summary>
     /// 获取最小值
     /// </summary>
-    protected virtual TValue? GetMinValue() => _min;
+    protected virtual TValue? GetMinValue() => MinValue;
 
     /// <summary>
     /// 设置大于操作
@@ -139,7 +129,7 @@ public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> :
     /// <param name="condition">查询条件</param>
     private void SetRightOperation(TQuery condition)
     {
-        if (_max == null)
+        if (MaxValue == null)
             return;
         if (_boundary == Boundary.Right || _boundary == Boundary.Both)
         {
@@ -160,7 +150,7 @@ public abstract class RangeEsConditionBase<TEntity, TProperty, TValue, TQuery> :
     /// <summary>
     /// 获取最大值
     /// </summary>
-    protected virtual TValue? GetMaxValue() => _max;
+    protected virtual TValue? GetMaxValue() => MaxValue;
 
     /// <summary>
     /// 设置小于操作

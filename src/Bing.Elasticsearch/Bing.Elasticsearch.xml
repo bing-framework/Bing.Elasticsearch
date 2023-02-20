@@ -14,221 +14,6 @@
             获取查询条件
             </summary>
         </member>
-        <member name="T:Bing.Data.Queries.Conditions.DateRangeEsCondition`2">
-            <summary>
-            日期范围过滤条件 - 不包含时间
-            </summary>
-            <typeparam name="TEntity">实体类型</typeparam>
-            <typeparam name="TProperty">属性类型</typeparam>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateRangeEsCondition`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Nullable{System.DateTime},System.Nullable{System.DateTime},Bing.Data.Queries.Boundary)">
-            <summary>
-            初始化一个<see cref="T:Bing.Data.Queries.Conditions.DateRangeEsCondition`2"/>类型的实例
-            </summary>
-            <param name="propertyExpression">属性表达式</param>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-            <param name="boundary">包含边界</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateRangeEsCondition`2.GetMinValue">
-            <summary>
-            获取最小值
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateRangeEsCondition`2.GetMaxValue">
-            <summary>
-            获取最大值
-            </summary>
-        </member>
-        <member name="T:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2">
-            <summary>
-            日期范围过滤条件 - 包含时间
-            </summary>
-            <typeparam name="TEntity">实体类型</typeparam>
-            <typeparam name="TProperty">属性类型</typeparam>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Nullable{System.DateTime},System.Nullable{System.DateTime},Bing.Data.Queries.Boundary)">
-            <summary>
-            初始化一个<see cref="T:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2"/>类型的实例
-            </summary>
-            <param name="propertyExpression">属性表达式</param>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-            <param name="boundary">包含边界</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2.IsMinGreaterMax(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
-            <summary>
-            最小值是否大于最大值
-            </summary>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2.CreateCondition">
-            <summary>
-            创建查询条件
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2.SetField(Nest.DateRangeQuery,Nest.Field)">
-            <summary>
-            设置字段
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="field">字段</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2.SetGreaterEqual(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
-            <summary>
-            设置大于等于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="min">最小值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2.SetGreater(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
-            <summary>
-            设置大于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="min">最小值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2.SetLessEqual(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
-            <summary>
-            设置小于等于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DateTimeRangeEsCondition`2.SetLess(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
-            <summary>
-            设置小于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="T:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2">
-            <summary>
-            double范围过滤条件
-            </summary>
-            <typeparam name="TEntity">实体类型</typeparam>
-            <typeparam name="TProperty">属性类型</typeparam>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Nullable{System.Double},System.Nullable{System.Double},Bing.Data.Queries.Boundary)">
-            <summary>
-            初始化一个<see cref="T:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2"/>类型的实例
-            </summary>
-            <param name="propertyExpression">属性表达式</param>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-            <param name="boundary">包含边界</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2.IsMinGreaterMax(System.Nullable{System.Double},System.Nullable{System.Double})">
-            <summary>
-            最小值是否大于最大值
-            </summary>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2.CreateCondition">
-            <summary>
-            创建查询条件
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2.SetField(Nest.NumericRangeQuery,Nest.Field)">
-            <summary>
-            设置字段
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="field">字段</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2.SetGreaterEqual(Nest.NumericRangeQuery,System.Nullable{System.Double})">
-            <summary>
-            设置大于等于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="min">最小值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2.SetGreater(Nest.NumericRangeQuery,System.Nullable{System.Double})">
-            <summary>
-            设置大于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="min">最小值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2.SetLessEqual(Nest.NumericRangeQuery,System.Nullable{System.Double})">
-            <summary>
-            设置小于等于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.DoubleRangeEsCondition`2.SetLess(Nest.NumericRangeQuery,System.Nullable{System.Double})">
-            <summary>
-            设置小于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="T:Bing.Data.Queries.Conditions.LongRangeEsCondition`2">
-            <summary>
-            long范围过滤退案件
-            </summary>
-            <typeparam name="TEntity">实体类型</typeparam>
-            <typeparam name="TProperty">属性类型</typeparam>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.LongRangeEsCondition`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Nullable{System.Int64},System.Nullable{System.Int64},Bing.Data.Queries.Boundary)">
-            <summary>
-            初始化一个<see cref="T:Bing.Data.Queries.Conditions.LongRangeEsCondition`2"/>类型的实例
-            </summary>
-            <param name="propertyExpression">属性表达式</param>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-            <param name="boundary">包含边界</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.LongRangeEsCondition`2.IsMinGreaterMax(System.Nullable{System.Int64},System.Nullable{System.Int64})">
-            <summary>
-            最小值是否大于最大值
-            </summary>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.LongRangeEsCondition`2.CreateCondition">
-            <summary>
-            创建查询条件
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.LongRangeEsCondition`2.SetField(Nest.LongRangeQuery,Nest.Field)">
-            <summary>
-            设置字段
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="field">字段</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.LongRangeEsCondition`2.SetGreaterEqual(Nest.LongRangeQuery,System.Nullable{System.Int64})">
-            <summary>
-            设置大于等于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="min">最小值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.LongRangeEsCondition`2.SetGreater(Nest.LongRangeQuery,System.Nullable{System.Int64})">
-            <summary>
-            设置大于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="min">最小值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.LongRangeEsCondition`2.SetLessEqual(Nest.LongRangeQuery,System.Nullable{System.Int64})">
-            <summary>
-            设置小于等于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.LongRangeEsCondition`2.SetLess(Nest.LongRangeQuery,System.Nullable{System.Int64})">
-            <summary>
-            设置小于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="max">最大值</param>
-        </member>
         <member name="F:Bing.Data.Queries.Conditions.NullEsCondition.Instance">
             <summary>
             空查询条件实例
@@ -238,125 +23,6 @@
             <summary>
             获取查询条件
             </summary>
-        </member>
-        <member name="T:Bing.Data.Queries.Conditions.RangeEsConditionBase`4">
-            <summary>
-            范围过滤条件
-            </summary>
-            <typeparam name="TEntity">实体类型</typeparam>
-            <typeparam name="TProperty">属性类型</typeparam>
-            <typeparam name="TValue">值类型</typeparam>
-            <typeparam name="TQuery">查询类型</typeparam>
-        </member>
-        <member name="F:Bing.Data.Queries.Conditions.RangeEsConditionBase`4._field">
-            <summary>
-            字段
-            </summary>
-        </member>
-        <member name="F:Bing.Data.Queries.Conditions.RangeEsConditionBase`4._min">
-            <summary>
-            最小值
-            </summary>
-        </member>
-        <member name="F:Bing.Data.Queries.Conditions.RangeEsConditionBase`4._max">
-            <summary>
-            最大值
-            </summary>
-        </member>
-        <member name="F:Bing.Data.Queries.Conditions.RangeEsConditionBase`4._boundary">
-            <summary>
-            包含边界
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},System.Nullable{`2},System.Nullable{`2},Bing.Data.Queries.Boundary)">
-            <summary>
-            初始化一个<see cref="T:Bing.Data.Queries.Conditions.RangeEsConditionBase`4"/>类型的实例
-            </summary>
-            <param name="propertyExpression">属性表达式</param>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-            <param name="boundary">包含边界</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.GetCondition">
-            <summary>
-            获取查询条件
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.Adjust(System.Nullable{`2},System.Nullable{`2})">
-            <summary>
-            当最小值大于最大值时进行校正
-            </summary>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.IsMinGreaterMax(System.Nullable{`2},System.Nullable{`2})">
-            <summary>
-            最小值是否大于最大值
-            </summary>
-            <param name="min">最小值</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.CreateCondition">
-            <summary>
-            创建查询条件
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.SetField(`3,Nest.Field)">
-            <summary>
-            设置字段
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="field">字段</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.SetLeftOperation(`3)">
-            <summary>
-            设置左操作
-            </summary>
-            <param name="condition">查询条件</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.SetGreaterEqual(`3,System.Nullable{`2})">
-            <summary>
-            设置大于等于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="min">最小值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.GetMinValue">
-            <summary>
-            获取最小值
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.SetGreater(`3,System.Nullable{`2})">
-            <summary>
-            设置大于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="min">最小值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.SetRightOperation(`3)">
-            <summary>
-            设置右操作
-            </summary>
-            <param name="condition">查询条件</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.SetLessEqual(`3,System.Nullable{`2})">
-            <summary>
-            设置小于等于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="max">最大值</param>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.GetMaxValue">
-            <summary>
-            获取最大值
-            </summary>
-        </member>
-        <member name="M:Bing.Data.Queries.Conditions.RangeEsConditionBase`4.SetLess(`3,System.Nullable{`2})">
-            <summary>
-            设置小于操作
-            </summary>
-            <param name="condition">查询条件</param>
-            <param name="max">最大值</param>
         </member>
         <member name="T:Bing.Data.Queries.EsQuery`1">
             <summary>
@@ -1062,6 +728,30 @@
             <param name="condition">查询条件</param>
             <param name="min">最小值</param>
         </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.DateRangeCondition">
+            <summary>
+            日期范围过滤条件 - 不包含时间
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateRangeCondition.#ctor(Nest.Field,System.Nullable{System.DateTime},System.Nullable{System.DateTime},Bing.Data.Queries.Boundary)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.DateRangeCondition"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="boundary">包含边界</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateRangeCondition.GetMinValue">
+            <summary>
+            获取最小值
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateRangeCondition.GetMaxValue">
+            <summary>
+            获取最大值
+            </summary>
+        </member>
         <member name="T:Bing.Elasticsearch.Builders.Conditions.DateTimeCompareCondition">
             <summary>
             日期比较过滤条件
@@ -1108,10 +798,66 @@
             <param name="condition">查询条件</param>
             <param name="min">最小值</param>
         </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.DateTimeRangeCondition">
+            <summary>
+            日期范围过滤条件 - 包含时间
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeRangeCondition.#ctor(Nest.Field,System.Nullable{System.DateTime},System.Nullable{System.DateTime},Bing.Data.Queries.Boundary)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.DateTimeRangeCondition"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="boundary">包含边界</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeRangeCondition.IsMinGreaterMax(System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            最小值是否大于最大值
+            </summary>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeRangeCondition.SetGreaterEqual(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
+            <summary>
+            设置大于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeRangeCondition.SetGreater(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
+            <summary>
+            设置大于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeRangeCondition.SetLessEqual(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
+            <summary>
+            设置小于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.DateTimeRangeCondition.SetLess(Nest.DateRangeQuery,System.Nullable{System.DateTime})">
+            <summary>
+            设置小于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
         <member name="T:Bing.Elasticsearch.Builders.Conditions.EqualCondition">
             <summary>
             相等查询条件
             </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.EqualCondition.#ctor(Nest.Field,System.Object)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.EqualCondition"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="value">值</param>
         </member>
         <member name="M:Bing.Elasticsearch.Builders.Conditions.EqualCondition.GetCondition">
             <summary>
@@ -1209,6 +955,55 @@
             <param name="condition">查询条件</param>
             <param name="min">最小值</param>
         </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.LongRangeCondition">
+            <summary>
+            long范围过滤退案件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongRangeCondition.#ctor(Nest.Field,System.Nullable{System.Int64},System.Nullable{System.Int64},Bing.Data.Queries.Boundary)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.LongRangeCondition"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="boundary">包含边界</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongRangeCondition.IsMinGreaterMax(System.Nullable{System.Int64},System.Nullable{System.Int64})">
+            <summary>
+            最小值是否大于最大值
+            </summary>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongRangeCondition.SetGreaterEqual(Nest.LongRangeQuery,System.Nullable{System.Int64})">
+            <summary>
+            设置大于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongRangeCondition.SetGreater(Nest.LongRangeQuery,System.Nullable{System.Int64})">
+            <summary>
+            设置大于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongRangeCondition.SetLessEqual(Nest.LongRangeQuery,System.Nullable{System.Int64})">
+            <summary>
+            设置小于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.LongRangeCondition.SetLess(Nest.LongRangeQuery,System.Nullable{System.Int64})">
+            <summary>
+            设置小于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
         <member name="T:Bing.Elasticsearch.Builders.Conditions.NotInCondition">
             <summary>
             Not In查询条件
@@ -1270,6 +1065,55 @@
             <param name="condition">查询条件</param>
             <param name="min">最小值</param>
         </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.NumericRangeCondition">
+            <summary>
+            double范围过滤条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericRangeCondition.#ctor(Nest.Field,System.Nullable{System.Double},System.Nullable{System.Double},Bing.Data.Queries.Boundary)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.NumericRangeCondition"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="boundary">包含边界</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericRangeCondition.IsMinGreaterMax(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            最小值是否大于最大值
+            </summary>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericRangeCondition.SetGreaterEqual(Nest.NumericRangeQuery,System.Nullable{System.Double})">
+            <summary>
+            设置大于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericRangeCondition.SetGreater(Nest.NumericRangeQuery,System.Nullable{System.Double})">
+            <summary>
+            设置大于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericRangeCondition.SetLessEqual(Nest.NumericRangeQuery,System.Nullable{System.Double})">
+            <summary>
+            设置小于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.NumericRangeCondition.SetLess(Nest.NumericRangeQuery,System.Nullable{System.Double})">
+            <summary>
+            设置小于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
         <member name="T:Bing.Elasticsearch.Builders.Conditions.OrCondition">
             <summary>
             Or连接条件
@@ -1296,6 +1140,116 @@
             <summary>
             获取查询条件
             </summary>
+        </member>
+        <member name="T:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2">
+            <summary>
+            范围过滤条件
+            </summary>
+            <typeparam name="TValue">值类型</typeparam>
+            <typeparam name="TQuery">查询类型</typeparam>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.Column">
+            <summary>
+            列名
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.MinValue">
+            <summary>
+            最小值
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.MaxValue">
+            <summary>
+            最大值
+            </summary>
+        </member>
+        <member name="F:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2._boundary">
+            <summary>
+            包含边界
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.#ctor(Nest.Field,System.Nullable{`0},System.Nullable{`0},Bing.Data.Queries.Boundary)">
+            <summary>
+            初始化一个<see cref="T:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2"/>类型的实例
+            </summary>
+            <param name="column">列名</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <param name="boundary">包含边界</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.GetCondition">
+            <summary>
+            获取查询条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.Adjust(System.Nullable{`0},System.Nullable{`0})">
+            <summary>
+            当最小值大于最大值时进行校正
+            </summary>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.IsMinGreaterMax(System.Nullable{`0},System.Nullable{`0})">
+            <summary>
+            最小值是否大于最大值
+            </summary>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.CreateCondition">
+            <summary>
+            创建查询条件
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.SetLeftOperation(`1)">
+            <summary>
+            设置左操作
+            </summary>
+            <param name="condition">查询条件</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.SetGreaterEqual(`1,System.Nullable{`0})">
+            <summary>
+            设置大于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.GetMinValue">
+            <summary>
+            获取最小值
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.SetGreater(`1,System.Nullable{`0})">
+            <summary>
+            设置大于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="min">最小值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.SetRightOperation(`1)">
+            <summary>
+            设置右操作
+            </summary>
+            <param name="condition">查询条件</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.SetLessEqual(`1,System.Nullable{`0})">
+            <summary>
+            设置小于等于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.GetMaxValue">
+            <summary>
+            获取最大值
+            </summary>
+        </member>
+        <member name="M:Bing.Elasticsearch.Builders.Conditions.RangeConditionBase`2.SetLess(`1,System.Nullable{`0})">
+            <summary>
+            设置小于操作
+            </summary>
+            <param name="condition">查询条件</param>
+            <param name="max">最大值</param>
         </member>
         <member name="T:Bing.Elasticsearch.Builders.EsBuilder">
             <summary>

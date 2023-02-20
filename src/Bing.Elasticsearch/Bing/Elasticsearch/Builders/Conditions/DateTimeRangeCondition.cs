@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Linq.Expressions;
+using Bing.Data.Queries;
 using Nest;
 
-namespace Bing.Data.Queries.Conditions;
+namespace Bing.Elasticsearch.Builders.Conditions;
 
 /// <summary>
 /// 日期范围过滤条件 - 包含时间
 /// </summary>
-/// <typeparam name="TEntity">实体类型</typeparam>
-/// <typeparam name="TProperty">属性类型</typeparam>
-public class DateTimeRangeEsCondition<TEntity, TProperty> : RangeEsConditionBase<TEntity, TProperty, DateTime, DateRangeQuery>
-    where TEntity : class
+public class DateTimeRangeCondition : RangeConditionBase<DateTime, DateRangeQuery>
 {
     /// <summary>
-    /// 初始化一个<see cref="DateTimeRangeEsCondition{TEntity,TProperty}"/>类型的实例
+    /// 初始化一个<see cref="DateTimeRangeCondition"/>类型的实例
     /// </summary>
-    /// <param name="propertyExpression">属性表达式</param>
-    /// <param name="min">最小值</param>
-    /// <param name="max">最大值</param>
+    /// <param name="column">列名</param>
+    /// <param name="minValue">最小值</param>
+    /// <param name="maxValue">最大值</param>
     /// <param name="boundary">包含边界</param>
-    public DateTimeRangeEsCondition(Expression<Func<TEntity, TProperty>> propertyExpression, DateTime? min, DateTime? max, Boundary boundary = Boundary.Both)
-        : base(propertyExpression, min, max, boundary)
+    public DateTimeRangeCondition(Field column, DateTime? minValue, DateTime? maxValue, Boundary boundary = Boundary.Both)
+        : base(column, minValue, maxValue, boundary)
     {
     }
 
@@ -30,18 +27,6 @@ public class DateTimeRangeEsCondition<TEntity, TProperty> : RangeEsConditionBase
     /// <param name="min">最小值</param>
     /// <param name="max">最大值</param>
     protected override bool IsMinGreaterMax(DateTime? min, DateTime? max) => min > max;
-
-    /// <summary>
-    /// 创建查询条件
-    /// </summary>
-    protected override DateRangeQuery CreateCondition() => new DateRangeQuery();
-
-    /// <summary>
-    /// 设置字段
-    /// </summary>
-    /// <param name="condition">查询条件</param>
-    /// <param name="field">字段</param>
-    protected override void SetField(DateRangeQuery condition, Field field) => condition.Field = field;
 
     /// <summary>
     /// 设置大于等于操作

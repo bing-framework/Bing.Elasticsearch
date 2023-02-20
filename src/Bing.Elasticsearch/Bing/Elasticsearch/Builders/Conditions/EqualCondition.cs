@@ -8,6 +8,11 @@ namespace Bing.Elasticsearch.Builders.Conditions;
 /// </summary>
 public class EqualCondition : EsConditionBase
 {
+    /// <summary>
+    /// 初始化一个<see cref="EqualCondition"/>类型的实例
+    /// </summary>
+    /// <param name="column">列名</param>
+    /// <param name="value">值</param>
     public EqualCondition(Field column, object value) : base(column, value)
     {
     }

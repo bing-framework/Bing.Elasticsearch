@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Bing.Data.Queries.Conditions;
+using Bing.Elasticsearch.Builders.Conditions;
 using Bing.Elasticsearch.Builders.Operations;
 using Bing.Extensions;
 using Nest;
@@ -251,7 +251,7 @@ public class EsQuery<TResult> : IEsCondition, IWhere
     /// <param name="boundary">包含边界</param>
     public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, int? min, int? max, Boundary boundary = Boundary.Both)
     {
-        return And(new LongRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary));
+        return And(new LongRangeCondition(propertyExpression, min, max, boundary));
     }
 
     /// <summary>
@@ -278,7 +278,7 @@ public class EsQuery<TResult> : IEsCondition, IWhere
     /// <param name="boundary">包含边界</param>
     public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, double? min, double? max, Boundary boundary = Boundary.Both)
     {
-        return And(new DoubleRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary));
+        return And(new NumericRangeCondition(propertyExpression, min, max, boundary));
     }
 
     /// <summary>
@@ -307,8 +307,8 @@ public class EsQuery<TResult> : IEsCondition, IWhere
     public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, DateTime? min, DateTime? max, bool includeTime = true, Boundary? boundary = null)
     {
         if (includeTime)
-            return And(new DateTimeRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary ?? Boundary.Both));
-        return And(new DateRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary ?? Boundary.Left));
+            return And(new DateTimeRangeCondition(propertyExpression, min, max, boundary ?? Boundary.Both));
+        return And(new DateRangeCondition(propertyExpression, min, max, boundary ?? Boundary.Left));
     }
 
     /// <summary>
