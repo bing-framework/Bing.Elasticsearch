@@ -44,12 +44,14 @@ namespace Bing.Elasticsearch.Tests
         public async Task Test_Equal_Async()
         {
             var id = "0259d57d-796d-11ed-bc6a-0242ac120002";
+            var notId = "02662dfe-796d-11ed-bc6a-0242ac120002";
             var ids = new List<string> { "02662dfe-796d-11ed-bc6a-0242ac120002", "02663e3f-796d-11ed-bc6a-0242ac120002" };
             var bakTime = DateTime.Parse("2022-12-11");
             var builder = new EsBuilder(_nameResolver);
             builder.Select()
                 .From<WarehouseProductStockBakEo>()
-                //.Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, id)
+                //.Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, id, Operator.Equal)
+                .Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, notId, Operator.NotEqual)
                 //.Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, ids, Operator.In)
                 //.Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, ids, Operator.NotIn)
                 .Where<WarehouseProductStockBakEo>(x => x.BakTime, bakTime)

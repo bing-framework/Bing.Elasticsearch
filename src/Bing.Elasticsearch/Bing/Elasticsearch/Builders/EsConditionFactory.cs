@@ -32,6 +32,7 @@ public class EsConditionFactory : IEsConditionFactory
             case Operator.Equal:
                 return new EqualCondition(column, value);
             case Operator.NotEqual:
+                return new NotEqualCondition(column, value);
             case Operator.Greater:
             case Operator.GreaterEqual:
             case Operator.Less:
