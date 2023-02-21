@@ -28,5 +28,5 @@ public interface IEsConditionFactory
     /// <param name="minValue">最小值</param>
     /// <param name="maxValue">最大值</param>
     /// <param name="boundary">包含边界</param>
-    IEsCondition Create<TEntity>(Expression<Func<TEntity, object>> column, object minValue, object maxValue, Boundary boundary) where TEntity : class;
+    IEsCondition CreateBetween<TEntity>(Expression<Func<TEntity, object>> column, object minValue, object maxValue, Boundary boundary) where TEntity : class;
 }
