@@ -50,14 +50,16 @@ namespace Bing.Elasticsearch.Tests
             builder.Select()
                 .From<WarehouseProductStockBakEo>()
                 //.Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, id, Operator.Equal)
-                .Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, notId, Operator.NotEqual)
+                //.Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, notId, Operator.NotEqual)
+                .NotEqual<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, notId)
                 //.Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, ids, Operator.In)
                 //.Where<WarehouseProductStockBakEo>(x => x.WarehouseProductStockBakId, ids, Operator.NotIn)
                 .Where<WarehouseProductStockBakEo>(x => x.BakTime, bakTime)
                 .Where<WarehouseProductStockBakEo>(x => x.CurrentQty, 100, Operator.GreaterEqual)
+                //.Between<WarehouseProductStockBakEo>(x => x.CurrentQty, 90, 100)
                 .Where<WarehouseProductStockBakEo>(x => x.UsableQty, 100, Operator.Less)
                 //.Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Starts)
-                .Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Contains)
+                .Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Contains, true)
                 //.Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Ends)
                 .Take(10);
             var result = await _context

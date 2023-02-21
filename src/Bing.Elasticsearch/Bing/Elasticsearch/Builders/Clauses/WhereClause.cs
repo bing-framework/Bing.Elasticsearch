@@ -74,7 +74,7 @@ public class WhereClause : ClauseBase, IWhereClause
     /// <param name="appendKeyword">是否追加keyword关键词，主要用于模糊查询</param>
     public void Where<TEntity>(Expression<Func<TEntity, object>> expression, object value, Operator @operator = Operator.Equal, bool appendKeyword = false) where TEntity : class
     {
-        var condition = EsBuilder.ConditionFactory.Create(expression, value, @operator);
+        var condition = EsBuilder.ConditionFactory.Create(expression, value, @operator, appendKeyword);
         And(condition);
     }
 
