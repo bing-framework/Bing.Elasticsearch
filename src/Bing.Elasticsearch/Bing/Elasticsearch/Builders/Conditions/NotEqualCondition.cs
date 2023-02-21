@@ -24,7 +24,7 @@ public class NotEqualCondition : EqualCondition
     {
         var condition = new BoolQuery();
         var baseCondition = base.GetCondition();
-        condition.MustNot = new List<QueryContainer>() { baseCondition };
+        condition.MustNot = new List<QueryContainer> { baseCondition };
         return condition;
     }
 }

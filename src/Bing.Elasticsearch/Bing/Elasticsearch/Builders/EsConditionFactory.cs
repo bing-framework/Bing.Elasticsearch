@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using Bing.Data;
 using Bing.Data.Queries;
 using Bing.Elasticsearch.Builders.Conditions;
+using Bing.Elasticsearch.Common.Constants;
 using Bing.Extensions;
 using Bing.Judgments;
 using Bing.Reflection;
@@ -21,7 +22,8 @@ public class EsConditionFactory : IEsConditionFactory
     /// <param name="column">列名</param>
     /// <param name="value">值</param>
     /// <param name="operator">操作符</param>
-    public IEsCondition Create<TEntity>(Expression<Func<TEntity, object>> column, object value, Operator @operator) where TEntity : class
+    /// <param name="appendKeyword">是否追加keyword关键词，主要用于模糊查询</param>
+    public IEsCondition Create<TEntity>(Expression<Func<TEntity, object>> column, object value, Operator @operator, bool appendKeyword = false) where TEntity : class
     {
         if (IsInCondition(@operator, value))
             return new InCondition(column, value);
@@ -39,11 +41,17 @@ public class EsConditionFactory : IEsConditionFactory
             case Operator.LessEqual:
                 return CreateCompareCondition(column, value, @operator);
             case Operator.Starts:
-                break;
+                if (appendKeyword)
+                    return new StartsCondition(Nest.ExpressionExtensions.AppendSuffix(column, BaseEsConst.KEYWORD), value);
+                return new StartsCondition(column, value);
             case Operator.Ends:
-                break;
+                if (appendKeyword)
+                    return new EndsCondition(Nest.ExpressionExtensions.AppendSuffix(column, BaseEsConst.KEYWORD), value);
+                return new EndsCondition(column, value);
             case Operator.Contains:
-                break;
+                if (appendKeyword)
+                    return new ContainsCondition(Nest.ExpressionExtensions.AppendSuffix(column, BaseEsConst.KEYWORD), value);
+                return new ContainsCondition(column, value);
         }
         throw new NotImplementedException($"运算符 {@operator.Description()} 尚未实现");
     }
@@ -60,7 +68,7 @@ public class EsConditionFactory : IEsConditionFactory
         var type = TypeConv.GetNonNullableType(value.GetType());
         // 整数类型
         if (type.IsIntegerType())
-           return new LongCompareCondition(column, value, @operator);
+            return new LongCompareCondition(column, value, @operator);
         // 日期类型
         if (type == TypeClass.DateTimeClazz)
             return new DateTimeCompareCondition(column, value, @operator);

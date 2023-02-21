@@ -47,6 +47,7 @@ namespace Bing.Elasticsearch.Tests.ESModel
         /// <summary>
         /// 商品名称
         /// </summary>
+        [Keyword]
         public string GoodsName { get; set; }
 
         /// <summary>

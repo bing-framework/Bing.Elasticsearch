@@ -17,7 +17,8 @@ public interface IEsConditionFactory
     /// <param name="column">列名</param>
     /// <param name="value">值</param>
     /// <param name="operator">操作符</param>
-    IEsCondition Create<TEntity>(Expression<Func<TEntity, object>> column, object value, Operator @operator) where TEntity : class;
+    /// <param name="appendKeyword">是否追加keyword关键词，主要用于模糊查询</param>
+    IEsCondition Create<TEntity>(Expression<Func<TEntity, object>> column, object value, Operator @operator, bool appendKeyword = false) where TEntity : class;
 
     /// <summary>
     /// 创建ES范围条件

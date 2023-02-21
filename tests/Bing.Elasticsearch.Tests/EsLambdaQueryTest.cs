@@ -39,7 +39,6 @@ namespace Bing.Elasticsearch.Tests
             _nameResolver = nameResolver;
         }
 
-
         [Fact]
         public async Task Test_Equal_Async()
         {
@@ -57,6 +56,9 @@ namespace Bing.Elasticsearch.Tests
                 .Where<WarehouseProductStockBakEo>(x => x.BakTime, bakTime)
                 .Where<WarehouseProductStockBakEo>(x => x.CurrentQty, 100, Operator.GreaterEqual)
                 .Where<WarehouseProductStockBakEo>(x => x.UsableQty, 100, Operator.Less)
+                //.Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Starts)
+                .Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Contains)
+                //.Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Ends)
                 .Take(10);
             var result = await _context
                 .SearchAsync<WarehouseProductStockBakEo>(x => builder.GetSearchRequest());

@@ -83,7 +83,6 @@ public class ElasticClientProvider : IElasticClientProvider
         // 启用验证
         if (!string.IsNullOrWhiteSpace(_options.UserName) && !string.IsNullOrWhiteSpace(_options.Password))
             settings.BasicAuthentication(_options.UserName, _options.Password);
-
         // 验证证书
         //settings.ClientCertificate("");
         //settings.ClientCertificates(new System.Security.Cryptography.X509Certificates.X509CertificateCollection());
