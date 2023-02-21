@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using Bing.Data;
 using Bing.Data.Queries;
+using Bing.Data.Queries.Conditions;
 using Bing.Elasticsearch.Builders.Conditions;
 using Bing.Elasticsearch.Common.Constants;
 using Bing.Extensions;
@@ -112,6 +113,33 @@ public class EsConditionFactory : IEsConditionFactory
     /// <param name="boundary">包含边界</param>
     public IEsCondition Create<TEntity>(Expression<Func<TEntity, object>> column, object minValue, object maxValue, Boundary boundary) where TEntity : class
     {
-        throw new NotImplementedException();
+        return CreateBetweenCondition(column, minValue, maxValue, boundary);
+    }
+
+    /// <summary>
+    /// 创建范围条件
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="column">列名</param>
+    /// <param name="minValue">最小值</param>
+    /// <param name="maxValue">最大值</param>
+    /// <param name="boundary">包含边界</param>
+    private IEsCondition CreateBetweenCondition<TEntity>(Expression<Func<TEntity, object>> column, object minValue, object maxValue, Boundary boundary)
+    {
+        if (minValue == null && maxValue == null)
+            return NullEsCondition.Instance;
+        var type = minValue != null
+            ? TypeConv.GetNonNullableType(minValue.GetType())
+            : TypeConv.GetNonNullableType(maxValue.GetType());
+        // 整数类型
+        if (type.IsIntegerType())
+            return new LongRangeCondition(column, minValue, maxValue, boundary);
+        // 日期类型
+        if (type == TypeClass.DateTimeClazz)
+            return new DateTimeRangeCondition(column, minValue, maxValue, boundary);
+        // 小数类型
+        if (TypeJudgment.IsNumericType(type))
+            return new NumericRangeCondition(column, minValue, maxValue, boundary);
+        throw new NotSupportedException($"尚未支持[{type.FullName}]类型的条件比较");
     }
 }

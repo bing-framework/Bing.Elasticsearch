@@ -17,7 +17,7 @@ public class DateRangeCondition : DateTimeRangeCondition
     /// <param name="minValue">最小值</param>
     /// <param name="maxValue">最大值</param>
     /// <param name="boundary">包含边界</param>
-    public DateRangeCondition(Field column, DateTime? minValue, DateTime? maxValue, Boundary boundary = Boundary.Both)
+    public DateRangeCondition(Field column, object minValue, object maxValue, Boundary boundary = Boundary.Both)
         : base(column, minValue, maxValue, boundary)
     {
     }

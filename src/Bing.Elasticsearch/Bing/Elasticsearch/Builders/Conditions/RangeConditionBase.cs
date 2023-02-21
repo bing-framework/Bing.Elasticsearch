@@ -21,12 +21,12 @@ public abstract class RangeConditionBase<TValue, TQuery> : IEsCondition
     /// <summary>
     /// 最小值
     /// </summary>
-    private TValue? MinValue;
+    protected TValue? MinValue;
 
     /// <summary>
     /// 最大值
     /// </summary>
-    private TValue? MaxValue;
+    protected TValue? MaxValue;
 
     /// <summary>
     /// 包含边界
@@ -40,11 +40,11 @@ public abstract class RangeConditionBase<TValue, TQuery> : IEsCondition
     /// <param name="minValue">最小值</param>
     /// <param name="maxValue">最大值</param>
     /// <param name="boundary">包含边界</param>
-    protected RangeConditionBase(Field column, TValue? minValue, TValue? maxValue, Boundary boundary)
+    protected RangeConditionBase(Field column, object minValue, object maxValue, Boundary boundary)
     {
         Column = column;
-        MinValue = minValue;
-        MaxValue = maxValue;
+        MinValue = GetValue(minValue);
+        MaxValue = GetValue(maxValue);
         _boundary = boundary;
     }
 
@@ -75,6 +75,12 @@ public abstract class RangeConditionBase<TValue, TQuery> : IEsCondition
         MinValue = max;
         MaxValue = min;
     }
+
+    /// <summary>
+    /// 获取值
+    /// </summary>
+    /// <param name="value">值</param>
+    protected abstract TValue? GetValue(object value);
 
     /// <summary>
     /// 最小值是否大于最大值

@@ -1,4 +1,5 @@
 ﻿using Bing.Data.Queries;
+using Bing.Helpers;
 using Nest;
 
 namespace Bing.Elasticsearch.Builders.Conditions;
@@ -15,10 +16,16 @@ public class LongRangeCondition : RangeConditionBase<long, LongRangeQuery>
     /// <param name="minValue">最小值</param>
     /// <param name="maxValue">最大值</param>
     /// <param name="boundary">包含边界</param>
-    public LongRangeCondition(Field column, long? minValue, long? maxValue, Boundary boundary = Boundary.Both)
+    public LongRangeCondition(Field column, object minValue, object maxValue, Boundary boundary = Boundary.Both)
         : base(column, minValue, maxValue, boundary)
     {
     }
+
+    /// <summary>
+    /// 获取值
+    /// </summary>
+    /// <param name="value">值</param>
+    protected override long? GetValue(object value) => Conv.ToLongOrNull(value);
 
     /// <summary>
     /// 最小值是否大于最大值

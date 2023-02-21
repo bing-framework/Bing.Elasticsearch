@@ -1,5 +1,6 @@
 ﻿using System;
 using Bing.Data.Queries;
+using Bing.Helpers;
 using Nest;
 
 namespace Bing.Elasticsearch.Builders.Conditions;
@@ -16,10 +17,16 @@ public class DateTimeRangeCondition : RangeConditionBase<DateTime, DateRangeQuer
     /// <param name="minValue">最小值</param>
     /// <param name="maxValue">最大值</param>
     /// <param name="boundary">包含边界</param>
-    public DateTimeRangeCondition(Field column, DateTime? minValue, DateTime? maxValue, Boundary boundary = Boundary.Both)
+    public DateTimeRangeCondition(Field column, object minValue, object maxValue, Boundary boundary = Boundary.Both)
         : base(column, minValue, maxValue, boundary)
     {
     }
+
+    /// <summary>
+    /// 获取值
+    /// </summary>
+    /// <param name="value">值</param>
+    protected override DateTime? GetValue(object value) => Conv.ToDateOrNull(value);
 
     /// <summary>
     /// 最小值是否大于最大值
