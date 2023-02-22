@@ -61,6 +61,8 @@ namespace Bing.Elasticsearch.Tests
                 //.Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Starts)
                 .Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Contains, true)
                 //.Where<WarehouseProductStockBakEo>(x => x.GoodsName, "新增商品", Operator.Ends)
+                .OrderBy<WarehouseProductStockBakEo>(x => x.WarehouseName, appendKeyword: true)
+                .OrderBy<WarehouseProductStockBakEo>(x => x.UsableQty)
                 .Take(10);
             var result = await _context
                 .SearchAsync<WarehouseProductStockBakEo>(x => builder.GetSearchRequest());

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Bing.Elasticsearch.Common.Constants;
 using Nest;
 
 namespace Bing.Elasticsearch.Builders.Clauses;
@@ -43,11 +44,13 @@ public class OrderByClause : ClauseBase, IOrderByClause
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <param name="column">排序列</param>
     /// <param name="desc">是否倒序</param>
-    public void OrderBy<TEntity>(Expression<Func<TEntity, object>> column, bool desc = false) where TEntity : class
+    /// <param name="appendKeyword">是否追加keyword关键词。text 类型字段不能直接使用，否则将会产生异常</param>
+    public void OrderBy<TEntity>(Expression<Func<TEntity, object>> column, bool desc = false, bool appendKeyword = false) where TEntity : class
     {
         if (column is null)
             return;
-        _sorts.Add(new FieldSort { Field = new Field(column), Order = GetOrder(desc) });
+        var targetColumn = appendKeyword ? column.AppendSuffix(BaseEsConst.KEYWORD) : column;
+        _sorts.Add(new FieldSort { Field = new Field(targetColumn), Order = GetOrder(desc) });
     }
 
     /// <summary>

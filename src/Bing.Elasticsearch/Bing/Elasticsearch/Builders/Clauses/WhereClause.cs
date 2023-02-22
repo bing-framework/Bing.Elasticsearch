@@ -20,8 +20,6 @@ public class WhereClause : ClauseBase, IWhereClause
     /// </summary>
     private IEsCondition _condition;
 
-    private readonly Helper _helper;
-
     /// <summary>
     /// 初始化一个<see cref="WhereClause"/>类型的实例
     /// </summary>
@@ -29,7 +27,6 @@ public class WhereClause : ClauseBase, IWhereClause
     /// <exception cref="ArgumentNullException"></exception>
     public WhereClause(EsBuilderBase esBuilder) : base(esBuilder)
     {
-        _helper = new Helper();
     }
 
     /// <summary>

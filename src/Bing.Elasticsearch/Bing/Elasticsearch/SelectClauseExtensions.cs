@@ -17,7 +17,7 @@ public static class SelectClauseExtensions
     public static T Select<T>(this T source) where T : ISelect
     {
         source.CheckNull(nameof(source));
-        if(source is IEsPartAccessor accessor)
+        if (source is IEsPartAccessor accessor)
             accessor.SelectClause.Select();
         return source;
     }
@@ -31,7 +31,7 @@ public static class SelectClauseExtensions
     public static T Select<T>(this T source, string columns) where T : ISelect
     {
         source.CheckNull(nameof(source));
-        if(source is IEsPartAccessor accessor)
+        if (source is IEsPartAccessor accessor)
             accessor.SelectClause.Select(columns);
         return source;
     }
@@ -45,7 +45,7 @@ public static class SelectClauseExtensions
     public static T RemoveSelect<T>(this T source, string columns) where T : ISelect
     {
         source.CheckNull(nameof(source));
-        if(source is IEsPartAccessor accessor)
+        if (source is IEsPartAccessor accessor)
             accessor.SelectClause.Select(columns);
         return source;
     }

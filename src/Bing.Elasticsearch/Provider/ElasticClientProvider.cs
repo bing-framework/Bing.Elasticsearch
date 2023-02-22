@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using Bing.Elasticsearch.Options;
 using Elasticsearch.Net;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nest;
 
@@ -24,6 +25,11 @@ public class ElasticClientProvider : IElasticClientProvider
     private readonly IConnectionPool _connectionPool;
 
     /// <summary>
+    /// 日志
+    /// </summary>
+    private readonly ILogger<ElasticClientProvider> _logger;
+
+    /// <summary>
     /// ES客户端字典
     /// </summary>
     private readonly ConcurrentDictionary<string, IElasticClient> _esClientDict = new ConcurrentDictionary<string, IElasticClient>();
@@ -32,10 +38,12 @@ public class ElasticClientProvider : IElasticClientProvider
     /// 初始化一个<see cref="ElasticClientProvider"/>类型的实例
     /// </summary>
     /// <param name="options">ES选项配置</param>
-    public ElasticClientProvider(IOptions<ElasticsearchOptions> options)
+    /// <param name="logger">日志</param>
+    public ElasticClientProvider(IOptions<ElasticsearchOptions> options, ILogger<ElasticClientProvider> logger)
     {
         if (options == null)
             throw new ArgumentNullException(nameof(options));
+        _logger = logger;
         _options = options.Value ?? throw new ArgumentNullException(nameof(options.Value));
         _connectionPool = CreateConnectionPool();
         var settings = new ConnectionSettings(_connectionPool);
@@ -132,7 +140,7 @@ public class ElasticClientProvider : IElasticClientProvider
         settings.DisableDirectStreaming(_options.DisableDebugInfo);
         //settings.EnableDebugMode((apiCallDetails) =>
         //{
-        //    // 请求完成 返回 apiCallDetails
+        //     请求完成 返回 apiCallDetails
         //});
 
         // 抛出异常，默认false，错误信息在每个操作的response中
