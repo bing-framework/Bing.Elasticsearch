@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using Bing.Data;
 using Bing.Data.Queries;
 using Bing.Elasticsearch.Builders.Conditions;
-using Bing.Elasticsearch.Builders.Internal;
 using Bing.Extensions;
 using Nest;
 
