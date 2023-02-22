@@ -270,6 +270,11 @@ public class ElasticsearchContext : IElasticsearchContext
     public string GetIndexName(string index) => _resolver.GetIndexName(index);
 
     /// <summary>
+    /// 获取索引名称解析器
+    /// </summary>
+    public IIndexNameResolver GetIndexNameResolver() => _resolver;
+
+    /// <summary>
     /// 获取全部数据。
     /// </summary>
     /// <typeparam name="TDocument">文档类型</typeparam>

@@ -13,6 +13,11 @@ public abstract class EsBuilderBase : IEsBuilder, IEsPartAccessor
     #region 字段
 
     /// <summary>
+    /// 索引名称解析器
+    /// </summary>
+    private readonly IIndexNameResolver _indexNameResolver;
+
+    /// <summary>
     /// 索引
     /// </summary>
     private string _index;
@@ -43,11 +48,6 @@ public abstract class EsBuilderBase : IEsBuilder, IEsPartAccessor
     private IEndClause _endClause;
 
     /// <summary>
-    /// 索引名称解析器
-    /// </summary>
-    private IIndexNameResolver _indexNameResolver;
-
-    /// <summary>
     /// ES条件工厂
     /// </summary>
     private IEsConditionFactory _conditionFactory;
@@ -56,6 +56,10 @@ public abstract class EsBuilderBase : IEsBuilder, IEsPartAccessor
 
     #region 构造函数
 
+    /// <summary>
+    /// 初始化一个<see cref="IIndexNameResolver"/>类型的实例
+    /// </summary>
+    /// <param name="indexNameResolver">索引名称解析器</param>
     protected EsBuilderBase(IIndexNameResolver indexNameResolver)
     {
         _indexNameResolver = indexNameResolver;

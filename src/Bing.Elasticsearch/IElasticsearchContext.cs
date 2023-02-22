@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Bing.Elasticsearch.Repositories;
 using Microsoft.Extensions.Logging;
 using Nest;
 
@@ -364,6 +365,11 @@ public interface IElasticsearchContext
     /// </summary>
     /// <param name="index">索引名称。注意：必须小写</param>
     string GetIndexName(string index);
+
+    /// <summary>
+    /// 获取索引名称解析器
+    /// </summary>
+    IIndexNameResolver GetIndexNameResolver();
 
     #endregion
 }
