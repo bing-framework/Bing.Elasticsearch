@@ -1,4 +1,5 @@
-﻿using Nest;
+﻿using Bing.Elasticsearch.Common.Constants;
+using Nest;
 
 // ReSharper disable once CheckNamespace
 namespace Bing.Elasticsearch;
@@ -24,7 +25,7 @@ public static class TextPropertyDescriptorExtensions
     /// <param name="source">文本属性</param>
     public static TextPropertyDescriptor<T> MaxWordAnalyzer<T>(this TextPropertyDescriptor<T> source)
         where T : class =>
-        source.Analyzer(ESAnalyzerConst.IkMaxWord);
+        source.Analyzer(BaseEsConst.IK_MAX_WORD);
 
     /// <summary>
     /// 设置搜索分析器为 ik_smart
@@ -33,5 +34,5 @@ public static class TextPropertyDescriptorExtensions
     /// <param name="source">文本属性</param>
     public static TextPropertyDescriptor<T> SmartSearchAnalyzer<T>(this TextPropertyDescriptor<T> source)
         where T : class =>
-        source.SearchAnalyzer(ESAnalyzerConst.IkSmart);
+        source.SearchAnalyzer(BaseEsConst.IK_SMART);
 }

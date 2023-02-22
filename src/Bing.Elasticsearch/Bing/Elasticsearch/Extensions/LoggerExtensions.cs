@@ -22,16 +22,22 @@ public static class LoggerExtensions
     /// <param name="logger">日志</param>
     /// <param name="elasticResponse">es响应内容</param>
     /// <param name="logLevel">日志级别</param>
-    public static void LogRequest(this ILogger logger, IElasticsearchResponse elasticResponse, LogLevel logLevel = LogLevel.Trace)
+    public static void LogRequest(this ILogger logger, IElasticsearchResponse elasticResponse, LogLevel logLevel = LogLevel.Trace) => LogRequest(logger, elasticResponse?.ApiCall, logLevel);
+
+    /// <summary>
+    /// 记录请求
+    /// </summary>
+    /// <param name="logger">日志</param>
+    /// <param name="apiCall">API调用详情</param>
+    /// <param name="logLevel">日志级别</param>
+    public static void LogRequest(this ILogger logger, IApiCallDetails apiCall, LogLevel logLevel = LogLevel.Trace)
     {
-        if (elasticResponse == null || !logger.IsEnabled(logLevel))
+        if (apiCall == null || !logger.IsEnabled(logLevel))
             return;
-        var apiCall = elasticResponse.ApiCall;
-        if (apiCall?.RequestBodyInBytes != null)
+        if (apiCall.RequestBodyInBytes != null)
         {
             var body = Encoding.UTF8.GetString(apiCall.RequestBodyInBytes);
             body = JsonUtility.Normalize(body);
-
             logger.Log(logLevel, "[{HttpStatusCode}] {HttpMethod} {HttpPathAndQuery}\r\n{HttpBody}", apiCall.HttpStatusCode, apiCall.HttpMethod, apiCall.Uri.PathAndQuery, body);
         }
         else
@@ -56,13 +62,43 @@ public static class LoggerExtensions
     /// 记录错误请求
     /// </summary>
     /// <param name="logger">日志</param>
+    /// <param name="apiCall">API调用详情</param>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    public static void LogErrorRequest(this ILogger logger, IApiCallDetails apiCall, string message, params object[] args)
+    {
+        LogErrorRequest(logger, null, apiCall, message, args);
+    }
+
+    /// <summary>
+    /// 记录错误请求
+    /// </summary>
+    /// <param name="logger">日志</param>
+    /// <param name="ex">异常</param>
+    /// <param name="apiCall">API调用详情</param>
+    /// <param name="message">消息</param>
+    /// <param name="args">参数</param>
+    public static void LogErrorRequest(this ILogger logger, Exception ex, IApiCallDetails apiCall, string message, params object[] args)
+    {
+        if (apiCall == null || !logger.IsEnabled(LogLevel.Error))
+            return;
+        AggregateException aggEx = null;
+        if (ex != null && apiCall.OriginalException != null)
+            aggEx = new AggregateException(ex, apiCall.OriginalException);
+        logger.LogError(aggEx ?? apiCall?.OriginalException, apiCall.GetErrorMessage(message), args);
+    }
+
+    /// <summary>
+    /// 记录错误请求
+    /// </summary>
+    /// <param name="logger">日志</param>
     /// <param name="ex">异常</param>
     /// <param name="elasticResponse">es响应内容</param>
     /// <param name="message">消息</param>
     /// <param name="args">参数</param>
     public static void LogErrorRequest(this ILogger logger, Exception ex, IElasticsearchResponse elasticResponse, string message, params object[] args)
     {
-        if(elasticResponse==null||logger.IsEnabled(LogLevel.Error))
+        if (elasticResponse == null || logger.IsEnabled(LogLevel.Error))
             return;
         var response = elasticResponse as IResponse;
         AggregateException aggEx = null;

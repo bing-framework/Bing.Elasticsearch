@@ -49,6 +49,7 @@ namespace Bing.Elasticsearch.Tests
                 o.Password = "elastic@2022";
                 o.NumberOfShards = 3;
                 o.NumberOfReplicas = 1;
+                o.ThrowExceptions = false;
             });
         }
 

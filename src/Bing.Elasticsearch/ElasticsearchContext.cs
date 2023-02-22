@@ -76,7 +76,7 @@ public class ElasticsearchContext : IElasticsearchContext
         _mappingFactory = mappingFactory;
         _client = provider.GetClient();
         _options = options.Value;
-        _logger = loggerFactory.CreateLogger(GetType());
+        _logger = LoggerFactory.CreateLogger(GetType());
     }
 
     /// <summary>
@@ -94,8 +94,6 @@ public class ElasticsearchContext : IElasticsearchContext
         if (alias.IsEmpty())
             return false;
         var response = await _client.Indices.AliasExistsAsync(alias, ct: cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response.Exists;
     }
 
@@ -110,8 +108,6 @@ public class ElasticsearchContext : IElasticsearchContext
             throw new ArgumentNullException(nameof(index));
         index = GetIndexName(index);
         var response = await _client.Indices.ExistsAsync(index, ct: cancellation);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response.Exists;
     }
 
@@ -138,8 +134,6 @@ public class ElasticsearchContext : IElasticsearchContext
     public async Task<CreateIndexResponse> CreateIndexAsync(string index, string alias = null, Func<CreateIndexDescriptor, ICreateIndexRequest> selector = null, CancellationToken cancellationToken = default)
     {
         var result = await _client.Indices.CreateAsync(_resolver.GetIndexName(index), selector, cancellationToken);
-        if (result.IsValid)
-            _logger.LogRequest(result);
         if (alias.IsEmpty() == false)
             await _client.Indices.PutAliasAsync(_resolver.GetIndexName(index), alias, ct: cancellationToken);
         return result;
@@ -165,13 +159,8 @@ public class ElasticsearchContext : IElasticsearchContext
             (result.ServerError.Error.Type == "index_already_exists_exception" ||
              result.ServerError.Error.Type == "resource_already_exists_exception"))
         {
-            _logger.LogRequest(result);
-            if (alias.IsEmpty() == false)
-            {
-                var aliasResult = await _client.Indices.PutAliasAsync(index, alias, ct: cancellationToken);
-                if (aliasResult.IsValid)
-                    _logger.LogRequest(aliasResult);
-            }
+            if (alias.IsEmpty() == false) 
+                await _client.Indices.PutAliasAsync(index, alias, ct: cancellationToken);
             return;
         }
 
@@ -198,8 +187,6 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(index);
         var response = await _client.Indices.DeleteAsync(index, ct: cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -227,11 +214,7 @@ public class ElasticsearchContext : IElasticsearchContext
             throw new ArgumentNullException(nameof(names));
         var response = await _client.Indices.DeleteAsync(Indices.Index(names), i => i.IgnoreUnavailable(), cancellationToken);
         if (response.IsValid)
-        {
-            _logger.LogRequest(response);
             return;
-        }
-
         throw new EsRepositoryException(response.GetErrorMessage("Error deleting the index {names}"), response.OriginalException);
     }
 
@@ -242,8 +225,6 @@ public class ElasticsearchContext : IElasticsearchContext
     public async Task<DeleteIndexResponse> DeleteAllIndexAsync(CancellationToken cancellationToken = default)
     {
         var response = await _client.Indices.DeleteAsync("_all", ct: cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -256,12 +237,8 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         if (alias.IsEmpty())
             return;
-        foreach (var index in indexes)
-        {
-            var response = await _client.Indices.PutAliasAsync(GetIndexName(index), alias);
-            if (response.IsValid)
-                _logger.LogRequest(response);
-        }
+        foreach (var index in indexes) 
+            await _client.Indices.PutAliasAsync(GetIndexName(index), alias);
     }
 
     /// <summary>
@@ -275,9 +252,7 @@ public class ElasticsearchContext : IElasticsearchContext
             return;
         foreach (var index in indexes)
         {
-            var response = await _client.Indices.DeleteAliasAsync(GetIndexName(index), alias);
-            if (response.IsValid)
-                _logger.LogRequest(response);
+            await _client.Indices.DeleteAliasAsync(GetIndexName(index), alias);
         }
     }
 
@@ -307,8 +282,6 @@ public class ElasticsearchContext : IElasticsearchContext
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var response = await _client.SearchAsync<TDocument>(s => s.Index(index).Size(10000).Query(q => q.MatchAll()),
             cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response.Documents.ToList();
     }
 
@@ -323,8 +296,6 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var response = await _client.GetAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response.IsValid ? response.Source : null;
     }
 
@@ -341,9 +312,6 @@ public class ElasticsearchContext : IElasticsearchContext
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var result = new List<TDocument>();
         var response = await _client.MultiGetAsync(idx => idx.Index(index).GetMany<TDocument>(ids), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
-
         if ((response.Hits?.Count ?? 0) != 0)
             result.AddRange(response.Hits.Select(x => (TDocument)x.Source));
         return result;
@@ -362,8 +330,6 @@ public class ElasticsearchContext : IElasticsearchContext
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var result = new List<TDocument>();
         var response = await _client.MultiGetAsync(idx => idx.Index(index).GetMany<TDocument>(ids), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         if ((response.Hits?.Count ?? 0) != 0)
             result.AddRange(response.Hits.Select(x => (TDocument)x.Source));
         return result;
@@ -399,8 +365,6 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var response = await _client.SearchAsync<TDocument>(x => x.Query(searchTerms).Index(index).Size(20), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -414,8 +378,6 @@ public class ElasticsearchContext : IElasticsearchContext
         where TDocument : class
     {
         var response = await _client.SearchAsync<TDocument>(selector, cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -450,25 +412,14 @@ public class ElasticsearchContext : IElasticsearchContext
         where TDocument : class
     {
         var result = new ConcurrentBag<TDocument>();
-        var exceptions = new List<Exception>();
         var observable = ScrollAll($"{timeout}s", numberOfReplicas, selector, cancellationToken);
         observable.Wait(maximumRunTime, next =>
         {
             if (_logger.IsEnabled(LogLevel.Trace))
                 _logger.LogTrace($"{nameof(ScrollAll)} scroll: {next.Scroll}, slice: {next.Slice}, count: {(next.SearchResponse.IsValid ? next.SearchResponse.Documents.Count : 0)}");
-            if (next.SearchResponse.IsValid)
-                _logger.LogRequest(next.SearchResponse);
-            if (next.SearchResponse.OriginalException != null)
-                exceptions.Add(next.SearchResponse.OriginalException);
             foreach (var document in next.SearchResponse.Documents)
                 result.Add(document);
         });
-        // 输出异常
-        if (exceptions.Any())
-        {
-            foreach (var exception in exceptions)
-                _logger.LogException(exception);
-        }
         return result.ToList();
     }
 
@@ -501,8 +452,6 @@ public class ElasticsearchContext : IElasticsearchContext
         where TDocument : class
     {
         var response = await _client.CountAsync(selector, cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -532,8 +481,6 @@ public class ElasticsearchContext : IElasticsearchContext
         var response = id == null
             ? await _client.IndexAsync(document, x => x.Index(index), cancellationToken)
             : await _client.IndexAsync(document, x => x.Index(index).Id(Helper.GetEsId(id)), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -554,8 +501,6 @@ public class ElasticsearchContext : IElasticsearchContext
                 .IndexMany(documents)
                 .Timeout(timeout),
             cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -571,8 +516,6 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var response = await _client.DeleteAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -588,8 +531,6 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var response = await _client.DeleteAsync<TDocument>(Helper.GetEsId(document), x => x.Index(index), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -602,8 +543,6 @@ public class ElasticsearchContext : IElasticsearchContext
     public async Task<DeleteByQueryResponse> DeleteByQueryAsync<TDocument>(Func<DeleteByQueryDescriptor<TDocument>, IDeleteByQueryRequest> selector, CancellationToken cancellationToken = default) where TDocument : class
     {
         var response = await _client.DeleteByQueryAsync(selector, cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -619,8 +558,6 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var response = await _client.UpdateAsync<TDocument>(Helper.GetEsId(document), x => x.Index(index).Doc(document), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -637,8 +574,6 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var response = await _client.UpdateAsync<TDocument>(Helper.GetEsId(id), x => x.Index(index).Doc(document), cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -651,8 +586,6 @@ public class ElasticsearchContext : IElasticsearchContext
     public async Task<UpdateByQueryResponse> UpdateByQueryAsync<TDocument>(Func<UpdateByQueryDescriptor<TDocument>, IUpdateByQueryRequest> selector, CancellationToken cancellationToken = default) where TDocument : class
     {
         var response = await _client.UpdateByQueryAsync(selector, cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response;
     }
 
@@ -667,8 +600,6 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var response = await _client.DocumentExistsAsync<TDocument>(Helper.GetEsId(id), ct: cancellationToken);
-        if (response.IsValid)
-            _logger.LogRequest(response);
         return response.Exists;
     }
 
@@ -684,10 +615,7 @@ public class ElasticsearchContext : IElasticsearchContext
         var search = new SearchDescriptor<TDocument>().MatchAll();
         var response = await _client.SearchAsync<TDocument>(search, cancellationToken);
         if (response.IsValid)
-        {
-            _logger.LogRequest(response);
             return response.Total;
-        }
         throw new ElasticsearchClientException($"索引[{index}]获取文档计数失败 : {response.ServerError.Error.Reason}");
     }
 }

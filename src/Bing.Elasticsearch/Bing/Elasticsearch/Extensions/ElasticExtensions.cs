@@ -25,7 +25,7 @@ public static class ElasticExtensions
             return string.Empty;
 
         var sb = new StringBuilder();
-        if (string.IsNullOrEmpty(message))
+        if (!string.IsNullOrEmpty(message))
             sb.AppendLine(message);
 
         var response = elasticResponse as IResponse;
@@ -36,7 +36,7 @@ public static class ElasticExtensions
             sb.AppendLine($"Original: [{response.OriginalException.GetType().Name}] {response.OriginalException.Message}");
 
         if (response?.ServerError?.Error != null)
-            sb.AppendLine($"Server Error (Index={response.ServerError.Error?.Index}): {response.ServerError.Error.Reason}");
+            sb.AppendLine($"Server Error (Index={response.ServerError.Error?.Index}): {response.ServerError.Error?.Reason}");
 
         if (elasticResponse is BulkResponse bulkResponse)
             sb.AppendLine($"Bulk: {string.Join("\r\n", bulkResponse.ItemsWithErrors.Select(i => i.Error))}");
@@ -46,7 +46,7 @@ public static class ElasticExtensions
 
         if (elasticResponse.ApiCall?.RequestBodyInBytes != null)
         {
-            var body = Encoding.UTF8.GetString(elasticResponse.ApiCall?.RequestBodyInBytes);
+            var body = Encoding.UTF8.GetString(elasticResponse.ApiCall.RequestBodyInBytes);
             if (normalize)
                 body = JsonUtility.Normalize(body);
             sb.AppendLine(body);
@@ -78,6 +78,54 @@ public static class ElasticExtensions
     /// <returns>处理后请求内容</returns>
     public static string GetRequest(this IElasticsearchResponse elasticResponse, bool normalize = false, bool includeResponse = false, bool includeDebugInformation = false)
     {
-        return GetErrorMessage(elasticResponse, null, normalize, includeResponse, includeDebugInformation);
+        return elasticResponse.GetErrorMessage(null, normalize, includeResponse, includeDebugInformation);
+    }
+
+    /// <summary>
+    /// 获取错误消息
+    /// </summary>
+    /// <param name="apiCall">es响应内容</param>
+    /// <param name="message">消息</param>
+    /// <param name="normalize">是否标准化输出</param>
+    /// <param name="includeResponse">是否包含响应内容</param>
+    /// <param name="includeDebugInformation">是否包含调试信息</param>
+    /// <returns>处理后的错误消息</returns>
+    public static string GetErrorMessage(this IApiCallDetails apiCall, string message = null, bool normalize = false, bool includeResponse = false, bool includeDebugInformation = false)
+    {
+        if (apiCall == null)
+            return string.Empty;
+
+        var sb = new StringBuilder();
+        if (!string.IsNullOrEmpty(message))
+            sb.AppendLine(message);
+        if (includeDebugInformation && apiCall.DebugInformation != null)
+            sb.AppendLine(apiCall.DebugInformation);
+
+        if (apiCall.OriginalException != null)
+            sb.AppendLine($"Original: [{apiCall.OriginalException.GetType().Name}] {apiCall.OriginalException.Message}");
+
+        sb.AppendLine($"[{apiCall.HttpStatusCode}] {apiCall.HttpMethod} {apiCall.Uri?.PathAndQuery}");
+
+        if (apiCall.RequestBodyInBytes != null)
+        {
+            var body = Encoding.UTF8.GetString(apiCall?.RequestBodyInBytes);
+            if (normalize)
+                body = JsonUtility.Normalize(body);
+            sb.AppendLine(body);
+        }
+
+        if (includeResponse && apiCall.ResponseBodyInBytes != null && apiCall.ResponseBodyInBytes.Length > 0 && apiCall.ResponseBodyInBytes.Length < 20000)
+        {
+            var body = Encoding.UTF8.GetString(apiCall?.ResponseBodyInBytes);
+            if (normalize)
+                body = JsonUtility.Normalize(body);
+            if (string.IsNullOrWhiteSpace(body))
+            {
+                sb.AppendLine("##### Response #####");
+                sb.AppendLine(body);
+            }
+        }
+
+        return sb.ToString();
     }
 }

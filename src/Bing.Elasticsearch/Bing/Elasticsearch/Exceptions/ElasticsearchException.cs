@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Bing.Elasticsearch;
+namespace Bing.Elasticsearch.Exceptions;
 
 /// <summary>
 /// Elasticsearch 异常
 /// </summary>
 [Serializable]
-public class ElasticsearchException: Exception
+public class ElasticsearchException : Exception
 {
     /// <summary>
     /// 初始化一个<see cref="ElasticsearchException"/>类型的实例
@@ -19,7 +19,7 @@ public class ElasticsearchException: Exception
     /// </summary>
     /// <param name="serializationInfo">序列号信息</param>
     /// <param name="context">流上下文</param>
-    public ElasticsearchException(SerializationInfo serializationInfo, StreamingContext context) 
+    public ElasticsearchException(SerializationInfo serializationInfo, StreamingContext context)
         : base(serializationInfo, context)
     {
     }

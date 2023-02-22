@@ -48,6 +48,7 @@ public class ElasticClientProvider : IElasticClientProvider
         _connectionPool = CreateConnectionPool();
         var settings = new ConnectionSettings(_connectionPool);
         ConfigSettings(settings);
+        _options.ConnectionSettingsAct?.Invoke(settings);
         var client = new ElasticClient(settings);
         _esClientDict.TryAdd(_options.DefaultIndex, client);
     }
@@ -137,18 +138,18 @@ public class ElasticClientProvider : IElasticClientProvider
         //settings.RequestTimeout(new TimeSpan(10000));
 
         // 调试信息
-        settings.DisableDirectStreaming(_options.DisableDebugInfo);
+        settings.DisableDirectStreaming(_options.EnableDebugInfo);
         //settings.EnableDebugMode((apiCallDetails) =>
         //{
-        //     请求完成 返回 apiCallDetails
+        //    //请求完成 返回 apiCallDetails
+        //    Debug.WriteLine(apiCallDetails.GetErrorMessage());
         //});
-
         // 抛出异常，默认false，错误信息在每个操作的response中
         settings.ThrowExceptions(_options.ThrowExceptions);
-        //settings.OnRequestCompleted(apiCallDetails =>
-        //{
-        //    // 请求完成 返回apiCallDetails
-        //});
+        settings.OnRequestCompleted(apiCallDetails =>
+        {
+            _options.RequestCompletedAct(apiCallDetails, _logger);
+        });
         //settings.OnRequestDataCreated(requestData =>
         //{
         //    // 请求的数据创建完成 返回请求的数据

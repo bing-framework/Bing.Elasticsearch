@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Bing.Elasticsearch.Exceptions;
 using Bing.Elasticsearch.Internals;
 using Nest;
 
