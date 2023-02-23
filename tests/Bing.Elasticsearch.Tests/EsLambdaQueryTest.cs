@@ -6,6 +6,7 @@ using Bing.Elasticsearch.Repositories;
 using Bing.Elasticsearch.Tests.ESModel;
 using Bing.Utils.Json;
 using Microsoft.Extensions.Logging;
+using Nest;
 using Xunit;
 
 namespace Bing.Elasticsearch.Tests
@@ -106,6 +107,28 @@ namespace Bing.Elasticsearch.Tests
             {
                 _logger.LogInformation(item.ToJson());
             }
+            _logger.LogInformation($"count: {result.Count}");
+        }
+
+        [Fact]
+        public async Task Test_ScrollAllAsync_1()
+        {
+            var merchantId = Guid.Parse("3a02e707-3265-3213-a676-b043d8208460");
+            var merchantIdStr = "3a02e707-3265-3213-a676-b043d8208460";
+            var bakTime = DateTime.Parse("2022-12-14");
+            var warehouseId = Guid.Parse("3a02e710-59e9-f745-c053-fe83a7f1a720");
+            var builder = _context.CreateBuilder<WarehouseProductStockBakEo>();
+            builder.Select()
+                .Where<WarehouseProductStockBakEo>(x => x.MerchantId, merchantId)
+                .Where<WarehouseProductStockBakEo>(x => x.BakTime, bakTime)
+                //.Where<WarehouseProductStockBakEo>(x => x.CurrentQty, 0, Operator.Greater)
+                //.Where<WarehouseProductStockBakEo>(x => x.WarehouseId, warehouseId)
+                .Take(100);
+            var result = await _context.ScrollAllAsync<WarehouseProductStockBakEo>(builder);
+            //foreach (var item in result)
+            //{
+            //    _logger.LogInformation(item.ToJson());
+            //}
             _logger.LogInformation($"count: {result.Count}");
         }
     }

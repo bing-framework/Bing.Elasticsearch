@@ -28,35 +28,39 @@ public class EsConditionFactory : IEsConditionFactory
         where TEntity : class
     {
         if (IsInCondition(@operator, value))
-            return new InCondition(column, value);
+            return new InCondition(GetSafeColumn(column, appendKeyword), value);
         if (IsNotInCondition(@operator, value))
-            return new NotInCondition(column, value);
+            return new NotInCondition(GetSafeColumn(column, appendKeyword), value);
         switch (@operator)
         {
             case Operator.Equal:
-                return new EqualCondition(column, value);
+                return new EqualCondition(GetSafeColumn(column, appendKeyword), value);
             case Operator.NotEqual:
-                return new NotEqualCondition(column, value);
+                return new NotEqualCondition(GetSafeColumn(column, appendKeyword), value);
             case Operator.Greater:
             case Operator.GreaterEqual:
             case Operator.Less:
             case Operator.LessEqual:
-                return CreateCompareCondition(column, value, @operator);
+                return CreateCompareCondition(GetSafeColumn(column, appendKeyword), value, @operator);
             case Operator.Starts:
-                if (appendKeyword)
-                    return new StartsCondition(Nest.ExpressionExtensions.AppendSuffix(column, BaseEsConst.KEYWORD), value);
                 return new StartsCondition(column, value);
             case Operator.Ends:
-                if (appendKeyword)
-                    return new EndsCondition(Nest.ExpressionExtensions.AppendSuffix(column, BaseEsConst.KEYWORD), value);
-                return new EndsCondition(column, value);
+                return new EndsCondition(GetSafeColumn(column, appendKeyword), value);
             case Operator.Contains:
-                if (appendKeyword)
-                    return new ContainsCondition(Nest.ExpressionExtensions.AppendSuffix(column, BaseEsConst.KEYWORD), value);
-                return new ContainsCondition(column, value);
+                return new ContainsCondition(GetSafeColumn(column, appendKeyword), value);
         }
         throw new NotImplementedException($"运算符 {@operator.Description()} 尚未实现");
     }
+
+    /// <summary>
+    /// 安全地获取列，追加keyword
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="column">列名表达式</param>
+    /// <param name="appendKeyword">是否追加keyword关键词，主要用于模糊查询</param>
+    private Expression<Func<TEntity, object>> GetSafeColumn<TEntity>(Expression<Func<TEntity, object>> column, bool appendKeyword) 
+        where TEntity : class =>
+        appendKeyword ? Nest.ExpressionExtensions.AppendSuffix(column, BaseEsConst.KEYWORD) : column;
 
     /// <summary>
     /// 创建比较条件
