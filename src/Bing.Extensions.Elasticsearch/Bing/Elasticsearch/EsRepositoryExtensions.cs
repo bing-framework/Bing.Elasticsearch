@@ -88,7 +88,7 @@ public static class EsRepositoryExtensions
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <param name="repository">仓储</param>
-    public static IEsBuilder CreateBuilder<TEntity>(IEsRepository<TEntity> repository)
+    public static IEsBuilder CreateBuilder<TEntity>(this IEsRepository<TEntity> repository)
         where TEntity : class
     {
         return repository.GetContext().CreateBuilder<TEntity>();
