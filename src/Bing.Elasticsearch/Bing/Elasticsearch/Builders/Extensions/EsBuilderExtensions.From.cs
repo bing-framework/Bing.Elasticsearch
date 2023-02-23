@@ -12,7 +12,7 @@ public static partial class EsBuilderExtensions
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <param name="source">源</param>
-    public static IEsBuilder From<TEntity>(this IEsBuilder source)
+    public static IEsBuilder<TEntity> From<TEntity>(this IEsBuilder<TEntity> source)
         where TEntity : class
     {
         source.CheckNull(nameof(source));

@@ -35,6 +35,15 @@ public class FromClause : ClauseBase, IFromClause
     /// <summary>
     /// 设置表名
     /// </summary>
+    /// <param name="type">实体类型</param>
+    public void From(Type type)
+    {
+        _table = EsBuilder.IndexNameResolver.GetIndexName(Helper.SafeIndexName(type));
+    }
+
+    /// <summary>
+    /// 设置表名
+    /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     public void From<TEntity>()
     {

@@ -14,7 +14,7 @@ public static class SelectClauseExtensions
     /// </summary>
     /// <typeparam name="T">源类型</typeparam>
     /// <param name="source">源</param>
-    public static T Select<T>(this T source) where T : ISelect
+    public static T SelectAll<T>(this T source) where T : ISelect
     {
         source.CheckNull(nameof(source));
         if (source is IEsPartAccessor accessor)

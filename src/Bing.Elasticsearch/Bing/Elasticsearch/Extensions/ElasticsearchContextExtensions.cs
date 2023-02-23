@@ -56,6 +56,23 @@ public static partial class ElasticsearchContextExtensions
     }
 
     /// <summary>
+    /// 滚动查询
+    /// </summary>
+    /// <typeparam name="TDocument">文档类型</typeparam>
+    /// <param name="context">ES上下文</param>
+    /// <param name="builder">ES生成器</param>
+    /// <param name="timeout">超时时间，单位：秒。默认：10秒</param>
+    /// <param name="maximumRunTime">查询最大超时时间，单位：分钟。默认：20分钟</param>
+    /// <param name="maxDegreeOfParallelism">最大并行度。默认：3</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    public static Task<List<TDocument>> ScrollAllAsync<TDocument>(this IElasticsearchContext context, IEsBuilder<TDocument> builder, int timeout = 10, double maximumRunTime = 20, int maxDegreeOfParallelism = 3, CancellationToken cancellationToken = default)
+        where TDocument : class
+    {
+        var result = context.ScrollAll<TDocument>(x => builder.GetSearchRequest(), timeout, maximumRunTime, maxDegreeOfParallelism, cancellationToken).ToList();
+        return Task.FromResult(result);
+    }
+
+    /// <summary>
     /// 创建ES生成器
     /// </summary>
     /// <param name="context">ES上下文</param>
@@ -66,11 +83,10 @@ public static partial class ElasticsearchContextExtensions
     /// </summary>
     /// <typeparam name="TDocument">文档类型</typeparam>
     /// <param name="context">ES上下文</param>
-    public static IEsBuilder CreateBuilder<TDocument>(this IElasticsearchContext context)
+    public static IEsBuilder<TDocument> CreateBuilder<TDocument>(this IElasticsearchContext context)
         where TDocument : class
     {
-        var builder = new EsBuilder(context.GetIndexNameResolver());
-        builder.From<TDocument>();
-        return builder;
+        var builder = new EsBuilder<TDocument>(context.GetIndexNameResolver());
+        return builder.From(typeof(TDocument));
     }
 }

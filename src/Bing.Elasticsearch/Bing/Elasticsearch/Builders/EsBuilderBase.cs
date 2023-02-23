@@ -20,7 +20,7 @@ public abstract class EsBuilderBase : IEsBuilder, IEsPartAccessor
     /// <summary>
     /// 索引
     /// </summary>
-    private string _index;
+    protected string _index;
 
     /// <summary>
     /// Select子句

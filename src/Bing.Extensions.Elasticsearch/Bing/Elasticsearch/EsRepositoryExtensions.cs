@@ -84,11 +84,28 @@ public static class EsRepositoryExtensions
     }
 
     /// <summary>
+    /// 滚动查询
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="repository">仓储</param>
+    /// <param name="builder">ES生成器</param>
+    /// <param name="timeout">超时时间，单位：秒。默认：10秒</param>
+    /// <param name="maximumRunTime">查询最大超时时间，单位：分钟。默认：20分钟</param>
+    /// <param name="maxDegreeOfParallelism">最大并行度。默认：3</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    public static Task<List<TEntity>> ScrollAllAsync<TEntity>(this IEsRepository<TEntity> repository, IEsBuilder<TEntity> builder, int timeout = 10, double maximumRunTime = 20, int maxDegreeOfParallelism = 3, CancellationToken cancellationToken = default)
+        where TEntity : class
+    {
+        var result = repository.GetContext().ScrollAll<TEntity>(x => builder.GetSearchRequest(), timeout, maximumRunTime, maxDegreeOfParallelism, cancellationToken);
+        return Task.FromResult(result.ToList());
+    }
+
+    /// <summary>
     /// 创建ES生成器
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <param name="repository">仓储</param>
-    public static IEsBuilder CreateBuilder<TEntity>(this IEsRepository<TEntity> repository)
+    public static IEsBuilder<TEntity> CreateBuilder<TEntity>(this IEsRepository<TEntity> repository)
         where TEntity : class
     {
         return repository.GetContext().CreateBuilder<TEntity>();

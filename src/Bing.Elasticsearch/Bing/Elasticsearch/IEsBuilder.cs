@@ -14,3 +14,15 @@ public interface IEsBuilder : IEsContent, IQueryOperation
     /// </summary>
     ISearchRequest GetSearchRequest();
 }
+
+/// <summary>
+/// ES生成器
+/// </summary>
+/// <typeparam name="TDocument">文档类型</typeparam>
+public interface IEsBuilder<TDocument> : IEsContent, IQueryOperation
+{
+    /// <summary>
+    /// 获取查询请求
+    /// </summary>
+    ISearchRequest<TDocument> GetSearchRequest();
+}
