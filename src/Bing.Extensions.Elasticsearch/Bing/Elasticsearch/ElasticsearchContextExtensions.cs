@@ -1,4 +1,9 @@
-﻿using Bing.Data.Queries;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Bing.Data;
+using Bing.Data.Queries;
 using Bing.Elasticsearch.Models;
 using Bing.Extensions;
 
@@ -59,5 +64,40 @@ public static partial class ElasticsearchContextExtensions
     {
         context.CheckNull(nameof(context));
         return new EsScrollAllSearch<TEntity, TResult>(context);
+    }
+
+    /// <summary>
+    /// 分页查询
+    /// </summary>
+    /// <typeparam name="TDocument">文档类型</typeparam>
+    /// <param name="context">ES上下文</param>
+    /// <param name="builder">ES生成器</param>
+    /// <param name="page">页码</param>
+    /// <param name="pageSize">每页记录数</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static async Task<PagerList<TDocument>> PageSearchAsync<TDocument>(this IElasticsearchContext context, IEsBuilder<TDocument> builder, int page, int pageSize = 20, CancellationToken cancellationToken = default)
+        where TDocument : class
+    {
+        context.CheckNull(nameof(context));
+        if (page < 1)
+            throw new ArgumentOutOfRangeException(nameof(page), "页码不能小于1");
+        if (pageSize <= 0)
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "每页记录数不能小于等于0");
+        builder
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+        var response = await context.SearchAsync<TDocument>(x => builder.GetSearchRequest(), cancellationToken);
+        var totalCount = response.Total;
+        var pageCount = totalCount / pageSize + 1;
+        var result = new PagerList<TDocument>
+        {
+            Data = response.Documents.ToList(),
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = Convert.ToInt32(totalCount),
+            PageCount = Convert.ToInt32(pageCount)
+        };
+        return result;
     }
 }
