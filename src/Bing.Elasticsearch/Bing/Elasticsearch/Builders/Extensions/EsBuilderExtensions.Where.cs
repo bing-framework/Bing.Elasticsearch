@@ -46,6 +46,26 @@ public static partial class EsBuilderExtensions
         condition ? source.Where(expression, value, @operator, appendKeyword) : source;
 
     /// <summary>
+    /// 设置查询条件
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="source">源</param>
+    /// <param name="expression">列名表达式。范例：t => t.Name</param>
+    /// <param name="value">值</param>
+    /// <param name="operator">运算符</param>
+    /// <param name="appendKeyword">是否追加keyword关键词，如果字段类型被识别成 text 类型，同时还附带 keyword 子字段，则需要追加 keyword 的子字段来实现精确匹配。</param>
+    public static IEsBuilder WhereIfNotEmpty<TEntity>(this IEsBuilder source, Expression<Func<TEntity, object>> expression, object value, Operator @operator = Operator.Equal, bool appendKeyword = false)
+        where TEntity : class
+    {
+        source.CheckNull(nameof(source));
+        if (string.IsNullOrWhiteSpace(value.SafeString()))
+            return source;
+        if (source is IEsPartAccessor accessor)
+            accessor.WhereClause.Where(expression, value, @operator, appendKeyword);
+        return source;
+    }
+
+    /// <summary>
     /// 设置相等查询条件
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
@@ -371,6 +391,26 @@ public static partial class EsBuilderExtensions
     public static IEsBuilder<TEntity> WhereIf<TEntity>(this IEsBuilder<TEntity> source, Expression<Func<TEntity, object>> expression, object value, bool condition, Operator @operator = Operator.Equal, bool appendKeyword = false)
         where TEntity : class =>
         condition ? source.Where(expression, value, @operator, appendKeyword) : source;
+
+    /// <summary>
+    /// 设置查询条件
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="source">源</param>
+    /// <param name="expression">列名表达式。范例：t => t.Name</param>
+    /// <param name="value">值，如果该值为空，则忽略该查询条件</param>
+    /// <param name="operator">运算符</param>
+    /// <param name="appendKeyword">是否追加keyword关键词，如果字段类型被识别成 text 类型，同时还附带 keyword 子字段，则需要追加 keyword 的子字段来实现精确匹配。</param>
+    public static IEsBuilder<TEntity> WhereIfNotEmpty<TEntity>(this IEsBuilder<TEntity> source, Expression<Func<TEntity, object>> expression, object value, Operator @operator = Operator.Equal, bool appendKeyword = false)
+        where TEntity : class
+    {
+        source.CheckNull(nameof(source));
+        if (string.IsNullOrWhiteSpace(value.SafeString()))
+            return source;
+        if (source is IEsPartAccessor accessor)
+            accessor.WhereClause.Where(expression, value, @operator, appendKeyword);
+        return source;
+    }
 
     /// <summary>
     /// 设置相等查询条件
