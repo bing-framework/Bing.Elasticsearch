@@ -6,6 +6,7 @@ using Bing.Data.Queries;
 using Bing.Elasticsearch.Models;
 using Bing.Elasticsearch.Repositories;
 using Bing.Extensions;
+using Bing.Data;
 
 namespace Bing.Elasticsearch;
 
@@ -109,5 +110,20 @@ public static class EsRepositoryExtensions
         where TEntity : class
     {
         return repository.GetContext().CreateBuilder<TEntity>();
+    }
+
+    /// <summary>
+    /// 分页查询
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="repository">仓储</param>
+    /// <param name="builder">ES生成器</param>
+    /// <param name="page">页码</param>
+    /// <param name="pageSize">每页记录数</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    public static Task<PagerList<TEntity>> PageSearchAsync<TEntity>(this IEsRepository<TEntity> repository, IEsBuilder<TEntity> builder, int page, int pageSize = 20, CancellationToken cancellationToken = default)
+        where TEntity : class
+    {
+        return repository.GetContext().PageSearchAsync(builder, page, pageSize, cancellationToken);
     }
 }
