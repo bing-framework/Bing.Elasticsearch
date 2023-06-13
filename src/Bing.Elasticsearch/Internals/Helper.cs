@@ -20,6 +20,7 @@ internal static class Helper
     /// </summary>
     /// <typeparam name="TDocument">文档类型</typeparam>
     /// <param name="index">索引名称。注意：必须小写</param>
+    /// <param name="prefix">前缀</param>
     public static string SafeIndexName<TDocument>(string index = null, string prefix = null) => SafeIndexName(typeof(TDocument), index);
 
     /// <summary>

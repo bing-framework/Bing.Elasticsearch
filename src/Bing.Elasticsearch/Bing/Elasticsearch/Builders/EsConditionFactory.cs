@@ -6,7 +6,6 @@ using Bing.Data.Queries.Conditions;
 using Bing.Elasticsearch.Builders.Conditions;
 using Bing.Elasticsearch.Common.Constants;
 using Bing.Extensions;
-using Bing.Judgments;
 using Bing.Reflection;
 
 namespace Bing.Elasticsearch.Builders;
