@@ -4,6 +4,14 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include=".\README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<PropertyGroup>
 		<AssemblyName>Bing.Elasticsearch</AssemblyName>
 		<PackageId>Bing.Elasticsearch</PackageId>
 		<Description>Bing.Elasticsearch是Bing应用框架的Elasticsearch操作类库。
