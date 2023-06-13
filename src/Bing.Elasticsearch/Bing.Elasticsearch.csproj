@@ -14,10 +14,4 @@
 
 	<Import Project="dependency.props" />
 
-	<ItemGroup>
-	  <Folder Include="Bing\Elasticsearch\Builders\Operations\" />
-	  <Folder Include="Bing\Elasticsearch\Builders\Clauses\" />
-	  <Folder Include="Bing\Elasticsearch\Common\Constants\" />
-	</ItemGroup>
-
 </Project>
