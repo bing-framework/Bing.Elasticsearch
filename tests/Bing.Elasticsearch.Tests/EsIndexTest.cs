@@ -36,6 +36,7 @@ namespace Bing.Elasticsearch.Tests
                  return x;
              });
             Assert.True(result.IsValid);
+            await _context.DeleteIndexAsync("test_model_1");
         }
 
         [Fact]
@@ -48,6 +49,7 @@ namespace Bing.Elasticsearch.Tests
                 return x;
             });
             Assert.True(result.IsValid);
+            await _context.DeleteIndexAsync("test_model_5");
         }
 
         /// <summary>

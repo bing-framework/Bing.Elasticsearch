@@ -14,7 +14,9 @@ namespace Bing.Elasticsearch.Tests
     /// </summary>
     public class EsRepositoryTest
     {
-        private readonly List<StudentSample> _students = new List<StudentSample>
+        #region 初始化
+
+        private readonly List<StudentSample> _students = new()
         {
             new StudentSample
             {
@@ -64,6 +66,8 @@ namespace Bing.Elasticsearch.Tests
             _studentRepo = studentRepo;
         }
 
+        #endregion
+
         [Fact]
         public async Task Test_InsertAsync()
         {
@@ -72,6 +76,7 @@ namespace Bing.Elasticsearch.Tests
 
             var result = await _studentRepo.FindByIdAsync(student.StudentId);
             Assert.Equal(student.StudentId, result.StudentId);
+            Assert.Equal(student.Name, result.Name);
             await _studentRepo.DeleteAsync(student.StudentId);
         }
 
@@ -82,6 +87,8 @@ namespace Bing.Elasticsearch.Tests
 
             var result = await _studentRepo.FindByIdsAsync(_students.Select(x => x.StudentId));
             Assert.Equal(_students.Count, result.Count());
+            Assert.Equal(_students.First().Name, result.First().Name);
+
             foreach (var student in _students)
                 await _studentRepo.DeleteAsync(student);
         }

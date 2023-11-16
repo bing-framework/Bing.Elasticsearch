@@ -9,7 +9,6 @@ using Bing.Elasticsearch.ConsoleSample.Model.Products;
 using Bing.Elasticsearch.ConsoleSample.Model.Reports;
 using Bing.Extensions;
 using Bing.Utils.Json;
-using Bing.Utils.Timing;
 
 namespace Bing.Elasticsearch.ConsoleSample.Samples
 {

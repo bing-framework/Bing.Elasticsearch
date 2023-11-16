@@ -2,9 +2,9 @@
   <PropertyGroup>
     <!-- All Microsoft packages -->
     <MicrosoftPackageVersion>6.0.*</MicrosoftPackageVersion>
-		<BingUtilsPackageVersion>1.5.0-preview-20230613-1</BingUtilsPackageVersion>
+		<BingUtilsPackageVersion>1.5.0-preview-20231115-1</BingUtilsPackageVersion>
     <!--<BingUtilsPackageVersion>1.4.0</BingUtilsPackageVersion>-->
-    <BingFrameworkVersion>6.0.0-preview-20230613-1</BingFrameworkVersion>
+    <BingFrameworkVersion>6.0.0-preview-20231024-1</BingFrameworkVersion>
     <!--<BingFrameworkVersion>2.2.8</BingFrameworkVersion>-->
   </PropertyGroup>
 </Project>
