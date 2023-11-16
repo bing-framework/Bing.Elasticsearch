@@ -334,7 +334,8 @@ public class ElasticsearchContext : IElasticsearchContext
     {
         index = GetIndexName(Helper.SafeIndexName<TDocument>(index));
         var result = new List<TDocument>();
-        var response = await _client.MultiGetAsync(idx => idx.Index(index).GetMany<TDocument>(ids), cancellationToken);
+        //var response = await _client.MultiGetAsync(idx => idx.Index(index).GetMany<TDocument>(ids,(gs,i)=>gs.Index(index)), cancellationToken);
+        var response = await _client.MultiGetAsync(idx => idx.GetMany<TDocument>(ids, (gs, i) => gs.Index(index)), cancellationToken);
         if ((response.Hits?.Count ?? 0) != 0)
             result.AddRange(response.Hits.Select(x => (TDocument)x.Source));
         return result;
