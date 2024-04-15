@@ -83,8 +83,8 @@ namespace Bing.Elasticsearch.Tests
         [Fact]
         public async Task Test_ScrollAll_With_Alias_Async()
         {
-            var beginTime = DateTime.Parse("2022-12-01");
-            var endTime = DateTime.Parse("2022-12-02");
+            var beginTime = DateTime.Parse("2023-12-01");
+            var endTime = DateTime.Parse("2023-12-02");
             var result = await _repository
                 .ScrollAllSearch<InOutStockProductDailyReportEo>()
                 .Size(10000)

@@ -5,10 +5,10 @@ using Bing.Data.Queries;
 using Bing.Elasticsearch.Repositories;
 using Bing.Elasticsearch.Tests.Models;
 using Bing.Extensions;
+using Bing.Helpers;
 using Bing.IO;
 using Bing.MockData.Core.Options;
 using Bing.MockData.Factories;
-using Bing.Utils.IdGenerators.Core;
 using Bing.Utils.Json;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -112,7 +112,7 @@ namespace Bing.Elasticsearch.Tests
             {
                 list.Add(new BlogSample
                 {
-                    Id = SnowflakeIdGenerator.Current.Create().ToString(),
+                    Id = Id.CreateSnowflakeId().ToString(),
                     Title = titleRandom.Generate(),
                     Time = timeRandom.Generate().SafeValue(),
                 });
