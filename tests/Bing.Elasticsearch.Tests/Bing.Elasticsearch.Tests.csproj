@@ -8,7 +8,6 @@
   <ItemGroup>
     <PackageReference Include="Bing.MockData" Version="0.0.1-preview-20190114-1" />
     <PackageReference Include="Bing.Utils.IdUtils" Version="1.5.0" />
-    <PackageReference Include="Xunit.DependencyInjection.Logging" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
