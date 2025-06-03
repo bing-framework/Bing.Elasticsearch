@@ -1,10 +1,10 @@
 <Project>
   <PropertyGroup>
-    <VersionMajor>0</VersionMajor>
+    <VersionMajor>1</VersionMajor>
     <VersionMinor>0</VersionMinor>
-    <VersionPatch>4</VersionPatch>
-    <VersionQuality>20220112-1</VersionQuality>
+    <VersionPatch>0</VersionPatch>
+    <VersionQuality>20240415-1</VersionQuality>
     <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
-    <!-- <VersionSuffix>preview-$(VersionQuality)</VersionSuffix> -->
+     <!--<VersionSuffix>preview-$(VersionQuality)</VersionSuffix>--> 
   </PropertyGroup>
 </Project>

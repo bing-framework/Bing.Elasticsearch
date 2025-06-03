@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using Bing.Elasticsearch.Options;
 using Elasticsearch.Net;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nest;
 
@@ -24,6 +25,11 @@ public class ElasticClientProvider : IElasticClientProvider
     private readonly IConnectionPool _connectionPool;
 
     /// <summary>
+    /// 日志
+    /// </summary>
+    private readonly ILogger<ElasticClientProvider> _logger;
+
+    /// <summary>
     /// ES客户端字典
     /// </summary>
     private readonly ConcurrentDictionary<string, IElasticClient> _esClientDict = new ConcurrentDictionary<string, IElasticClient>();
@@ -32,14 +38,17 @@ public class ElasticClientProvider : IElasticClientProvider
     /// 初始化一个<see cref="ElasticClientProvider"/>类型的实例
     /// </summary>
     /// <param name="options">ES选项配置</param>
-    public ElasticClientProvider(IOptions<ElasticsearchOptions> options)
+    /// <param name="logger">日志</param>
+    public ElasticClientProvider(IOptions<ElasticsearchOptions> options, ILogger<ElasticClientProvider> logger)
     {
         if (options == null)
             throw new ArgumentNullException(nameof(options));
+        _logger = logger;
         _options = options.Value ?? throw new ArgumentNullException(nameof(options.Value));
         _connectionPool = CreateConnectionPool();
         var settings = new ConnectionSettings(_connectionPool);
         ConfigSettings(settings);
+        _options.ConnectionSettingsAct?.Invoke(settings);
         var client = new ElasticClient(settings);
         _esClientDict.TryAdd(_options.DefaultIndex, client);
     }
@@ -83,7 +92,6 @@ public class ElasticClientProvider : IElasticClientProvider
         // 启用验证
         if (!string.IsNullOrWhiteSpace(_options.UserName) && !string.IsNullOrWhiteSpace(_options.Password))
             settings.BasicAuthentication(_options.UserName, _options.Password);
-
         // 验证证书
         //settings.ClientCertificate("");
         //settings.ClientCertificates(new System.Security.Cryptography.X509Certificates.X509CertificateCollection());
@@ -130,18 +138,18 @@ public class ElasticClientProvider : IElasticClientProvider
         //settings.RequestTimeout(new TimeSpan(10000));
 
         // 调试信息
-        settings.DisableDirectStreaming(_options.DisableDebugInfo);
+        settings.DisableDirectStreaming(_options.EnableDebugInfo);
         //settings.EnableDebugMode((apiCallDetails) =>
         //{
-        //    // 请求完成 返回 apiCallDetails
+        //    //请求完成 返回 apiCallDetails
+        //    Debug.WriteLine(apiCallDetails.GetErrorMessage());
         //});
-
         // 抛出异常，默认false，错误信息在每个操作的response中
         settings.ThrowExceptions(_options.ThrowExceptions);
-        //settings.OnRequestCompleted(apiCallDetails =>
-        //{
-        //    // 请求完成 返回apiCallDetails
-        //});
+        settings.OnRequestCompleted(apiCallDetails =>
+        {
+            _options.RequestCompletedAct(apiCallDetails, _logger);
+        });
         //settings.OnRequestDataCreated(requestData =>
         //{
         //    // 请求的数据创建完成 返回请求的数据

@@ -1,4 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\common.props" />
+
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 	</PropertyGroup>
@@ -9,7 +11,7 @@
 		<Description>Bing.Extensions.Elasticsearch是对Bing应用框架的Elasticsearch操作类库扩展。</Description>
 	</PropertyGroup>
 
-	<Import Project="..\..\common.props" />
-
-	<Import Project="dependency.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\Bing.Elasticsearch\Bing.Elasticsearch.csproj" />
+	</ItemGroup>
 </Project>

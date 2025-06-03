@@ -20,15 +20,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Extensions.Elasticsearch", "src\Bing.Extensions.Elasticsearch\Bing.Extensions.Elasticsearch.csproj", "{48567761-E7E4-4C07-AD42-A91A870342BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{69DE1812-2212-49D3-AE5B-5879E808409D}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		common.props = common.props
-		LICENSE = LICENSE
-		Publish.bat = Publish.bat
-		README.md = README.md
-		version.dev.props = version.dev.props
-		version.props = version.props
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{A810AF16-6D16-4575-B8C1-407020AC3D51}"
 EndProject
@@ -41,6 +32,32 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{DC7CEC85
 	ProjectSection(SolutionItems) = preProject
 		asset\props\misc.props = asset\props\misc.props
 		asset\props\package.props = asset\props\package.props
+		asset\props\sourcelink.env.props = asset\props\sourcelink.env.props
+		asset\props\target.feature.props = asset\props\target.feature.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{D902F0CD-F7E3-48AD-9B64-D941FB43BA4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{2B23A8AD-648E-4FBA-90E8-91F09B344A7D}"
+	ProjectSection(SolutionItems) = preProject
+		Publish.bat = Publish.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{37514623-1ED9-44FC-9DE6-EF2D5236045A}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		common.props = common.props
+		common.tests.props = common.tests.props
+		framework.tests.props = framework.tests.props
+		LICENSE = LICENSE
+		version.dev.props = version.dev.props
+		version.props = version.props
 	EndProjectSection
 EndProject
 Global
@@ -82,6 +99,10 @@ Global
 		{A810AF16-6D16-4575-B8C1-407020AC3D51} = {69DE1812-2212-49D3-AE5B-5879E808409D}
 		{EF57FEDA-1AA5-481C-83D9-762D46465A6E} = {A810AF16-6D16-4575-B8C1-407020AC3D51}
 		{DC7CEC85-7D6A-4EF8-812F-28DD8B366909} = {A810AF16-6D16-4575-B8C1-407020AC3D51}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {69DE1812-2212-49D3-AE5B-5879E808409D}
+		{D902F0CD-F7E3-48AD-9B64-D941FB43BA4B} = {69DE1812-2212-49D3-AE5B-5879E808409D}
+		{2B23A8AD-648E-4FBA-90E8-91F09B344A7D} = {69DE1812-2212-49D3-AE5B-5879E808409D}
+		{37514623-1ED9-44FC-9DE6-EF2D5236045A} = {69DE1812-2212-49D3-AE5B-5879E808409D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88496F4E-9454-4B28-A676-4F17E15C22D2}

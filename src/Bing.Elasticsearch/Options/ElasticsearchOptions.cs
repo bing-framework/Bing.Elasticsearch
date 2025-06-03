@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Elasticsearch.Net;
+using Microsoft.Extensions.Logging;
+using Nest;
 
 namespace Bing.Elasticsearch.Options;
 
@@ -35,9 +38,9 @@ public class ElasticsearchOptions
     public string Password { get; set; }
 
     /// <summary>
-    /// 是否禁用调试信息
+    /// 是否开启链接调试信息。用于显示请求体
     /// </summary>
-    public bool DisableDebugInfo { get; set; } = true;
+    public bool EnableDebugInfo { get; set; } = true;
 
     /// <summary>
     /// 抛出异常。默认：false，错误信息在每个操作的response中
@@ -73,6 +76,23 @@ public class ElasticsearchOptions
     /// 是否检查索引
     /// </summary>
     public bool CheckIndex { get; set; } = true;
+
+    /// <summary>
+    /// 请求完成操作
+    /// </summary>
+    public Action<IApiCallDetails, ILogger> RequestCompletedAct { get; set; } = (apiCallDetails, logger) =>
+    {
+        // 请求完成 返回apiCallDetails
+        if (apiCallDetails.Success)
+            logger.LogRequest(apiCallDetails);
+        else
+            logger.LogErrorRequest(apiCallDetails, "RequestCompletedAct");
+    };
+
+    /// <summary>
+    /// NEST连接设置操作
+    /// </summary>
+    public Action<ConnectionSettings> ConnectionSettingsAct { get; set; }
 
     /// <summary>
     /// 兼容版本(>=7.0)

@@ -3,6 +3,6 @@
 /// <summary>
 /// 查询操作
 /// </summary>
-public interface IQueryOperation : ISelect, IFrom, IWhere, IOrderBy
+public interface IQueryOperation : ISelect, IFrom, IWhere, IOrderBy, IEnd
 {
 }

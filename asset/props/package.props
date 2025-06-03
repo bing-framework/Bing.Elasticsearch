@@ -10,4 +10,10 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageTags>bing;es;elasticsearch;dotnetcore;aspnetcore;</PackageTags>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<!--创建符号包-->
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
 </Project>

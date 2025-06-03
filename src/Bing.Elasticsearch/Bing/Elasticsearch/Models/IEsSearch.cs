@@ -4,16 +4,22 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Bing.Data;
 using Bing.Data.Queries;
+using Bing.Elasticsearch.Builders.Operations;
 using Nest;
 
 namespace Bing.Elasticsearch.Models;
+
+public interface IEsSearch
+{
+
+}
 
 /// <summary>
 /// ES查询对象
 /// </summary>
 /// <typeparam name="TSearch">ES查询对象类型</typeparam>
 /// <typeparam name="TResult">查询结果类型</typeparam>
-public interface IEsSearch<out TSearch, TResult>
+public interface IEsSearch<out TSearch, TResult> : IEsSearch, IWhere
     where TSearch : IEsSearch<TSearch, TResult>
     where TResult : class
 {

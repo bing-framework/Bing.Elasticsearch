@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Bing.Data.Queries.Conditions;
+using Bing.Elasticsearch.Builders.Conditions;
+using Bing.Elasticsearch.Builders.Operations;
 using Bing.Extensions;
 using Nest;
 
@@ -12,7 +13,8 @@ namespace Bing.Data.Queries;
 /// ES查询
 /// </summary>
 /// <typeparam name="TResult">结果类型</typeparam>
-public class EsQuery<TResult> : IEsCondition where TResult : class
+public class EsQuery<TResult> : IEsCondition, IWhere
+    where TResult : class
 {
     /// <summary>
     /// 查询容器
@@ -249,7 +251,7 @@ public class EsQuery<TResult> : IEsCondition where TResult : class
     /// <param name="boundary">包含边界</param>
     public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, int? min, int? max, Boundary boundary = Boundary.Both)
     {
-        return And(new LongRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary));
+        return And(new LongRangeCondition(propertyExpression, min, max, boundary));
     }
 
     /// <summary>
@@ -276,7 +278,7 @@ public class EsQuery<TResult> : IEsCondition where TResult : class
     /// <param name="boundary">包含边界</param>
     public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, double? min, double? max, Boundary boundary = Boundary.Both)
     {
-        return And(new DoubleRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary));
+        return And(new NumericRangeCondition(propertyExpression, min, max, boundary));
     }
 
     /// <summary>
@@ -305,8 +307,8 @@ public class EsQuery<TResult> : IEsCondition where TResult : class
     public EsQuery<TResult> Between<TProperty>(Expression<Func<TResult, TProperty>> propertyExpression, DateTime? min, DateTime? max, bool includeTime = true, Boundary? boundary = null)
     {
         if (includeTime)
-            return And(new DateTimeRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary ?? Boundary.Both));
-        return And(new DateRangeEsCondition<TResult, TProperty>(propertyExpression, min, max, boundary ?? Boundary.Left));
+            return And(new DateTimeRangeCondition(propertyExpression, min, max, boundary ?? Boundary.Both));
+        return And(new DateRangeCondition(propertyExpression, min, max, boundary ?? Boundary.Left));
     }
 
     /// <summary>
