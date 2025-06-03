@@ -45,7 +45,7 @@ jobs:
       - name: Build docs
         run: |
           dotnet-exec info
-          sed -i '/Winform/d' Bing.Elasticsearch.sln
+          dotnet sln remove samples/*.csproj
           dotnet build
           docfx ./docs/docfx.json
       - name: Upload artifact
