@@ -1,4 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\common.props" />
+
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 	</PropertyGroup>
@@ -18,8 +20,12 @@
 			Bing是一个.net core平台下的应用框架，旨在于提升小型团队的开发能力，由常用公共操作类、架构基类、第三方组件封装、第三方业务接口封装等组成。</Description>
 	</PropertyGroup>
 
-	<Import Project="..\..\common.props" />
-
-	<Import Project="dependency.props" />
+	<ItemGroup>
+		<PackageReference Include="Bing.Data" Version="$(BingFrameworkVersion)" />
+		<PackageReference Include="Bing.Utils" Version="$(BingUtilsPackageVersion)" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftPackageVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="$(MicrosoftPackageVersion)" />
+		<PackageReference Include="NEST" Version="7.16.0" />
+	</ItemGroup>
 
 </Project>

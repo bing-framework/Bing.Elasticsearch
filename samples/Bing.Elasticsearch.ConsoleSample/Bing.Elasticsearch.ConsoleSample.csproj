@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
 	<Import Project="..\..\common.props" />
 
   <ItemGroup>
     <PackageReference Include="Bing.Utils" Version="$(BingUtilsPackageVersion)" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="3.0.100" />
+    <PackageReference Include="FreeSql.Provider.MySql" Version="3.2.821" />
   </ItemGroup>
 
   <ItemGroup>

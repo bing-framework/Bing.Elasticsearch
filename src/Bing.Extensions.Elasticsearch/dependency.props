@@ -1,5 +1,0 @@
-﻿<Project>
-	<ItemGroup>
-		<ProjectReference Include="..\Bing.Elasticsearch\Bing.Elasticsearch.csproj" />
-	</ItemGroup>
-</Project>
