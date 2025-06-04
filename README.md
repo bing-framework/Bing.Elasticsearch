@@ -1,5 +1,6 @@
 # Bing.Elasticsearch
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://mit-license.org/)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/bing-framework/Bing.Elasticsearch)
 
 Bing.Elasticsearch是Bing应用框架的Elasticsearch操作类库。
 
